@@ -10,7 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // '/user/login': {
+      //     target: 'http://heyang.sy.sxurl.cn'
+      // }
+      // '/user/login': {
+      //   target: 'http://heyang.sy.sxurl.cn'
+      // },
+      // '/public/getimgcode': {
+      //   target: 'http://heyang.sy.sxurl.cn:80'
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

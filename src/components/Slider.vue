@@ -1,8 +1,8 @@
 <template>
   <div id="drag">
-    <div class="drag_bg weui-btn_primary" :style="{width:curW + 18 +'px'}"></div>
-    <div class="drag_text" onselectstart="return false;" unselectable="on":class="[isDragOk ? 'whitecolor':'']">{{text}}</div>
-    <div class="handler" :style="{left:curW+'px'}" :class="[isDragOk ? 'handler_ok_bg':'handler_bg']">></div>
+    <div class="drag_bg weui-btn_primary" :style="{width:curW + 20 +'px'}"></div>
+    <div class="drag_text" onselectstart="return false;" unselectable="on":class="[isDragOk ? 'whitecolor':'graycolor']">{{text}}</div>
+    <div class="handler" :style="{left:curW+'px'}" :class="[isDragOk ? 'handler_ok_bg':'handler_bg']"></div>
 </div>
 </template>
 
@@ -36,8 +36,7 @@ export default {
         window.addEventListener('resize',function(){self.getMaxWidth()});
         window.addEventListener('orientationchange',function(){self.getMaxWidth()});
         
-        
-          this.element.addEventListener('touchstart',self.touchstartFun,false);
+        this.element.addEventListener('touchstart',self.touchstartFun,false);
         document.querySelector('body').addEventListener('touchmove',self.touchmoveFun,false);
         document.querySelector('body').addEventListener('touchend',self.touchendFun,false);
         
@@ -52,7 +51,7 @@ export default {
             }else{
                 self.curW = self.currentPos.x = self.maxWidth;
             }
-        })();
+        })()
     },
     watch:{
         
@@ -74,6 +73,7 @@ export default {
                 this.curW = this.currentPos.x = this.maxWidth;
                 this.isDragOk = true;
                 this.text = "验证通过";
+                this.$emit('slidercomplete')
             }
         },
         touchendFun(e){
@@ -113,30 +113,28 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #drag {
+    font-weight: bold;
     position: relative;
     background-color: #e8e8e8;
-    width: 100%;
-    height: 36px;
-    line-height: 36px;
+    /* width: 100%; */
     text-align: center;
     border-radius: 999px;
-}
-#drag {
-    position: relative;
-    background-color: #e8e8e8;
-    width: 100%;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
+    width: 312px;
+    height: 40px;
+    line-height: 40px;
+    background: url('~@/assets/img/index12.png') no-repeat center;
+    border-radius:999px;font-size:14px;
 }
 #drag .drag_bg {
     background:#656dfc;
-    height: 36px;
+    height: 40px;
     width:0;
     border-top-left-radius: 999px;
     border-bottom-left-radius: 999px;
+    margin-left: 0;
 }
 #drag .drag_text {
+    
     position: absolute;
     top: 0px;
     width: 100%;
@@ -147,28 +145,32 @@ export default {
     -ms-user-select: none;
     border-radius: 999px;
 }
-.drag_text.whitecolor{
-    background:#656dfc;
+.drag_text.graycolor{
     border-radius: 999px;
-    color:#fff;
+    color:#bfbfbf;
+}
+.drag_text.whitecolor{
+
+    border-radius: 999px;
+    color:#ffffff;
 }
 
 #drag .handler {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     /* border: 1px solid #656dfc; */
     cursor: move;
 }
 .handler_bg {
-    background:#656dfc;
+    background:#656dfc url('~@/assets/img/arrow.png') no-repeat center;
     color:#fff;
     border-radius: 999px;
 }
 .handler_ok_bg {
-    background:#656dfc;
+    background:#656dfc url('~@/assets/img/arrow.png') no-repeat center;
     color:#fff;
     border-radius: 999px;
 }
