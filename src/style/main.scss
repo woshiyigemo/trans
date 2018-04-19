@@ -153,10 +153,14 @@ a,a:hover,a:visited{
                     background-color: #3b4655!important;
                     
                 }
+                .amount-tips{
+                    font-size: 10px;
+                    margin-bottom:10px;
+                }
                 
                 .el-slider__bar {
                     height: 4px;
-                    background-color: #344253;
+                    background-color: #11161b;
                     border-top-left-radius: 3px;
                     border-bottom-left-radius: 3px;
                     position: absolute;
@@ -176,6 +180,9 @@ a,a:hover,a:visited{
                     height: 12px;
                     border: solid 2px #344253;
                     background-color: #5f7694;
+                }
+                .el-slider__stop {
+                    background-color: #202832;
                 }
                 .btn-wrapper{
                     margin-bottom: 18px;

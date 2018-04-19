@@ -1,21 +1,21 @@
 <template>
     <div class="login_div">
-        <div class="login_div_top">登录</div>
+        <div class="login_div_top">注册</div>
         <div class="login_div_user">
-            <el-tooltip class="item" effect="red" content="*Center Right 提示文字" placement="right">
-                <el-input class="username_input" v-model="email" placeholder="请输入内容"></el-input>
+            <el-tooltip class="item" effect="red" :value="isEmailErr" manual  :content="err.errMsg||''" placement="right">
+                <el-input class="username_input" v-model="email" @focus="clearEmailToolTip" placeholder="邮箱"></el-input>
             </el-tooltip>
             <!-- <input type="text">
             <div class="login_error login_error_1">123123</div> -->
         </div>
         <div class="login_div_password">
-            <el-tooltip class="item" effect="red" content="*Center Right 提示文字Center Right\n 提示文字Center Right 提示文字Center Right 提示文字Center Right 提示文字" placement="right">
-                <el-input class="pwd_input" v-model="password" placeholder="请输入内容"></el-input>
+            <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">
+                <el-input class="pwd_input" v-model="password" @focus="clearPwdToolTip" type="password" placeholder="密码"></el-input>
             </el-tooltip>
         </div>
         <div class="login_div_password">
-            <el-tooltip class="item" effect="red" content="*Center Right 提示文字Center Right\n 提示文字Center Right 提示文字Center Right 提示文字Center Right 提示文字" placement="right">
-                <el-input class="pwd_input" v-model="password_t" placeholder="请输入内容"></el-input>
+            <el-tooltip class="item" effect="red" manual :value="isPwd2Err||isPwdSameErr" :content="err.errMsg||''" placement="right">
+                <el-input class="pwd_input" v-model="password_t" @focus="clearPwd2ToolTip" type="password" placeholder="重复密码"></el-input>
             </el-tooltip>
         </div>
         <div class="login_div_other">
@@ -24,17 +24,17 @@
             <a href="javascript:void(0);" class="login_div_other_right">忘记密码？</a>
         </div>
         <div class="sliderbox">
-            <slider></slider>
+            <slider @slidercomplete="getSliderStatus"></slider>
         </div>
         <div class="login_btn" @click="regist">注册</div>
-        <div class="login_register_div">没有账号请<a href="javascript:void(0);">注册</a>?</div>
+        <!-- <div class="login_register_div">没有账号请<a href="javascript:void(0);">注册</a>?</div> -->
     </div>
 </template>
 
 <script>
 
 import Slider from '@/components/Slider'
-
+import { Validate, ERR } from '@/static/common'
 import { api,apitest } from '@/static/api'
 
 export default {
@@ -44,10 +44,17 @@ export default {
     },
     data(){
         return{
+            sliderStatus:false,
             email:'',
             password:'',
             password_t:'',
-            nationality:'中国'
+            nationality:'中国',
+            isEmailErr:false,
+            isPwdErr:false,
+            isPwd2Err:false,
+            isNationalityErr:false,
+            isPwdSameErr:false,
+            err:{}
         }
     },
     components:{
@@ -64,6 +71,34 @@ export default {
     },
     methods:{
         regist(){
+            var self = this
+            
+            this.isEmailErr = false
+            this.isPwdErr = false
+            this.isPwd2Err = false
+            this.isNationalityErr = false
+            this.isPwdSameErr = false
+
+            self.err = Validate.regist(self.email,self.password,self.password_t,self.nationality,self.sliderStatus)
+            if(self.err.errCode == 1001){
+                self.isEmailErr = true
+                return
+            }else if(self.err.errCode == 1002){
+                self.isPwdErr = true
+                return
+            }else if(self.err.errCode == 1003){
+                self.isPwd2Err = true
+                return
+            }else if(self.err.errCode == 1004){
+                self.isNationalityErr = true
+                return
+            }else if(self.err.errCode == 1005){
+                self.isPwdSameErr = true
+                return
+            }else if(self.err.errCode == 1010){
+                return
+            }
+
             var data = {
                 email:this.email,
                 password:this.password,
@@ -73,7 +108,28 @@ export default {
             api.userRegist(data)
             .then(function(res){
                 console.log('hahaha',res)
+
             })
+        },
+        getSliderStatus(status){
+            this.sliderStatus = status
+            console.log(this.sliderStatus,status)
+        },
+        clearEmailToolTip(){
+            if(this.isEmailErr){
+                this.isEmailErr = false
+            }
+        },
+        clearPwdToolTip(){
+            if(this.isPwdErr){
+                this.isPwdErr = false
+            }
+        },
+        clearPwd2ToolTip(){
+            if(this.isPwd2Err || this.isPwdSameErr){
+                this.isPwd2Err = false
+                this.isPwdSameErr = false
+            }
         }
     }
 }

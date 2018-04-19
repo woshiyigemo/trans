@@ -140,7 +140,7 @@ export default {
     margin:0 auto;
 }
 .main_cat{height:26px;width:1200px;margin-top:30px;margin-bottom: 30px}
-.main_cat a{float:left;color:#41444b;border:1px solid #e1e1e1;border-radius:200px;line-height:24px;height:24px;box-sizing:border-box;font-size:11px;width:100px;float:left;margin-right:20px;}
+.main_cat a{float:left;color:#41444b;border:1px solid #e1e1e1;border-radius:200px;line-height:24px;height:24px;box-sizing:border-box;font-size:11px;width:100px;float:left;margin-right:20px;text-align: center; }
 .main_cat a:nth-child(1){color:white;background:#449283;border:none;}
 .main_cat a:nth-child(2){color:white;background:#4c54f9;border:none;}
 .hr{width:1200px;height:1px;background:#ebebeb;}

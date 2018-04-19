@@ -2,8 +2,10 @@
     <div class="index_top_t">
         <div class="logo"></div>
         <div class="nav">
-            <a class="nav_show" href="">首页</a>
-            <a href="">币币交易</a>
+            <router-link to="/">首页</router-link>
+            <router-link to="/exchange/coinexchange">币币交易</router-link>
+            <!-- <a href="">币币交易</a>
+            <a href="">币币交易</a> -->
         </div>
         <div class="login_btn_div">
             <a class="login_btn_div_login" v-if="!user.loggedin" href="javascript:void(0);">登录</a>

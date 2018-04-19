@@ -15,36 +15,31 @@ import Home from '@/pages/Home'
 import CoinExchange from '@/pages/exchange/CoinExchange'
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     // login
     {
       path: '/',
-      name: 'Main',
       component: Main,
       children:[
         {
           path: '',
-          component: Home
-        },
-        {
-          path: 'home',
-          name: 'Home',
+          name: 'home',
           component: Home
         },
         {
           path: 'property',
-          name: 'Property',
+          name: 'property',
           component: Property,
           children:[
             {
               path: 'coinoption',
-              name: 'CoinOption',
+              name: 'coinoption',
               component: CoinOption
             },
             {
               path: 'orderlist',
-              name: 'OrderList',
+              name: 'orderlist',
               component: OrderList
             }
           ]
@@ -56,27 +51,28 @@ export default new Router({
           children:[
             {
               path: 'regist',
-              name: 'Regist',
+              name: 'regist',
               component: Regist
             },
             {
               path: 'login',
-              name: 'Login',
+              name: 'login',
               component: Login
             }
           ]
         },
         {
           path: 'findpassword',
-          name: 'FindPwd',
+          name: 'findpassword',
           component: FindPwd
         },
         {
           path: 'exchange/coinexchange',
-          name: 'CoinExchange',
+          name: 'coinexchange',
           component: CoinExchange
         }
       ]
     }
   ]
 })
+export default router 

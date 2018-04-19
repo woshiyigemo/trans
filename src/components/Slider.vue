@@ -73,7 +73,7 @@ export default {
                 this.curW = this.currentPos.x = this.maxWidth;
                 this.isDragOk = true;
                 this.text = "验证通过";
-                this.$emit('slidercomplete')
+                this.$emit('slidercomplete',this.isDragOk)
             }
         },
         touchendFun(e){

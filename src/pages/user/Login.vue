@@ -2,15 +2,15 @@
     <div class="login_div">
         <div class="login_div_top">登录</div>
         <div class="login_div_user">
-            <el-tooltip class="item" effect="red" content="*Center Right 提示文字" placement="right">
-                <el-input class="username_input" v-model="email" placeholder="请输入内容"></el-input>
+            <el-tooltip class="item" effect="red" manual :value="isEmailErr" :content="err.errMsg||''" placement="right">
+                <el-input class="username_input" @focus="clearEmailToolTip" v-model="email" placeholder="邮箱"></el-input>
             </el-tooltip>
             <!-- <input type="text">
             <div class="login_error login_error_1">123123</div> -->
         </div>
         <div class="login_div_password">
-            <el-tooltip class="item" effect="red" content="*Center Right 提示文字Center Right\n 提示文字Center Right 提示文字Center Right 提示文字Center Right 提示文字" placement="right">
-                <el-input class="pwd_input" v-model="pwd" placeholder="请输入内容"></el-input>
+            <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">
+                <el-input class="pwd_input" @focus="clearPwdToolTip" type="password" v-model="pwd" placeholder="密码"></el-input>
             </el-tooltip>
         </div>
         <div class="login_div_other">
@@ -19,60 +19,82 @@
             <a href="javascript:void(0);" class="login_div_other_right">忘记密码？</a>
         </div>
         <div class="sliderbox">
-            <slider></slider>
+            <slider @slidercomplete="getSliderStatus"></slider>
         </div>
         <div class="login_btn" @click="login">登录</div>
-        <div class="login_register_div">没有账号请<a href="javascript:void(0);">注册</a>?</div>
+        <div class="login_register_div">没有账号请<a href="javascript:void(0);" @click="goRegist">注册</a>?</div>
     </div>
 </template>
 
 <script>
 import Slider from '@/components/Slider'
 import { api } from '@/static/api'
+import { Validate } from '@/static/common'
+import { assertReturnStatement } from 'babel-types';
+
 export default {
   name: 'Login',
   data () {
     return {
+      sliderStatus:false,
+      isEmailErr:false,
+      isPwdErr:false,
       email:'',
-      pwd:''
+      pwd:'',
+      err:{}
     }
   },
   components:{
       Slider:Slider
   },
   methods:{
-      login(){
-          var self = this
-          var data = {
-              email:self.email,
-              password:self.pwd
-          }
-        // api.userLogin(data).then(res => {
-        //     console.log(res)
-        // }).catch(err => {
-        //     console.error(err)
-        // })
+    login(){
+        var self = this
+        self.err = Validate.login(self.email,self.pwd,self.sliderStatus)
+        if(self.err.errCode == 1001){
+            self.isEmailErr = true
+            return
+        }else if(self.err.errCode == 1002){
+            self.isPwdErr = true
+            return
+        }else if(self.err.errCode == 1010){
+            return
+        }
+        
+        var data = {
+            email:self.email,
+            password:self.pwd
+        }
 
         api.userLogin(data).then(res => {
-            console.log(7777,res)
+            if(res.error_code == 1000 || res.error_code == 2014){
+                this.$router.push({name:'coinexchange'})
+            }
         })
-      }
+    },
+    getSliderStatus(status){
+        this.sliderStatus = status
+        console.log(this.sliderStatus,status)
+    },
+    clearEmailToolTip(){
+        if(this.isEmailErr){
+            this.isEmailErr = false
+        }
+    },
+    clearPwdToolTip(){
+        if(this.isPwdErr){
+            this.isPwdErr = false
+        }
+    },
+    goRegist(){
+        this.$router.push({name:'regist'})
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-// .username_input{
-//     margin-top:10px;
-//     input{
-//         height: 40px!important;
-//         line-height: 40px!important;
-//         background-color: #fff!important;
-//     }
-// }
-
-
 
 
 .login_div{width:400px;height:600px;margin-top:135px;background:white;margin-left: auto;margin-right: auto;}

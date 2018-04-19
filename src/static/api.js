@@ -1,7 +1,7 @@
-import axios from 'axios'
 import Vue from 'vue'
-import Resource from 'vue-resource'
-Vue.use(Resource)
+import axios from 'axios'
+import router from '../router'
+
 const apiConfig = {
     // baseURL: '/cms',
     // baseURL: 'http://heyang.sy.sxurl.cn',
@@ -11,7 +11,9 @@ const apiConfig = {
     responseType: 'json',
     headers: {
         // 'X-Requested-With': 'XMLHttpRequest',
-        'content-type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json;charset=UTF-8'
+        // 'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded'
         // 'Content-Type': 'application/json'
         // 'content-type':'text/html; charset=UTF-8'
         // Content-Type:application/x-www-form-urlencoded
@@ -29,7 +31,32 @@ const apiConfig = {
     }
 }
 
-const apiFunc = axios.create(apiConfig)
+const instance = axios.create(apiConfig)
+instance.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+
+// 添加响应拦截器
+instance.interceptors.response.use(function (response) {
+// 对响应数据做点什么
+    if(response.data && response.data.error_code && (response.data.error_code != 1000 && response.data.error_code != 2014)){
+        router.push({name:'login'})
+        console.log(1111)
+    }else if(response.data){
+        console.log(22222)
+        response = response.data
+    }else{
+        console.log(3333)
+    }
+return response;
+}, function (error) {
+// 对响应错误做点什么
+    return Promise.reject(error);
+});
 
 function handleError(error) {
     console.error(error)
@@ -48,78 +75,56 @@ function handleStatusCode(response) {
 const api = {
     //  用户登录
     userLogin(data) {
-        return apiFunc.post('/user/login', data)
+        return instance.post('/user/login', data)
     },
     // 用户注册
     userRegist(data) {
-        return apiFunc.post('/user/register', data)
+        return instance.post('/user/register', data)
     },
     //  获取图片验证码
     getImgCode(data) {
-        return apiFunc.post('/public/getimgcode', data)
+        return instance.post('/public/getimgcode', data)
     },
     // 验证图片验证码 进入下一步
     checkImgCode(data){
-        return apiFunc.post('/user/checkimgcode', data)
+        return instance.post('/user/checkimgcode', data)
     },
     //发送找回密码验证码到邮箱
     sendFindPwdCode(data){
-        return apiFunc.post('/user/sendfindpasswordcode', data)
+        return instance.post('/user/sendfindpasswordcode', data)
     },
     // 提交找回密码验证码进入下一步
     checkFindPwdCode(data){
-        return apiFunc.post('/user/checkfindpasswordcode', data)
+        return instance.post('/user/checkfindpasswordcode', data)
     },
     // 找回密码 设置密码提交
     setFindPwdagain(data){
-        return apiFunc.post('/user/setfindpasswordagain', data)
+        return instance.post('/user/setfindpasswordagain', data)
     },
     // 新增委托
     addDelegate(data){
-        return apiFunc.post('/entrust/order', data)
+        return instance.post('/entrust/order', data)
     },
     // 撤销委托
     cancelDelegate(data){
-        return apiFunc.post('/entrust/cancel', data)
+        return instance.post('/entrust/cancel', data)
     },
     // 当前委托
     curDelegate(data){
-        return apiFunc.post('/entrust/current', data)
+        return instance.post('/entrust/current', data)
     },
     // 历史委托
     hisDelegate(data){
-        return apiFunc.post('/entrust/history', data)
+        return instance.post('/entrust/history', data)
     },
     // 根据交易ID获取交易明细
     dealDetail(data){
-        return apiFunc.post('/entrust/userdetail', data)
+        return instance.post('/entrust/userdetail', data)
     },
     // 委托明细
     delegateDetail(data){
-        return apiFunc.post('/entrust/detail', data)
+        return instance.post('/entrust/detail', data)
     }
 }
-
-const baseUrl = 'http://heyang.sy.sxurl.cn'
-// const baseUrl = 'http://wangtao.sy.sxurl.cn'
-// const baseUrl = ''
-const apitest = {
-    login:baseUrl + '/user/login',
-    getListDaily: baseUrl + '/query_daily',
-    getListHourly:baseUrl + '/query_hourly',
-    getFlow:baseUrl + '/query_flow',
-    biddingQuery:baseUrl + '/query_bid',
-    deviceQuery:baseUrl + '/query_device'
-}
-function addResource (obj) {
-    for (var i = 0, arr = Object.keys(obj), imax = arr.length; i < imax; i++) {
-        if (typeof obj[arr[i]] === 'string') {
-        obj[arr[i]] = Vue.resource(obj[arr[i]])
-        } else if (typeof obj[arr[i]] === 'object') {
-        addResource(obj[arr[i]])
-        }
-    }
-}
-addResource(apitest)
-export {apiFunc, api,apitest, handleError, handleStatusCode}
+export {api, handleError, handleStatusCode}
 

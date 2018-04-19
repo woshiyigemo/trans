@@ -8,10 +8,10 @@
                             <img class="left-pic"  src="@icon/bitcoin-icon.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1">BTC/USDT  11499.97</div>
+                            <div class="right-l1">BTC/USDT  {{price.btc.order_price}}</div>
                             <div class="right-l2">≈  559655 CNY</div>
-                            <div class="right-l3">2.84 %</div>
-                            <div class="right-l4">高：15695.98 低：15695.98</div>
+                            <div class="right-l3">{{price.btc.p>0?price.btc.p:Math.abs(price.btc.p)}}%</div>
+                            <div class="right-l4">高：{{price.btc.high}} 低：{{price.btc.low}}</div>
                         </el-main>
                         
                     </el-container>
@@ -62,30 +62,30 @@
                             <i class="arrow-right el-icon-arrow-right"></i>
                             交易
                         </div>
-                        <el-tabs type="border-card" class="market-table">
+                        <el-tabs type="border-card" v-model="exchange.orderType" class="market-table">
                             
-                            <el-tab-pane label="限价">
+                            <el-tab-pane name="limitprice" label="限价">
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
                                 <div class="tips-big">
-                                    *市场最优价格（买卖）
+                                    <el-input class="amount-input" type="number" v-model="exchange.price" placeholder="限价价格">
+                                    </el-input>
                                 </div>
                                 <div class="deal-form">
                                     <div class="amount-label">
                                         数量
                                     </div>
-                                    <el-input class="amount-input" type="number" v-model="exchange.amount" @change="computePercent"  placeholder="交易额">
+                                    <el-input class="amount-input" type="number" v-model="exchange.amount">
                                         <template slot="append">BTC</template>
                                     </el-input>
                                     <el-slider 
-                                    v-model="exchange.percent" 
+                                    v-model="exchange.amount" 
                                     :show-tooltip="false"
                                     :show-stops="true"
-                                    @change="computeAmount"
                                     ></el-slider>
                                      <div class="amount-tips">
-                                    交易额:{{exchange.amount}} USDT
+                                    交易额:{{allprice}} USDT
                                     </div>
                                     <div class="btn-wrapper">
                                         <el-button type="purchase" value="purchase" @click="addDelegate($event)">买入</el-button>
@@ -93,15 +93,32 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="市价">
-                                <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
-                                    <div >
-                                        <div class="market-list" v-for="(item,index) in marketListUT">
-                                            <span class="rel1">{{item.icon}}</span>
-                                            <span class="rel2">{{item.type}}</span>
-                                            <span class="rel3">{{item.price}}</span>
-                                            <span class="rel4" :class="item.rise >=0?'rise':'fall'">{{item.rise}}%</span>
-                                        </div>
+                            <el-tab-pane  name="marketprice" label="市价">
+                                <div class="tips">
+                                    可用：{{exchange.balance}} USDT
+                                </div>
+                                <div class="tips-big">
+                                    *市场最优价格（买卖）
+                                </div>
+                                
+                                <div class="deal-form">
+                                    <div class="amount-label">
+                                        数量
+                                    </div>
+                                    <el-input class="amount-input" type="number" v-model="exchange.amount">
+                                        <template slot="append">BTC</template>
+                                    </el-input>
+                                    <el-slider 
+                                    v-model="exchange.amount" 
+                                    :show-tooltip="false"
+                                    :show-stops="true"
+                                    ></el-slider>
+                                    <div class="amount-tips">
+                                    交易额:{{allcurprice}} USDT
+                                    </div>
+                                    <div class="btn-wrapper">
+                                        <el-button type="purchase" value="purchase" @click="addDelegate($event)">买入</el-button>
+                                        <el-button type="sell" value="sell"  @click="addDelegate($event)">卖出</el-button>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -176,7 +193,7 @@
                         <i class="arrow-right el-icon-arrow-right"></i>
                             当前委托
                     </div>
-                    <el-table class="exchange-table"
+                    <el-table class="center-table"
                     :data="curDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -185,37 +202,39 @@
                             >
                         </el-table-column>
                         <el-table-column
-                            prop="a1"
+                            prop="duad"
                             label="交易对"
                             >
                         </el-table-column>
                         <el-table-column
-                            prop="a2"
+                            prop="direction"
                             label="方向">
                         </el-table-column>
                         <el-table-column
-                            prop="a3"
+                            prop="price"
                             label="价格(USDT)">
                         </el-table-column>
                         <el-table-column
-                            prop="a4"
+                            prop="number"
                             label="数量(BTC)">
                         </el-table-column>
                         <el-table-column
-                            prop="a5"
+                            prop="total"
                             label="委托总额">
                         </el-table-column>
                         <el-table-column
-                            prop="a6"
+                            prop="deal"
                             label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="a7"
+                            prop="Untreated"
                             label="未成交">
                         </el-table-column>
                         <el-table-column
-                            prop="a8"
                             label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="cancelDelegate(scope.row)" type="text" size="small">撤销</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </div> 
@@ -224,7 +243,7 @@
                         <i class="arrow-right el-icon-arrow-right"></i>
                             历史委托
                     </div>
-                    <el-table class="exchange-table"
+                    <el-table class="center-table"
                     :data="hisDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -233,37 +252,39 @@
                             >
                         </el-table-column>
                         <el-table-column
-                            prop="a1"
+                            prop="duad"
                             label="交易对"
                             >
                         </el-table-column>
                         <el-table-column
-                            prop="a2"
+                            prop="direction"
                             label="方向">
                         </el-table-column>
                         <el-table-column
-                            prop="a3"
+                            prop="price"
                             label="价格(USDT)">
                         </el-table-column>
                         <el-table-column
-                            prop="a4"
+                            prop="number"
                             label="数量(BTC)">
                         </el-table-column>
                         <el-table-column
-                            prop="a5"
+                            prop="total"
                             label="委托总额">
                         </el-table-column>
                         <el-table-column
-                            prop="a6"
+                            prop="deal"
                             label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="a7"
+                            prop="Untreated"
                             label="未成交">
                         </el-table-column>
                         <el-table-column
-                            prop="a8"
                             label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="delHistory(scope.row)" type="text" size="small">删除</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </div>  
@@ -274,28 +295,56 @@
                                 <i class="arrow-right el-icon-arrow-right"></i>
                                     深度图
                             </div>
-                            <el-table class="exchange-table"
-                            :data="realTimeDeal"
-                            style="width: 100%">
-                                <el-table-column
-                                    prop="puser"
-                                    label="买盘"
-                                    >
-                                </el-table-column>
-                                <el-table-column
-                                    prop="amount"
-                                    label="数量"
-                                    >
-                                </el-table-column>
-                                <el-table-column
-                                    prop="p"
-                                    label="累计">
-                                </el-table-column>
-                                <el-table-column
-                                    prop="order_price"
-                                    label="价格">
-                                </el-table-column>
-                            </el-table>
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-table class="center-table"
+                                    :data="realTimeDeal.buy"
+                                    style="width: 100%">
+                                        <el-table-column
+                                            prop="role"
+                                            label="买盘"
+                                            >
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="amount"
+                                            label="数量"
+                                            >
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="allamount"
+                                            label="累计">
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="order_price"
+                                            label="价格">
+                                        </el-table-column>
+                                    </el-table>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-table class="exchange-table"
+                                    :data="realTimeDeal.sell"
+                                    style="width: 100%">
+                                        <el-table-column
+                                            prop="order_price"
+                                            label="价格"
+                                            >
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="allamount"
+                                            label="累计">
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="amount"
+                                            label="数量"
+                                            >
+                                        </el-table-column>
+                                        <el-table-column
+                                            prop="role"
+                                            label="卖盘">
+                                        </el-table-column>
+                                    </el-table>
+                                </el-col>
+                            </el-row>  
                         </div> 
                     </el-col>
                     <el-col :span="8">
@@ -305,7 +354,7 @@
                                     实时成交
                             </div>
                             <el-table class="exchange-table"
-                            :data="realTimeDeal"
+                            :data="res"
                             style="width: 100%">
                                 <el-table-column
                                     prop="time"
@@ -325,6 +374,7 @@
                                     prop="amount"
                                     label="数量">
                                 </el-table-column>
+                                
                             </el-table>
                         </div> 
                     </el-col>
@@ -357,6 +407,14 @@ export default {
             barStyle:{
                 width:'6px',
                 backgroundColor:'#344253'
+            },
+            price:{
+                btc:{
+                    high:0,
+                    low:0,
+                    order_price:0,
+                    p:0
+                }
             },
             marketListUSDT:[
                 {
@@ -582,9 +640,11 @@ export default {
                 }
             ],
             exchange:{
+                orderType:'marketprice',
                 balance:46314,
                 percent:0,
-                amount:0
+                amount:0,
+                price:0
             },
             curChart:null,
             chartOptions:[
@@ -606,33 +666,13 @@ export default {
                     label:'BTC/USTD'
                 }
             ],
-            curDelegation:[
-                {
-                    time:'2018-01-01',
-                    a1:'',
-                    a2:'',
-                    a3:'',
-                    a4:'',
-                    a5:'',
-                    a6:'',
-                    a7:'',
-                    a8:'8'
-                }
-            ],
-            hisDelegation:[
-                {
-                    time:'2018-01-01',
-                    a1:'',
-                    a2:'',
-                    a3:'',
-                    a4:'',
-                    a5:'',
-                    a6:'',
-                    a7:'',
-                    a8:'8'
-                }
-            ],
-            realTimeDeal:[]
+            curDelegation:[],
+            hisDelegation:[],
+            realTimeDeal:{
+                buy:[],
+                sell:[]
+            },
+            res:[]
         }
     },
     components:{
@@ -640,6 +680,14 @@ export default {
       Navibar:Navibar,
       Foot:Foot,
       ScrollBar
+    },
+    computed:{
+        allprice(){
+            return this.exchange.price * this.exchange.amount
+        },
+        allcurprice(){
+            return this.price.btc.order_price * this.exchange.amount
+        },
     },
     created(){
         this.getCurDelegate()
@@ -653,8 +701,10 @@ export default {
         this.$options.sockets.onmessage = function(data){
             // console.log(JSON.parse(data.data))
             var res = JSON.parse(data.data)
+            console.log(res)
             // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
-            self.realTimeDeal =  res.sb
+            self.normalizeCurPrice(res.price)
+            self.normalizeRealTime(res.sb)
             console.log(444444,self.realTimeDeal)
             // self.$apply()
             // this.realTimeDeal.forEach((o,i)=>{
@@ -668,6 +718,30 @@ export default {
         
     },
     methods:{
+        normalizeRealTime(res){
+            var self = this
+            self.realTimeDeal.buy = []
+            self.realTimeDeal.sell = []
+            for(var i =0,imax = res.buy.length;i<imax;i++){
+                var item = {}
+                    item.allamount = res.buy[i].allamount
+                    item.amount = res.buy[i].amount
+                    item.order_price = res.buy[i].order_price
+                    item.role = '买' + (i+1).toString()
+                self.realTimeDeal.buy.push(item)
+            }
+            for(var i =0,imax = res.sell.length;i<imax;i++){
+                var item = {}        
+                    item.allamount = res.sell[i].allamount
+                    item.amount = res.sell[i].amount
+                    item.order_price = res.sell[i].order_price
+                    item.role = '卖' + (i+1).toString()
+                self.realTimeDeal.sell.push(item)
+            }
+        },
+        normalizeCurPrice(res){
+            this.price = res
+        },
         sendSocket() {
             this.$socket.emit("get",(response) => {
                 console.log(response)
@@ -687,6 +761,7 @@ export default {
             api.curDelegate(data)
             .then(res => {
                 console.log("当前委托",res)
+                this.curDelegation = res.entrusts
             }).catch(err => {
 
             })
@@ -699,24 +774,29 @@ export default {
             api.hisDelegate(data)
             .then(res => {
                 console.log("历史委托",res)
+                this.hisDelegation = res.entrusts
             }).catch(err => {
 
             })
         },
         // 新增委托
         addDelegate($event){
-            console.log($event.currentTarget.value)
+            console.log($event.currentTarget.value,this.exchange.orderType)
             const trade_type = $event.currentTarget.value == 'purchase'?0:1
+
+            
             let reg = /\d*/
             if(this.exchange.amount < 0 || !reg.test(this.exchange.amount)){
                 return
             }
+            var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.btc.order_price
+            var type = this.exchange.orderType == 'limitprice'?0:1
 
             var data = {
                 currency:'CNY',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
-                order_amount:this.exchange.amount,   //订单金额
-                order_price:0,                      //订单价格
-                order_type:0,                       //订单类型，0 限价单，1市价单
+                order_amount:this.exchange.amount,  //订单数量
+                order_price:Number(price),    //订单价格
+                order_type:type, //订单类型，0 限价单，1市价单
                 trade_currency:'CNY',               //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type                        //交易类型，0买单，1买单
             }
@@ -728,17 +808,21 @@ export default {
             })
         },
         // 取消委托
-        cancelDelegate(){
-            var data = {
-                order_id:1,
-                currency:'btc'
-            }
-            api.cancelDelegate(data)
-            .then(res => {
+        cancelDelegate(row){
+            console.log(row)
+            // var data = {
+            //     order_id:1,
+            //     currency:'btc'
+            // }
+            // api.cancelDelegate(data)
+            // .then(res => {
 
-            }).catch(err => {
+            // }).catch(err => {
 
-            })
+            // })
+        },
+        delHistory(row){
+            console.log(row)
         }
     }
 }
@@ -798,10 +882,9 @@ export default {
 
 .exchange-table{
     font-size: 12px;
-
-    
-
-    
+}
+.center-table{
+    text-align: center;
 }
 
 #show-iframe{
