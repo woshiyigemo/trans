@@ -28,6 +28,33 @@ a,a:hover,a:visited{
         background-color: #fff!important;
     }
 }
+.login_div_nationality{
+    .el-select{
+        width: 120px;
+        float:right;
+        .el-input__inner{
+            background-color: #fff;
+            text-align: right;
+            -webkit-appearance: none;
+            color: #797f82;
+            background-image: none;
+            border-radius: 0;
+            border: none;
+            height: 58px;
+            line-height: 58px;
+            padding: 0 35px 0 15px;
+        }
+    }
+    
+    
+    .el-select-dropdown__item{
+        text-align: right;
+        background-color: #fff;
+    }
+    .el-select-dropdown__item.selected{
+        color:#1b1720;
+    }
+}
 /* 有最大宽度中部 */
 .main{
     width: 1200px;

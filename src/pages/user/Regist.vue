@@ -1,7 +1,22 @@
 <template>
     <div class="login_div">
         <div class="login_div_top">注册</div>
+        <div class="login_div_nationality">
+            <div class="nationality-span">
+                国籍
+            </div>
+            <el-select v-model="nationality" placeholder="国籍">
+                <el-option
+                v-for="item in nationalityOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
         <div class="login_div_user">
+
+            
             <el-tooltip class="item" effect="red" :value="isEmailErr" manual  :content="err.errMsg||''" placement="right">
                 <el-input class="username_input" v-model="email" @focus="clearEmailToolTip" placeholder="邮箱"></el-input>
             </el-tooltip>
@@ -34,7 +49,7 @@
 <script>
 
 import Slider from '@/components/Slider'
-import { Validate, ERR } from '@/static/common'
+import { Validate, ERR, nationalityOption } from '@/static/common'
 import { api,apitest } from '@/static/api'
 
 export default {
@@ -48,7 +63,8 @@ export default {
             email:'',
             password:'',
             password_t:'',
-            nationality:'中国',
+            nationality:1,
+            nationalityOption:nationalityOption,
             isEmailErr:false,
             isPwdErr:false,
             isPwd2Err:false,
@@ -136,10 +152,30 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  rel='stylesheet/scss' scoped>
+<style  lang='scss' scoped>
 
 .login_div{width:400px;overflow:hidden;margin-top:135px;background:white;margin-left: auto;margin-right: auto;padding-bottom: 20px;}
 .login_div_top{width:100%;height:80px;line-height:80px;color:white;font-size: 24px;background:#202832}
+.login_div_nationality{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:25px;
+    width:340px;
+    height:58px;
+    overflow:hidden;
+    position:relative;
+    border:1px dashed #efeff0;
+    .nationality-span{
+        color: #aeaeae;
+        width: 60px;
+        height: 58px;
+        line-height: 58px;
+        display: block;
+        position: absolute;
+        top: 0;
+        left:15px;
+    }
+}
 .login_div_user,.login_div_password{margin-left: auto;
     margin-right: auto;margin-top:25px;width:310px;height:60px;background:url('~@/assets/img/index8.png') no-repeat left;border-bottom:1px solid #efeff0;padding-left:30px;position:relative;}
 .login_div_user input{background:none;text-align:left;font-size: 14px;color:#363a3f;line-height:60px;width:270px;height:60px;border:none;} 

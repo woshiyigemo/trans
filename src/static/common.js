@@ -3,7 +3,18 @@ const reg = {
     emailReg:/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
     pwdReg:/\d{1,6}/
 }
-
+// 国际
+const nationalityOption = [
+    {
+        label:'外国',
+        value:0
+    },
+    {
+        label:'中国',
+        value:1
+    }
+]
+// 错误处理
 const ERR = {
     NOERR:1000,     //没错误
     EMAILERR:1001,  //邮箱格式错误
@@ -64,4 +75,4 @@ const Validate = {
 
 }
 
-export { Validate,ERR }
+export { Validate,ERR ,nationalityOption}
