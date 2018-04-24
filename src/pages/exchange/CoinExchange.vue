@@ -8,10 +8,10 @@
                             <img class="left-pic"  src="@icon/bitcoin-icon.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1">BTC/USDT  {{price.btc.order_price}}</div>
+                            <div class="right-l1" v-if="price.usdt[0]" >BTC/USDT  {{price.usdt[0].order_price}}</div>
                             <div class="right-l2">≈  559655 CNY</div>
-                            <div class="right-l3">{{price.btc.p>0?price.btc.p:Math.abs(price.btc.p)}}%</div>
-                            <div class="right-l4">高：{{price.btc.high}} 低：{{price.btc.low}}</div>
+                            <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
+                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high}} 低：{{price.usdt[0].low}}</div>
                         </el-main>
                         
                     </el-container>
@@ -25,30 +25,39 @@
                             
                             <el-tab-pane label="USTD">
                                 <div class="market-list-header" >
-                                            <span class="rel1"></span>
-                                            <span class="rel2">币种</span>
-                                            <span class="rel3">最新价</span>
-                                            <span class="rel4">24h涨幅</span>
-                                        </div>
+                                    <span class="rel1"></span>
+                                    <span class="rel2">币种</span>
+                                    <span class="rel3">最新价</span>
+                                    <span class="rel4">24h涨幅</span>
+                                </div>
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
-                                        <div class="market-list" v-for="(item,index) in marketListUSDT">
+                                        <div class="market-list" v-for="(item,index) in marketListUSDT" :key="index">
                                             <span class="rel1">{{item.icon}}</span>
-                                            <span class="rel2">{{item.type}}</span>
-                                            <span class="rel3">{{item.price}}</span>
-                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{item.rise}}%</span>
+                                            <span class="rel2">
+                                                {{item.name.toUpperCase()}}
+                                            </span>
+                                            <span class="rel3">{{item.order_price}}</span>
+                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</span>
                                         </div>
                                     </div>
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="UT">
+                                <div class="market-list-header" >
+                                    <span class="rel1"></span>
+                                    <span class="rel2">币种</span>
+                                    <span class="rel3">最新价</span>
+                                    <span class="rel4">24h涨幅</span>
+                                </div>
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div> 
-                                        <div class="market-list" v-for="(item,index) in marketListUT" >
+                                        
+                                        <div class="market-list" v-for="(item,index) in marketListUT"  :key="index">
                                             <span class="rel1">{{item.icon}}</span>
-                                            <span class="rel2">{{item.type}}</span>
-                                            <span class="rel3">{{item.price}}</span>
-                                            <span class="rel4" :class="item.rise >=0?'rise':'fall'">{{item.rise}}%</span>
+                                            <span class="rel2">{{item.name.toUpperCase()}}</span>
+                                            <span class="rel3">{{item.order_price}}</span>
+                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{item.p}}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -132,23 +141,32 @@
                             <i class="arrow-right el-icon-arrow-right"></i>
                             持有
                         </div>
-                        <div class="market-list-header" >
-                                    <span class="rel1"></span>
-                                    <span class="rel2">币种</span>
-                                    <span class="rel3">最新价</span>
-                                    <span class="rel4">24h涨幅</span>
+                        <div class="market-list-header pad15" >
+                            <span class="rel1">币种</span>
+                            <span class="rel2">可用</span>
+                            <span class="rel3">冻结</span>
+                            <span class="rel4">操作</span>
                         </div>
-                        <div class="vuebar-element" 
-                        v-bar="{preventParentScroll:true,scrollThrottle:50}">
-                            <div >
-                                <div class="market-list" v-for="(item,index) in mycoins">
-                                    <span class="rel1">{{item.icon}}</span>
-                                    <span class="rel2">{{item.type}}</span>
-                                    <span class="rel3">{{item.price}}</span>
-                                    <span class="rel4" :class="item.positive?'rise':'fall'">{{item.rise}}%</span>
+                        <div class="mycoins-table">
+                            <div class="vuebar-element" 
+                            v-bar="{preventParentScroll:true,scrollThrottle:50}">
+                                <div >
+                                    <div class="mycoin-list" v-for="(item,index) in mycoins" :key="index">
+                                        <!-- <span class="rel1">{{item.icon}}</span>
+                                        <span class="rel2">{{item.type}}</span>
+                                        <span class="rel3">冲币</span>
+                                        <span class="rel4">提币</span> -->
+                                        <span class="rel1">{{item.plate_en.toUpperCase()}}</span>
+                                        <span class="rel2">{{item.available}}</span>
+                                        <span class="rel3">{{item.frozen}}</span>
+                                        <span class="rel4">
+                                             <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
+                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">冲币</el-button>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> 
+                            </div> 
+                        </div>
                     </div>
 
 
@@ -159,12 +177,11 @@
                         </div>
                         <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
                             <div >
-                                <div class="market-list" v-for="(item,index) in mycoins">
-                                    <span class="rel1">{{item.icon}}</span>
-                                    <span class="rel2">{{item.type}}</span>
-                                    <span class="rel3">{{item.price}}</span>
-                                    <span class="rel4" :class="item.positive?'rise':'fall'">{{item.rise}}%</span>
-                                </div>
+                                <ul class="notice-list">
+                                    <li class="notice-li" v-for="(item,index) in noticeList" :key="index">
+                                        <span class="notice-squre">·</span>{{item.content}}
+                                    </li>
+                                </ul>
                             </div>
                         </div> 
                     </div>
@@ -280,12 +297,12 @@
                             prop="Untreated"
                             label="未成交">
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                             label="操作">
                             <template slot-scope="scope">
                                 <el-button @click="delHistory(scope.row)" type="text" size="small">删除</el-button>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
                     </el-table>
                 </div>  
                 <el-row :gutter="20">
@@ -321,7 +338,7 @@
                                     </el-table>
                                 </el-col>
                                 <el-col :span="12">
-                                    <el-table class="exchange-table"
+                                    <el-table class="center-table"
                                     :data="realTimeDeal.sell"
                                     style="width: 100%">
                                         <el-table-column
@@ -354,24 +371,19 @@
                                     实时成交
                             </div>
                             <el-table class="exchange-table"
-                            :data="res"
+                            :data="realTimeDealList"
                             style="width: 100%">
                                 <el-table-column
-                                    prop="time"
+                                    prop="order_time"
                                     label="时间"
                                     >
                                 </el-table-column>
                                 <el-table-column
-                                    prop="direction"
-                                    label="方向"
-                                    >
-                                </el-table-column>
-                                <el-table-column
-                                    prop="price"
+                                    prop="order_price"
                                     label="价格">
                                 </el-table-column>
                                 <el-table-column
-                                    prop="amount"
+                                    prop="processed_amount"
                                     label="数量">
                                 </el-table-column>
                                 
@@ -393,6 +405,7 @@ import Foot from '@/components/Foot'
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
+// import ReconnectingWebSocket from 'reconnecting-websocket'
 export default {
     name:'CoinExchange',
     props:{
@@ -400,6 +413,9 @@ export default {
     },
     data(){
         return{
+            // socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            socket_2:new WebSocket('ws://54.65.108.119:9542'),
             barContainerStyle:{
                 width:'6px',
                 backgroundColor:'#202832'
@@ -409,235 +425,67 @@ export default {
                 backgroundColor:'#344253'
             },
             price:{
-                btc:{
-                    high:0,
-                    low:0,
-                    order_price:0,
-                    p:0
-                }
+                // isPositive:true,
+                // btc:{
+                //     high:0,
+                //     low:0,
+                //     order_price:0,
+                //     p:0
+                // }
+                usdt:[],
+                ut:[]
             },
             marketListUSDT:[
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:false
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:false
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                }
+                // {
+                //     icon:'$',
+                //     type:'BTC',
+                //     price:'11499.975',
+                //     rise:'2.28',
+                //     positive:true
+                // },
+                // {
+                //     icon:'$',
+                //     type:'BTC',
+                //     price:'11499.975',
+                //     rise:'2.28',
+                //     positive:true
+                // },
+                // {
+                //     icon:'$',
+                //     type:'BTC',
+                //     price:'11499.975',
+                //     rise:'2.28',
+                //     positive:true
+                // }
             ],
             marketListUT:[
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'-2.28',
+                // {
+                //     icon:'',
+                //     type:'BTC',
+                //     price:'23499.975',
+                //     rise:'2.28'
+                // },
+                // {
+                //     icon:'',
+                //     type:'BTC',
+                //     price:'23499.975',
+                //     rise:'2.28'
+                // },
+                // {
+                //     icon:'',
+                //     type:'BTC',
+                //     price:'23499.975',
+                //     rise:'-2.28',
 
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'-2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                },
-                {
-                    icon:'',
-                    type:'BTC',
-                    price:'23499.975',
-                    rise:'2.28'
-                }
+                // }
             ],
             mycoins:[
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:false
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:false
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                },
-                {
-                    icon:'$',
-                    type:'BTC',
-                    price:'11499.975',
-                    rise:'2.28',
-                    positive:true
-                }
+                // {
+                //     plate_en:'btc',
+                //     available:199,
+                //     frozen:19,
+                //     id:1003
+                // }
             ],
             exchange:{
                 orderType:'marketprice',
@@ -646,6 +494,24 @@ export default {
                 amount:0,
                 price:0
             },
+            noticeList:[
+                {
+                    time:'2018-03-09',
+                    content:'adsada我就是测试怎么了'
+                },
+                {
+                    time:'2018-03-09',
+                    content:'adsada我就是测试怎么了'
+                },
+                {
+                    time:'2018-03-09',
+                    content:'adsada我就是测试怎么了'
+                },
+                {
+                    time:'2018-03-09',
+                    content:'adsada我就是测试怎么了'
+                }
+            ],
             curChart:null,
             chartOptions:[
                 {
@@ -672,7 +538,7 @@ export default {
                 buy:[],
                 sell:[]
             },
-            res:[]
+            realTimeDealList:[]
         }
     },
     components:{
@@ -686,33 +552,52 @@ export default {
             return this.exchange.price * this.exchange.amount
         },
         allcurprice(){
-            return this.price.btc.order_price * this.exchange.amount
+            if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].order_price){
+                return this.price.usdt[0].order_price * this.exchange.amount
+            }else{
+                return 0
+            }
         },
+        curPrice(){
+            if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].p){
+                return Math.abs(this.price.usdt[0].p)
+            }else{
+                return 0
+            }
+        }
     },
     created(){
         this.getCurDelegate()
         this.getHisDelegate()
-        // this.get()
-        
+        this.getNotice()
+        this.getAssetslist()
+        console.log(this.socket_1,this.socket_2)
     },
     mounted () {
         var self = this
         console.log(3333,self.realTimeDeal)
-        this.$options.sockets.onmessage = function(data){
-            // console.log(JSON.parse(data.data))
+        // this.$options.sockets.onmessage = function(data){
+        //     // console.log(JSON.parse(data.data))
+        //     var res = JSON.parse(data.data)
+        //     console.log(res)
+        //     // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
+        //     self.normalizeCurPrice(res.price)
+        //     self.normalizeRealTime(res.sb)
+        //     // console.log(data)
+        // }
+        this.socket_1.onmessage = function(data){
             var res = JSON.parse(data.data)
             console.log(res)
             // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
             self.normalizeCurPrice(res.price)
             self.normalizeRealTime(res.sb)
-            console.log(444444,self.realTimeDeal)
-            // self.$apply()
-            // this.realTimeDeal.forEach((o,i)=>{
-            //     o.puser = '买' + (i+1).toString()
-            //     this.$apply()
-            // })
-            // console.log(data)
-        } 
+        }
+        this.socket_2.onmessage = function(data){
+            var res = JSON.parse(data.data)
+            console.log(res)
+            self.realTimeDealList = res
+            // {processed_amount: "100.0000", order_price: "600.00", order_time: "2018-04-24 03:22:47"
+        }
     },
     watch:{
         
@@ -740,12 +625,18 @@ export default {
             }
         },
         normalizeCurPrice(res){
+            var self = this
             this.price = res
-        },
-        sendSocket() {
-            this.$socket.emit("get",(response) => {
-                console.log(response)
-            })
+            this.marketListUSDT = res.usdt
+            this.marketListUT = res.ut
+            for(var i in this.marketListUSDT){
+                self.marketListUSDT[i].icon = '$'
+                self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
+            }
+            for(var i in this.marketListUT){
+                self.marketListUT[i].icon = '$'
+                self.marketListUT[i].positive = self.marketListUSDT[i].p >=0?true:false
+            }
         },
         computeAmount(){
             this.exchange.amount = (this.exchange.balance * (this.exchange.percent/100)).toFixed(0)
@@ -784,12 +675,11 @@ export default {
             console.log($event.currentTarget.value,this.exchange.orderType)
             const trade_type = $event.currentTarget.value == 'purchase'?0:1
 
-            
             let reg = /\d*/
             if(this.exchange.amount < 0 || !reg.test(this.exchange.amount)){
                 return
             }
-            var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.btc.order_price
+            var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.usdt[0].order_price
             var type = this.exchange.orderType == 'limitprice'?0:1
 
             var data = {
@@ -802,7 +692,10 @@ export default {
             }
             api.addDelegate(data)
             .then(res => {
-                
+                if(res.succeed ==1){
+                    this.getCurDelegate()
+                }
+                this.$message(res.error_desc)
             }).catch(err => {
 
             })
@@ -810,19 +703,46 @@ export default {
         // 取消委托
         cancelDelegate(row){
             console.log(row)
-            // var data = {
-            //     order_id:1,
-            //     currency:'btc'
-            // }
-            // api.cancelDelegate(data)
-            // .then(res => {
-
-            // }).catch(err => {
-
-            // })
+            var data = {
+                order_id:row.id,
+                currency:'btc'
+            }
+            api.cancelDelegate(data)
+            .then(res => {
+                this.$message(res.error_desc)
+            }).catch(err => {
+                this.$message('网络失败请重试')
+            })
         },
-        delHistory(row){
-            console.log(row)
+        getNotice(){
+            var data = {
+                type:1
+            }
+            api.getNotice(data)
+            .then(res => {
+                console.log(res)
+            }).catch(err => {
+
+            })
+        },
+        getAssetslist(){
+            var data = {}
+            api.getAssetslist(data)
+            .then(res=>{
+                this.mycoins = res.assets_list
+            }).catch(err => {
+
+            })
+        },
+        // 提币
+        getCoin(item){
+            console.log(item)
+            this.$router.replace({path:'/property/coinoption',params: { dealId: item.id,type:2}})
+        },
+        // 冲币
+        addCoin(item){
+            console.log(item)
+            this.$router.replace({path:'/property/coinoption',params: { dealId: item.id,type:1}})
         }
     }
 }
@@ -848,37 +768,131 @@ export default {
     white-space:nowrap; 
     color:#c2c3ca;
     line-height: 1.5;
-    height: 21px;
-    text-align: center;
+    
     .rel1{
         width: 36px;
         display: inline-block;
+        text-align: center;
     }
     .rel2{
-        width: 60px;
+        width: 70px;
         display: inline-block;
+        text-align: center;
     }
     .rel3{
         width: 100px;
         display: inline-block;
+        text-align: center;
     }
-
+    .rel4{
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+    }
+   
     .rel4.rise{
         width: 80px;
         display: inline-block;
         color:#a4454b;
+        text-align: center;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
+        text-align: center;
+    }
+}
+
+.mycoin-list{
+    width: 100%;
+    background: #191f27;
+    color:#c2c3ca;
+    line-height: 1.5;
+    font-size: 10px;
+    overflow: hidden;
+    white-space:nowrap; 
+
+    .rel1{
+        width: 36px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel2{
+        width: 72px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel3{
+        width: 72px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel4{
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .get-coin{
+        background-color:#344253;
+        padding: 5px;
+        color: #8e9aa9;
+        border-radius: 0;
+    }
+    .add-coin{
+        background-color:#495d75;
+        padding: 5px;
+        color: #8e9aa9;
+        border-radius: 0;
+        margin-left: 5px;
     }
 }
 .market-list-header{
     font-size: 12px;
     color:#384456;
+    line-height: 1.5;
+    height: 28px;
+}
+.pad15{
+    padding: 0 15px;
+}
+.market-list{
+    text-align: center;
 }
 
+.mycoins-table{
+    padding:0 15px;
+}
+.notice-list{
+    width: 100%;
+    background: #191f27;
+    overflow: hidden;
+    white-space:nowrap; 
+    color:#c2c3ca;
+    list-style-type: square;
+    padding-left:15px;
+    .notice-squre{
+        width: 20px;
+        display: inline-block;
+        text-align: center;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+    .notice-li{
+        line-height: 1.5;
+        font-size: 14px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+}
 
 .exchange-table{
     font-size: 12px;

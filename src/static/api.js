@@ -45,13 +45,14 @@ instance.interceptors.response.use(function (response) {
 // 对响应数据做点什么
     if(response.data && response.data.error_code && (response.data.error_code != 1000 && response.data.error_code != 2014)){
         router.push({name:'login'})
-        console.log(1111)
+        console.log(1111,'403错误')
     }else if(response.data){
-        console.log(22222)
-        response = response.data
+        console.log(22222,'正确')
+        
     }else{
-        console.log(3333)
+        console.log(3333,'其他接口错误')
     }
+    response = response.data
 return response;
 }, function (error) {
 // 对响应错误做点什么
@@ -124,7 +125,17 @@ const api = {
     // 委托明细
     delegateDetail(data){
         return instance.post('/entrust/detail', data)
+    },
+    // 公告
+    getNotice(data){
+        return instance.post('/index/getnotice', data)
+    },
+    // 资产列表（持有）
+    getAssetslist(data){
+        return instance.post('/assets/assetslist', data)
     }
+    
+    
 }
 export {api, handleError, handleStatusCode}
 

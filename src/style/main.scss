@@ -108,12 +108,18 @@ a,a:hover,a:visited{
                 height: 18;
             }
             .right-l3{
-                color:#5ead6f;
+                color:red;
                 font-weight: bold;
                 font-size: 18px;
                 overflow: hidden;
                 line-height: 1.4;
                 height: 24px;
+                &.green{
+                    color:#5ead6f;
+                }
+                &.red{
+                    color:red;
+                }
             }
             .right-l4{
                 color:#5b5c62;
@@ -403,6 +409,7 @@ a,a:hover,a:visited{
 .el-tabs__item {
     padding: 0 5px;
 }
+
 .el-tooltip__popper.is-grey {
     background: #3a4a5e;
     color: #a6c4ea;
@@ -427,6 +434,12 @@ a,a:hover,a:visited{
     line-height: 24px;
     outline: none;
     padding: 0 15px;
+}
+.el-table{
+    background-color: #202832;
+}
+.el-table__empty-block{
+    background-color: #202832;
 }
 .el-table__header{
     color:#4d5f77;

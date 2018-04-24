@@ -34,7 +34,10 @@ const router =  new Router({
           children:[
             {
               path: 'coinoption',
-              name: 'coinoption',
+              component: CoinOption
+            },
+            {
+              path: 'coinoption/:dealId/:type',
               component: CoinOption
             },
             {

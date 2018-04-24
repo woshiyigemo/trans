@@ -2,14 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-// import VueWebsocket from "vue-websocket";
-// Vue.use(VueWebsocket, 'ws://54.65.108.119:9541');
 import VueNativeSock from 'vue-native-websocket'
-Vue.use(VueNativeSock, 'ws://54.65.108.119:9541', { 
-  reconnection: true, // (Boolean) whether to reconnect automatically (false)
-  reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity),
-  reconnectionDelay: 3000, // (Number) how long to initially wait before attempting a new (1000)
-})
+// Vue.use(VueNativeSock, 'ws://54.65.108.119:9541', { 
+//   reconnection: true, // (Boolean) whether to reconnect automatically (false)
+//   reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity),
+//   reconnectionDelay: 3000, // (Number) how long to initially wait before attempting a new (1000)
+// })
 import {
   Pagination,
   Dialog,

@@ -2,7 +2,7 @@
     <div>
         <div class="banner"></div>
         <div class="ad">
-            <img src="@/assets/img/index3.png" align="middle" />开放比特币糖果(cdy)充值提现
+            <img src="@/assets/img/index3.png" align="middle" />{{pubNotice}}
         </div>
         <div class="main-wrapper">
             <div class="main-inner">
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-
+import { api } from '@/static/api'
 export default {
     name:'Home',
     props:{
@@ -105,13 +105,13 @@ export default {
     },
     data(){
         return{
-
+            pubNotice:'开放比特币糖果(cdy)充值提现'
         }
     },
     components:{
     },
     created(){
-        
+        this.getNotice()
     },
     mounted () {
        
@@ -120,7 +120,19 @@ export default {
         
     },
     methods:{
+        // 获取公告
+        getNotice(){
+            var data = {
+                type:2
+            }
+            api.getNotice(data)
+            .then(res => {
+                console.log(res)
+                this.pubNotice = res.notice_content
+            }).catch(err => {
 
+            })
+        }
     }
 }
 </script>
@@ -128,7 +140,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
 .banner{background:#202832 url('~@/assets/img/index1.png') no-repeat center;width:100%;height:580px;}
-.ad{width:100%;height:60px;line-height:60px;background:#fffbf4;color:#ffa33e;} 
+.ad{width:100%;height:60px;line-height:60px;background:#fffbf4;color:#ffa33e; text-align: center;} 
 .ad img{margin-top:-10px;margin-right:15px;}
 .main-wrapper{
     background-color: #fff;

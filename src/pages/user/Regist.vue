@@ -50,7 +50,7 @@
 
 import Slider from '@/components/Slider'
 import { Validate, ERR, nationalityOption } from '@/static/common'
-import { api,apitest } from '@/static/api'
+import { api } from '@/static/api'
 
 export default {
     name:'Regist',
