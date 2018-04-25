@@ -60,13 +60,13 @@
             <h5>1.个人基本资料认证</h5>
             <el-form-item label="姓名：">
                 <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入姓名" clearable></el-input>
+                    <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable></el-input>
                 </el-tooltip>
             </el-form-item>
 
             <el-form-item label="护照号：">
                 <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入护照号" clearable></el-input>
+                    <el-input placeholder="请输入护照号" v-model="idInfo.number" clearable></el-input>
                 </el-tooltip>
             </el-form-item>
             
@@ -77,11 +77,28 @@
                         <li style="text-indent: 15px;">护照正面：</li>
                         <li><img src="~@/assets/img/passport_2.png" alt=""></li>
                         <li class="addimg">
-                            <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card">
+                            <el-upload 
+                            :action="uploadUrl"
+                            :on-success="idCardUploadSuccess"
+                            :show-file-list="false"
+                            list-type="picture-card">
                                 +
                             </el-upload>
                         </li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                        <li class="upload-wrapper">
+                            
+                            <el-upload
+                            :action="uploadUrl"
+                            :on-success="idCardUploadSuccess"
+                            :show-file-list="false"
+                            >
+                            <el-button class="upload-btn" size="small" type="primary">上传
+                                <i class="el-icon-upload2 el-icon--right"></i>
+                            </el-button>
+                            </el-upload>
+                            <!-- <span>上传</span>
+                            <img src="~@/assets/img/chuan.png"/> -->
+                        </li>
                         <li class="prompt">*上传支持jpg/png</li>
                     </ul>
                 </div>
@@ -104,7 +121,8 @@
                 </div>
             </div>
 
-            <div class="btn">提交</div>
+            <!-- <div class="btn" >提交</div> -->
+            <el-button class="submit-btn">提交</el-button>
         </el-form>
         </div>
         
@@ -128,17 +146,37 @@
     </div>
 </template>
 <script>
+import { api } from '@/static/api'
 export default {
-  name:'Home',
-  props:{
+    name:'IdentitiVerify',
+    props:{
 
-  },
-  data(){
+    },
+    data(){
         return{
-           form: {
-            name: ''
-           },
-           toolTipClass: 'page-login-toolTipClass'
+            uploadUrl:api.uploadUrl(),
+            idInfo: {
+                name: '',
+                number:'',
+                face_image:'',
+                back_image:'',
+                body_image:''
+            },
+            toolTipClass: 'page-login-toolTipClass'
+        }
+    },
+    methods:{
+        idCardUploadSuccess(response, file, fileList){
+            console.log('hehehe',response, file, fileList)
+            this.idInfo.face_image = response
+        },
+        idCardBackUploadSuccess(response, file, fileList){
+            console.log('hehehe',response, file, fileList)
+            this.idInfo.back_image = response
+        },
+        idCardBodyUploadSuccess(response, file, fileList){
+            console.log('hehehe',response, file, fileList)
+            this.idInfo.body_image = response
         }
     }
 }
@@ -146,7 +184,7 @@ export default {
 <style scoped>
 
 /* 右侧内容 */ 
-.real_right{width: 987px;height: 1233px;background: #191f27;float: right;}
+
 .real_right_title{width: 886px;margin: 0 auto;height: 82px;margin-top: 50px;}
 .title_v{float:left;width: 300px;height: 82px;font-size: 22px;color: #4148cd;background:url('~@/assets/img/v1.png') no-repeat left;background-size: contain;line-height: 82px;text-align: center;}
 .bj_ca{float:right;background: url('~@/assets/img/ka.png') no-repeat;width: 153px;height: 92px;background-size: contain;}
@@ -160,18 +198,21 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
 .page-login-toolTipClass{background: #3a4a5e!important;border-left-color: #3a4a5e!important;max-width: 200px;color: #a6c4ea;}
 /* 信息验证 */
 .port{height: 120px;border-top: 1px solid #202234;}
-.port ul{overflow: hidden;}
+.port ul{overflow: hidden;list-style: none;}
 .port li{float: left;line-height: 120px;}
 .port li:first-child{width: 130px;color: #a2b2c8;font-size: 14px;}
 .port li img{margin: 0 auto;display: inline-block;vertical-align: middle;margin: 0 25px;}
 .el-upload{width: 90px;height: 58px!important;border-radius: 0;background: #151920;font-size: 19px;margin:31px 0;line-height: 58px;}
+
+
 .upload{width: 76px;height: 26px;border-radius: 30px;text-align: center;background-color: #3a4a5e;margin: 47px 34px 47px 20px;line-height: 26px!important;font-size: 12px;color: #6d86a5;cursor: pointer;}
+
 .upload span{float: left;text-indent: 17px;}
 .upload img{float: left;margin:7.5px 6px!important;}
 .prompt{font-size: 12px;line-height: 120px;color: #465971;}
 .int{border-bottom: 1px solid #202234;}
 /* 提交 */
-.btn{width:310px;height: 50px;margin: 88px auto;background: #4c54f9;color:#fcfcf2;text-align: center;line-height: 50px;cursor: pointer;}
+.submit-btn{width:310px;height: 50px;margin: 88px auto;background: #4c54f9;color:#fcfcf2;text-align: center;cursor: pointer;border: none;border-radius: 0;}
 
 /* 去交易 */
 .cpt{width:509px;margin: 0 auto; }
@@ -179,6 +220,9 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
 .cpt_ok img{float: left;margin-left: 8px;}
 .cpt_ok span{float: left;text-indent: 25px;}
 .go_to_trade{width:509px;height: 49px;background: #4c54f9;text-align: center;line-height: 49px;font-size: 18px;color: #d3d4f4;margin-top: 120px;}
- 
+.upload-wrapper{
+    padding: 5px 15px;
+}
+.upload-btn{padding: 2px 12px;;border-radius: 30px;text-align: center;line-height: 26px!important;font-size: 12px;background-color:  #3a4a5e; color: #6d86a5;cursor: pointer;border-color:#3a4a5e;margin: 0 5px;}
 </style>
 

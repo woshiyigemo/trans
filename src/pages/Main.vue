@@ -47,5 +47,6 @@ export default {
 <style  lang='scss' scoped>
 .main-back{
     background-color: #151920;
+    overflow: hidden;
 }
 </style>

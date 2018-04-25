@@ -137,9 +137,15 @@ const api = {
     // 用户账户/余额
     userAccount(data){
         return instance.post('/user/account', data)
+    },
+    // 上传地址
+    uploadUrl(){
+        return apiConfig.baseURL + '/public/upload'
+    },
+    // 获取国家
+    getCountry(data){
+        return instance.post('/public/getcountry', data)
     }
-    
-    
 }
 export {api, handleError, handleStatusCode}
 
