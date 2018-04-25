@@ -54,8 +54,18 @@ export default {
   components:{
 
   },
+  created(){
+        
+    },
+    mounted () {
+        
+    },
   methods:{
-
+      isInDealProcess(){
+        if(this.$route.params.dealId && this.$route.params.type){
+            console.log('hahahaha',this.$route.params.dealId,this.$route.params.type)
+        }
+      }
   }
 }
 </script>

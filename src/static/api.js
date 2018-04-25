@@ -133,6 +133,10 @@ const api = {
     // 资产列表（持有）
     getAssetslist(data){
         return instance.post('/assets/assetslist', data)
+    },
+    // 用户账户/余额
+    userAccount(data){
+        return instance.post('/user/account', data)
     }
     
     

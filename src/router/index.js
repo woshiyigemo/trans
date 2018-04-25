@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import User from '@/pages/user/User'
 import Slider from '@/components/Slider'
 import Login from '@/pages/user/Login'
 import FindPwd from '@/pages/user/FindPwd'
 import Regist from '@/pages/user/Regist'
+import IdentityVerify from '@/pages/account/IdentityVerify'
 
 import Property from '@/pages/property/Property'
 import CoinOption from '@/pages/property/CoinOption'
@@ -38,6 +40,7 @@ const router =  new Router({
             },
             {
               path: 'coinoption/:dealId/:type',
+              name:'coinoption',
               component: CoinOption
             },
             {
@@ -45,6 +48,14 @@ const router =  new Router({
               name: 'orderlist',
               component: OrderList
             }
+          ]
+        },
+        {
+          path: 'account',
+          name: 'account',
+          component: Property,
+          children:[
+
           ]
         },
         {

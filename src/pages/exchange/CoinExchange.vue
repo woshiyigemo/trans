@@ -114,13 +114,14 @@
                                     <div class="amount-label">
                                         数量
                                     </div>
-                                    <el-input class="amount-input" type="number" v-model="exchange.amount">
+                                    <el-input class="amount-input" type="number" v-model.number="exchange.amount">
                                         <template slot="append">BTC</template>
                                     </el-input>
                                     <el-slider 
-                                    v-model="exchange.amount" 
+                                    v-model.number="exchange.amount"
                                     :show-tooltip="false"
                                     :show-stops="true"
+                                    min.number="0"
                                     ></el-slider>
                                     <div class="amount-tips">
                                     交易额:{{allcurprice}} USDT
@@ -179,7 +180,7 @@
                             <div >
                                 <ul class="notice-list">
                                     <li class="notice-li" v-for="(item,index) in noticeList" :key="index">
-                                        <span class="notice-squre">·</span>{{item.content}}
+                                        <span class="notice-squre">·</span>{{item.notice_title}}
                                     </li>
                                 </ul>
                             </div>
@@ -442,20 +443,6 @@ export default {
                 //     price:'11499.975',
                 //     rise:'2.28',
                 //     positive:true
-                // },
-                // {
-                //     icon:'$',
-                //     type:'BTC',
-                //     price:'11499.975',
-                //     rise:'2.28',
-                //     positive:true
-                // },
-                // {
-                //     icon:'$',
-                //     type:'BTC',
-                //     price:'11499.975',
-                //     rise:'2.28',
-                //     positive:true
                 // }
             ],
             marketListUT:[
@@ -464,19 +451,6 @@ export default {
                 //     type:'BTC',
                 //     price:'23499.975',
                 //     rise:'2.28'
-                // },
-                // {
-                //     icon:'',
-                //     type:'BTC',
-                //     price:'23499.975',
-                //     rise:'2.28'
-                // },
-                // {
-                //     icon:'',
-                //     type:'BTC',
-                //     price:'23499.975',
-                //     rise:'-2.28',
-
                 // }
             ],
             mycoins:[
@@ -489,7 +463,7 @@ export default {
             ],
             exchange:{
                 orderType:'marketprice',
-                balance:46314,
+                balance:0,
                 percent:0,
                 amount:0,
                 price:0
@@ -497,19 +471,23 @@ export default {
             noticeList:[
                 {
                     time:'2018-03-09',
-                    content:'adsada我就是测试怎么了'
+                    notice_title:'2323',
+                    notice_content:"2323"
                 },
                 {
                     time:'2018-03-09',
-                    content:'adsada我就是测试怎么了'
+                    notice_title:'2323',
+                    notice_content:"2323"
                 },
                 {
                     time:'2018-03-09',
-                    content:'adsada我就是测试怎么了'
+                    notice_title:'2323',
+                    notice_content:"2323"
                 },
                 {
                     time:'2018-03-09',
-                    content:'adsada我就是测试怎么了'
+                    notice_title:'2323',
+                    notice_content:"2323"
                 }
             ],
             curChart:null,
@@ -571,7 +549,7 @@ export default {
         this.getHisDelegate()
         this.getNotice()
         this.getAssetslist()
-        console.log(this.socket_1,this.socket_2)
+        this.userAccount()
     },
     mounted () {
         var self = this
@@ -586,6 +564,7 @@ export default {
         //     // console.log(data)
         // }
         this.socket_1.onmessage = function(data){
+            console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
             console.log(res)
             // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
@@ -673,26 +652,33 @@ export default {
         // 新增委托
         addDelegate($event){
             console.log($event.currentTarget.value,this.exchange.orderType)
-            const trade_type = $event.currentTarget.value == 'purchase'?0:1
+            const trade_type = $event.currentTarget.value == 'purchase'?1:2
 
             let reg = /\d*/
             if(this.exchange.amount < 0 || !reg.test(this.exchange.amount)){
+                this.$message('交易数量大于等于0')
+                this.exchange.amount = 0
                 return
             }
+            
             var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.usdt[0].order_price
             var type = this.exchange.orderType == 'limitprice'?0:1
-
+            if(this.exchange.amount * price  > this.exchange.balance){
+                this.$message('交易额超过当前账户余额')
+                return
+            }
             var data = {
-                currency:'CNY',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
+                currency:'btc',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
                 order_amount:this.exchange.amount,  //订单数量
-                order_price:Number(price),    //订单价格
-                order_type:type, //订单类型，0 限价单，1市价单
-                trade_currency:'CNY',               //交易货币，货币符号 CNY,BTC，ETH，UT等
-                trade_type:trade_type                        //交易类型，0买单，1买单
+                order_price:Number(price),          //订单价格
+                order_type:type,                    //订单类型，0 限价单，1市价单
+                trade_currency:'btc',               //交易货币，货币符号 CNY,BTC，ETH，UT等
+                trade_type:trade_type               //交易类型，0买单，1买单
             }
             api.addDelegate(data)
             .then(res => {
-                if(res.succeed ==1){
+                if(res.error_code == 1000){
+                    this.userAccount()
                     this.getCurDelegate()
                 }
                 this.$message(res.error_desc)
@@ -710,6 +696,7 @@ export default {
             api.cancelDelegate(data)
             .then(res => {
                 this.$message(res.error_desc)
+                this.getCurDelegate()
             }).catch(err => {
                 this.$message('网络失败请重试')
             })
@@ -721,6 +708,11 @@ export default {
             api.getNotice(data)
             .then(res => {
                 console.log(res)
+                if(res.error_code == 1000){
+                    this.noticeList = res.data
+                }else{
+                    this.$message(res.error_desc)
+                }
             }).catch(err => {
 
             })
@@ -737,12 +729,27 @@ export default {
         // 提币
         getCoin(item){
             console.log(item)
-            this.$router.replace({path:'/property/coinoption',params: { dealId: item.id,type:2}})
+            this.$router.replace({name:'coinoption',params: { dealId: item.id,type:2}})
         },
         // 冲币
         addCoin(item){
             console.log(item)
-            this.$router.replace({path:'/property/coinoption',params: { dealId: item.id,type:1}})
+            this.$router.replace({name:'coinoption',params: { dealId: item.id,type:1}})
+        },
+        userAccount(){
+            var data = {
+                currency:'btc'
+            }
+            api.userAccount(data)
+            .then(res => {
+                if(res.error_code == 1000){
+                    this.exchange.balance = res.available
+                }else{
+                    this.$message(res.error_desc)
+                }
+            }).catch(err => {
+
+            })
         }
     }
 }
@@ -877,7 +884,7 @@ export default {
     overflow: hidden;
     white-space:nowrap; 
     color:#c2c3ca;
-    list-style-type: square;
+    list-style-type: none;
     padding-left:15px;
     .notice-squre{
         width: 20px;
