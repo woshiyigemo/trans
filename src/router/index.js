@@ -6,6 +6,9 @@ import Slider from '@/components/Slider'
 import Login from '@/pages/user/Login'
 import FindPwd from '@/pages/user/FindPwd'
 import Regist from '@/pages/user/Regist'
+
+
+import Account from '@/pages/account/Account'
 import IdentityVerify from '@/pages/account/IdentityVerify'
 
 import Property from '@/pages/property/Property'
@@ -53,9 +56,13 @@ const router =  new Router({
         {
           path: 'account',
           name: 'account',
-          component: Property,
+          component: Account,
           children:[
-
+            {
+              path: 'identityverify',
+              name: 'identityverify',
+              component: IdentityVerify
+            }
           ]
         },
         {

@@ -1,138 +1,129 @@
 <template>
-    <div class="real_name">
-        <div class="real_left">
-             <ul>
-                 <li>个人中心</li>
-                 <li>账号安全</li>
-                 <li class="select">实名认证</li>
-             </ul>
+    <div>
+        <div class="real_right_title">
+            <div class="title_v">实名认证</div>
+            <div class="bj_ca"></div>
         </div>
-        <div class="real_right">
-             <div class="real_right_title">
-                  <div class="title_v">实名认证</div>
-                  <div class="bj_ca"></div>
-             </div>
-             <!-- 身份证验证表单 -->
-             <div class="from" v-show="false">
-                <el-form ref="form" :model="form"  label-width="100px">
-                    <h5>1.个人基本资料认证</h5>
-                    <el-form-item label="姓名：">
-                        <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                            <el-input placeholder="请输入姓名" clearable></el-input>
-                        </el-tooltip>
-                    </el-form-item>
+        <!-- 身份证验证表单 -->
+        <div class="from" v-show="false">
+        <el-form ref="form" :model="form"  label-width="100px">
+            <h5>1.个人基本资料认证</h5>
+            <el-form-item label="姓名：">
+                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
+                    <el-input placeholder="请输入姓名" clearable></el-input>
+                </el-tooltip>
+            </el-form-item>
 
-                    <el-form-item label="身份证号：">
-                        <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
-                            <el-input placeholder="请输入身份证号" clearable></el-input>
-                        </el-tooltip>
-                    </el-form-item>
-                    
-                    <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
-                    <div class="information">
-                        <div>
-                            <ul>
-                                <li style="text-indent: 15px;">身份证件正面：</li>
-                                <li><img src="~@/assets/img/id_1.png" alt=""></li>
-                                <li class="addimg">+</li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                                <li class="prompt">*上传支持jpg/png</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul>
-                                <li style="text-indent: 15px;">身份证件背面：</li>
-                                <li><img src="~@/assets/img/id_2.png" alt=""></li>
-                                <li class="addimg">+</li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                            </ul>
-                        </div>
-                        <div  class="int">
-                            <ul>
-                                <li style="text-indent: 15px;">手持身份证：</li>
-                                <li><img src="~@/assets/img/id_3.png" alt=""></li>
-                                <li class="addimg">+</li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                                <li class="prompt">*请提供一张手持证件照</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="btn">提交</div>
-                </el-form>
-             </div>
-
-             <!-- 护照验证表单 -->
-             <div class="from" v-show="true">
-                <el-form ref="form" :model="form"  label-width="100px">
-                    <h5>1.个人基本资料认证</h5>
-                    <el-form-item label="姓名：">
-                        <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                            <el-input placeholder="请输入姓名" clearable></el-input>
-                        </el-tooltip>
-                    </el-form-item>
-
-                    <el-form-item label="护照号：">
-                        <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
-                            <el-input placeholder="请输入护照号" clearable></el-input>
-                        </el-tooltip>
-                    </el-form-item>
-                    
-                    <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
-                    <div class="information">
-                        <div class="port">
-                            <ul>
-                                <li style="text-indent: 15px;">护照正面：</li>
-                                <li><img src="~@/assets/img/passport_2.png" alt=""></li>
-                                <li class="addimg">
-                                    <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card">
-                                        +
-                                    </el-upload>
-                                </li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                                <li class="prompt">*上传支持jpg/png</li>
-                            </ul>
-                        </div>
-                        <div class="port">
-                            <ul>
-                                <li style="text-indent: 15px;">护照背面：</li>
-                                <li><img src="~@/assets/img/passport_1.png" alt=""></li>
-                                <li class="addimg">+</li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                            </ul>
-                        </div>
-                        <div  class="int port">
-                            <ul>
-                                <li style="text-indent: 15px;">手持身份证：</li>
-                                <li><img src="~@/assets/img/id_3.png" alt=""></li>
-                                <li class="addimg">+</li>
-                                <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                                <li class="prompt">*请提供一张手持证件照</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="btn">提交</div>
-                </el-form>
-             </div>
-             
-             <!-- 完成实名认证 -->
-             <div class="cpt" v-show="false">
-                <div class="cpt_ok">
-                    <img src="~@/assets/img/complete.png" /> 
-                    <span>已完成实名认证~</span>
+            <el-form-item label="身份证号：">
+                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
+                    <el-input placeholder="请输入身份证号" clearable></el-input>
+                </el-tooltip>
+            </el-form-item>
+            
+            <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
+            <div class="information">
+                <div>
+                    <ul>
+                        <li style="text-indent: 15px;">身份证件正面：</li>
+                        <li><img src="~@/assets/img/id_1.png" alt=""></li>
+                        <li class="addimg">+</li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                        <li class="prompt">*上传支持jpg/png</li>
+                    </ul>
                 </div>
-                <div class="go_to_trade">去交易</div>
-             </div>
-
-             <!-- 完成实名认证 -->
-             <div class="cpt" v-show="false">
-                <div class="cpt_ok" style="width:318px;">
-                    <img src="~@/assets/img/complete.png" /> 
-                    <span>您的资料提交成功可以去交易了~</span>
+                <div>
+                    <ul>
+                        <li style="text-indent: 15px;">身份证件背面：</li>
+                        <li><img src="~@/assets/img/id_2.png" alt=""></li>
+                        <li class="addimg">+</li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                    </ul>
                 </div>
-                <div class="go_to_trade">去交易</div>
-             </div>
+                <div  class="int">
+                    <ul>
+                        <li style="text-indent: 15px;">手持身份证：</li>
+                        <li><img src="~@/assets/img/id_3.png" alt=""></li>
+                        <li class="addimg">+</li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                        <li class="prompt">*请提供一张手持证件照</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn">提交</div>
+        </el-form>
+        </div>
+
+        <!-- 护照验证表单 -->
+        <div class="from" v-show="true">
+        <el-form ref="form" :model="form"  label-width="100px">
+            <h5>1.个人基本资料认证</h5>
+            <el-form-item label="姓名：">
+                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
+                    <el-input placeholder="请输入姓名" clearable></el-input>
+                </el-tooltip>
+            </el-form-item>
+
+            <el-form-item label="护照号：">
+                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
+                    <el-input placeholder="请输入护照号" clearable></el-input>
+                </el-tooltip>
+            </el-form-item>
+            
+            <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
+            <div class="information">
+                <div class="port">
+                    <ul>
+                        <li style="text-indent: 15px;">护照正面：</li>
+                        <li><img src="~@/assets/img/passport_2.png" alt=""></li>
+                        <li class="addimg">
+                            <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card">
+                                +
+                            </el-upload>
+                        </li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                        <li class="prompt">*上传支持jpg/png</li>
+                    </ul>
+                </div>
+                <div class="port">
+                    <ul>
+                        <li style="text-indent: 15px;">护照背面：</li>
+                        <li><img src="~@/assets/img/passport_1.png" alt=""></li>
+                        <li class="addimg">+</li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                    </ul>
+                </div>
+                <div  class="int port">
+                    <ul>
+                        <li style="text-indent: 15px;">手持身份证：</li>
+                        <li><img src="~@/assets/img/id_3.png" alt=""></li>
+                        <li class="addimg">+</li>
+                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
+                        <li class="prompt">*请提供一张手持证件照</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn">提交</div>
+        </el-form>
+        </div>
+        
+        <!-- 完成实名认证 -->
+        <div class="cpt" v-show="false">
+        <div class="cpt_ok">
+            <img src="~@/assets/img/complete.png" /> 
+            <span>已完成实名认证~</span>
+        </div>
+        <div class="go_to_trade">去交易</div>
+        </div>
+
+        <!-- 完成实名认证 -->
+        <div class="cpt" v-show="false">
+        <div class="cpt_ok" style="width:318px;">
+            <img src="~@/assets/img/complete.png" /> 
+            <span>您的资料提交成功可以去交易了~</span>
+        </div>
+        <div class="go_to_trade">去交易</div>
         </div>
     </div>
 </template>
@@ -152,16 +143,7 @@ export default {
     }
 }
 </script>
-<style>
-*{margin: 0;padding: 0;}
-ul li{list-style: none;}
-.real_name{width: 1200px;height: 1233px;margin: 0 auto;}
-/* 左侧边栏 */
-.real_left{width: 200px;height: 1233px;background: #191f27;float: left;}
-.real_left ul li{width: 200px;height: 59px;font-size: 13px;text-align: center;line-height: 59px;color: #526078;}
-.real_left ul li:first-child{height: 81px;line-height: 81px;font-size: 19px;}
-.real_left li:nth-child(2){border-top: 1px solid #202234;border-bottom: 1px solid #202234;}
-.select{background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;}
+<style scoped>
 
 /* 右侧内容 */ 
 .real_right{width: 987px;height: 1233px;background: #191f27;float: right;}

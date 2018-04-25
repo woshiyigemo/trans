@@ -738,7 +738,7 @@ export default {
         },
         userAccount(){
             var data = {
-                currency:'btc'
+                currency:'usdt'
             }
             api.userAccount(data)
             .then(res => {
