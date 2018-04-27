@@ -8,7 +8,17 @@ const currencyType = [
 ]
 const nationality = [
     '中国',
-    '国外'
+    '澳洲'
 ]
 
-export { currencyType, nationality }
+
+const nationalityInfo = {
+    1:{
+        credentials:'身份证',
+    },
+    2:{
+        credentials:'护照'
+    }
+}
+
+export { currencyType, nationality,nationalityInfo}

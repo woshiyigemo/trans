@@ -145,6 +145,10 @@ const api = {
     // 获取国家
     getCountry(data){
         return instance.post('/public/getcountry', data)
+    },
+    // 身份验证
+    userAuth(data){
+        return instance.post('/assets/authentication', data)
     }
 }
 export {api, handleError, handleStatusCode}

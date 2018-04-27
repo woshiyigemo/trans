@@ -1,152 +1,146 @@
 <template>
-    <div>
+    <div >
         <div class="real_right_title">
             <div class="title_v">实名认证</div>
             <div class="bj_ca"></div>
         </div>
-        <!-- 身份证验证表单 -->
-        <div class="from" v-show="false">
-        <el-form ref="form" :model="form"  label-width="100px">
-            <h5>1.个人基本资料认证</h5>
-            <el-form-item label="姓名：">
-                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入姓名" clearable></el-input>
-                </el-tooltip>
-            </el-form-item>
 
-            <el-form-item label="身份证号：">
-                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入身份证号" clearable></el-input>
-                </el-tooltip>
-            </el-form-item>
-            
-            <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
-            <div class="information">
-                <div>
-                    <ul>
-                        <li style="text-indent: 15px;">身份证件正面：</li>
-                        <li><img src="~@/assets/img/id_1.png" alt=""></li>
-                        <li class="addimg">+</li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                        <li class="prompt">*上传支持jpg/png</li>
-                    </ul>
-                </div>
-                <div>
-                    <ul>
-                        <li style="text-indent: 15px;">身份证件背面：</li>
-                        <li><img src="~@/assets/img/id_2.png" alt=""></li>
-                        <li class="addimg">+</li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                    </ul>
-                </div>
-                <div  class="int">
-                    <ul>
-                        <li style="text-indent: 15px;">手持身份证：</li>
-                        <li><img src="~@/assets/img/id_3.png" alt=""></li>
-                        <li class="addimg">+</li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                        <li class="prompt">*请提供一张手持证件照</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- 证件 -->
+        <div class="from real-verify" v-if="!verifySuccess">
+            <el-form ref="idInfo"  :model="idInfo" label-width="120px">
+                <h5>1.个人基本资料认证</h5>
+                <el-form-item label="姓名：" class="base-info-line">
+                    <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
+                        <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable></el-input>
+                    </el-tooltip>
+                </el-form-item>
 
-            <div class="btn">提交</div>
-        </el-form>
-        </div>
-
-        <!-- 护照验证表单 -->
-        <div class="from" v-show="true">
-        <el-form ref="form" :model="form"  label-width="100px">
-            <h5>1.个人基本资料认证</h5>
-            <el-form-item label="姓名：">
-                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable></el-input>
-                </el-tooltip>
-            </el-form-item>
-
-            <el-form-item label="护照号：">
-                <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
-                    <el-input placeholder="请输入护照号" v-model="idInfo.number" clearable></el-input>
-                </el-tooltip>
-            </el-form-item>
-            
-            <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
-            <div class="information">
-                <div class="port">
-                    <ul>
-                        <li style="text-indent: 15px;">护照正面：</li>
-                        <li><img src="~@/assets/img/passport_2.png" alt=""></li>
-                        <li class="addimg">
-                            <el-upload 
-                            :action="uploadUrl"
-                            :on-success="idCardUploadSuccess"
-                            :show-file-list="false"
-                            list-type="picture-card">
-                                +
-                            </el-upload>
-                        </li>
-                        <li class="upload-wrapper">
-                            
-                            <el-upload
-                            :action="uploadUrl"
-                            :on-success="idCardUploadSuccess"
-                            :show-file-list="false"
-                            >
-                            <el-button class="upload-btn" size="small" type="primary">上传
-                                <i class="el-icon-upload2 el-icon--right"></i>
-                            </el-button>
-                            </el-upload>
-                            <!-- <span>上传</span>
-                            <img src="~@/assets/img/chuan.png"/> -->
-                        </li>
-                        <li class="prompt">*上传支持jpg/png</li>
-                    </ul>
+                <el-form-item :label="labelName"  class="base-info-line">
+                    <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
+                        <el-input  :placeholder="pHolder" v-model="idInfo.number" clearable></el-input>
+                    </el-tooltip>
+                </el-form-item>
+                <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
+                <div class="information">
+                    <div class="port">
+                        <ul>
+                            <li style="text-indent: 15px;">证件正面：</li>
+                            <li>
+                                <img v-if="userNationality != 1" src="~@/assets/img/passport_2.png" alt="">
+                                <img v-if="userNationality == 1" src="~@/assets/img/id_1.png" alt="">
+                            </li>
+                            <li>
+                                <div class="image-preview">
+                                    <img v-if="idInfo.face_image" :src="idInfo.face_image" class="avatar preview-img">
+                                    <div v-else class="preview-area">
+                                        <i class="el-icon-plus avatar-uploader-icon plus-mark"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="upload-wrapper">
+                                <el-upload
+                                :action="uploadUrl"
+                                :on-success="idCardUploadSuccess"
+                                :show-file-list="false"
+                                >
+                                <el-button class="upload-btn" size="small" type="primary">上传
+                                    <i class="el-icon-upload2 el-icon--right"></i>
+                                </el-button>
+                                </el-upload>
+                                <!-- <span>上传</span>
+                                <img src="~@/assets/img/chuan.png"/> -->
+                            </li>
+                            <li class="prompt">*上传支持jpg/png</li>
+                        </ul>
+                    </div>
+                    <div class="port">
+                        <ul>
+                            <li style="text-indent: 15px;">证件背面：</li>
+                            <li>
+                                <img v-if="userNationality != 1" src="~@/assets/img/passport_1.png" alt="">
+                                <img v-if="userNationality == 1" src="~@/assets/img/id_2.png" alt="">
+                            </li>
+                            <li>
+                                <div class="image-preview">
+                                    <img v-if="idInfo.back_image" :src="idInfo.back_image" class="avatar preview-img">
+                                    <div v-else class="preview-area">
+                                        <i class="el-icon-plus avatar-uploader-icon plus-mark"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="upload-wrapper">
+                                <el-upload
+                                :action="uploadUrl"
+                                :on-success="idCardBackUploadSuccess"
+                                :show-file-list="false"
+                                >
+                                <el-button class="upload-btn" size="small" type="primary">上传
+                                    <i class="el-icon-upload2 el-icon--right "></i>
+                                </el-button>
+                                </el-upload>
+                            </li>
+                            <li class="prompt">*上传支持jpg/png</li>
+                        </ul>
+                    </div>
+                    <div  class="int port">
+                        <ul>
+                            <li style="text-indent: 15px;">手持证件照：</li>
+                            <li>
+                                <img src="~@/assets/img/id_3.png" alt="">
+                            </li>
+                            <li class="addimg">
+                                <div class="image-preview">
+                                    <img v-if="idInfo.body_image" :src="idInfo.body_image" class="avatar preview-img">
+                                    <div v-else class="preview-area">
+                                        <i class="el-icon-plus avatar-uploader-icon plus-mark"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="upload-wrapper">
+                                <el-upload
+                                :action="uploadUrl"
+                                :on-success="idCardBodyUploadSuccess"
+                                :show-file-list="false"
+                                >
+                                <el-button class="upload-btn" size="small" type="primary">上传
+                                    <i class="el-icon-upload2 el-icon--right"></i>
+                                </el-button>
+                                </el-upload>
+                            </li>
+                            <li class="prompt">*请提供一张手持证件照</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="port">
-                    <ul>
-                        <li style="text-indent: 15px;">护照背面：</li>
-                        <li><img src="~@/assets/img/passport_1.png" alt=""></li>
-                        <li class="addimg">+</li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                    </ul>
-                </div>
-                <div  class="int port">
-                    <ul>
-                        <li style="text-indent: 15px;">手持身份证：</li>
-                        <li><img src="~@/assets/img/id_3.png" alt=""></li>
-                        <li class="addimg">+</li>
-                        <li class="upload"><span>上传</span><img src="~@/assets/img/chuan.png"/></li>
-                        <li class="prompt">*请提供一张手持证件照</li>
-                    </ul>
-                </div>
-            </div>
 
-            <!-- <div class="btn" >提交</div> -->
-            <el-button class="submit-btn">提交</el-button>
-        </el-form>
+
+                <el-button class="submit-btn" @click="saveUserVerify">提交</el-button>
+            </el-form>
         </div>
         
         <!-- 完成实名认证 -->
-        <div class="cpt" v-show="false">
-        <div class="cpt_ok">
-            <img src="~@/assets/img/complete.png" /> 
-            <span>已完成实名认证~</span>
-        </div>
-        <div class="go_to_trade">去交易</div>
+        <div class="cpt" v-show="verifySuccess && enterVerifySuccess">
+            <div class="cpt_ok">
+                <img src="~@/assets/img/complete.png" /> 
+                <span>已完成实名认证~</span>
+            </div>
+             <el-button class="go_to_trade" @click="goExchange">去交易</el-button>
         </div>
 
         <!-- 完成实名认证 -->
-        <div class="cpt" v-show="false">
-        <div class="cpt_ok" style="width:318px;">
-            <img src="~@/assets/img/complete.png" /> 
-            <span>您的资料提交成功可以去交易了~</span>
-        </div>
-        <div class="go_to_trade">去交易</div>
+        <div class="cpt" v-show="verifySuccess">
+            <div class="cpt_ok" style="width:318px;">
+                <img src="~@/assets/img/complete.png" /> 
+                <span>您的资料提交成功可以去交易了~</span>
+            </div>
+            <!-- <div class="go_to_trade" @click="goExchange">去交易</div> -->
+            <el-button class="go_to_trade" @click="goExchange">去交易</el-button>
         </div>
     </div>
 </template>
 <script>
 import { api } from '@/static/api'
+import { nationalityInfo } from '@/static/dataConfig'
+import { Validate } from '@/static/common'
 export default {
     name:'IdentitiVerify',
     props:{
@@ -154,7 +148,11 @@ export default {
     },
     data(){
         return{
+            enterVerifySuccess:false,
+            verifySuccess:false,
             uploadUrl:api.uploadUrl(),
+            userNationality:1,
+            err:{},
             idInfo: {
                 name: '',
                 number:'',
@@ -165,23 +163,71 @@ export default {
             toolTipClass: 'page-login-toolTipClass'
         }
     },
+    computed:{
+        pHolder(){
+            return this.userNationality == 1?'请输入身份证号':'请输入护照号'
+        },
+        labelName(){
+            return this.userNationality == 1?'身份证号：':'护照号：'
+        }
+    },
     methods:{
         idCardUploadSuccess(response, file, fileList){
-            console.log('hehehe',response, file, fileList)
-            this.idInfo.face_image = response
+            if(response.error_code == 1000){
+                this.idInfo.face_image = response.data
+            }else{
+                this.$message(response.error_desc)
+            }
         },
         idCardBackUploadSuccess(response, file, fileList){
-            console.log('hehehe',response, file, fileList)
-            this.idInfo.back_image = response
+            if(response.error_code == 1000){
+                this.idInfo.back_image = response.data
+            }else{
+                this.$message(response.error_desc)
+            }
         },
         idCardBodyUploadSuccess(response, file, fileList){
-            console.log('hehehe',response, file, fileList)
-            this.idInfo.body_image = response
+            if(response.error_code == 1000){
+                this.idInfo.body_image = response.data
+            }else{
+                this.$message(response.error_desc)
+            }
+        },
+        saveUserVerify(){
+            var self = this
+            self.err = Validate.idVerify(self.idInfo.name,self.idInfo.number,self.idInfo.face_image,self.idInfo.back_image,self.idInfo.body_image)
+
+            if(self.err.errCode !== 1000){
+                this.$message(self.err.errCode)
+                return
+            }
+            
+            var data = JSON.parse(JSON.stringify(this.idInfo))
+            api.userAuth(data)
+            .then(res => {
+                if(res.error_code == 1000){
+                    this.verifySuccess = true
+                    this.$message(res.error_desc)
+                }else{
+                    this.$message(res.error_desc)
+                }
+            }).catch(err => {
+
+            })
+        },
+        goExchange(){
+            this.$router.replace({name:'coinexchange'})
         }
+    },
+    created(){
+        this.userNationality = this.$store.state.user.userInfo.nationality || 1
+    },
+    mounted(){
+        this.enterVerifySuccess
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 
 /* 右侧内容 */ 
 
@@ -192,9 +238,14 @@ export default {
 .from{width:886px;height: 900px;margin: 0 auto;margin-top: 65px;}
 .from h5{font-size: 14px;color: #c2c3ca;border-top: 1px solid #202234;line-height: 54px;}
 label{line-height: 90px!important;text-align: left!important;text-indent: 15px;color: #a2b2c8!important;}
-.el-input{width:474px;height: 48px;margin: 21px 0 0 20px;}
+
+
 .el-input input{width: 474px;height: 48px;background: #151920;color: #354456!important;}
 .el-form-item{border-top: 1px solid #202234;margin:0;}
+.base-info-line{
+    border-top: 1px solid #202234;margin:0;
+    padding: 8px 0;
+}
 .page-login-toolTipClass{background: #3a4a5e!important;border-left-color: #3a4a5e!important;max-width: 200px;color: #a6c4ea;}
 /* 信息验证 */
 .port{height: 120px;border-top: 1px solid #202234;}
@@ -212,17 +263,44 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
 .prompt{font-size: 12px;line-height: 120px;color: #465971;}
 .int{border-bottom: 1px solid #202234;}
 /* 提交 */
-.submit-btn{width:310px;height: 50px;margin: 88px auto;background: #4c54f9;color:#fcfcf2;text-align: center;cursor: pointer;border: none;border-radius: 0;}
+.submit-btn{width:310px;height: 50px;margin: 88px auto;background: #4c54f9;color:#fcfcf2;text-align: center;cursor: pointer;border: none;border-radius: 0;display: block;}
 
 /* 去交易 */
-.cpt{width:509px;margin: 0 auto; }
+.cpt{width:509px;margin: 0 auto; margin-top:100px;}
 .cpt_ok{width: 205px;height: 48px;background-size: contain;line-height: 48px;margin: 0 auto;}
 .cpt_ok img{float: left;margin-left: 8px;}
 .cpt_ok span{float: left;text-indent: 25px;}
-.go_to_trade{width:509px;height: 49px;background: #4c54f9;text-align: center;line-height: 49px;font-size: 18px;color: #d3d4f4;margin-top: 120px;}
+.go_to_trade{width:509px;height: 49px;background: #4c54f9;text-align: center;font-size: 18px;color: #d3d4f4;margin-top: 120px;border-radius: 0;border: none;}
 .upload-wrapper{
-    padding: 5px 15px;
+    padding: 0 15px;
 }
 .upload-btn{padding: 2px 12px;;border-radius: 30px;text-align: center;line-height: 26px!important;font-size: 12px;background-color:  #3a4a5e; color: #6d86a5;cursor: pointer;border-color:#3a4a5e;margin: 0 5px;}
+
+
+.image-preview{
+        display: inline-block;
+    vertical-align: middle;
+    .preview-area{
+        border: 1px dashed #6d86a5;
+        width:80px;
+        height: 54px;
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        margin:0 25px;
+        .plus-mark{
+            position: absolute;
+            height: 54px;
+            width: 80px;
+            line-height: 54px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+    .preview-img{
+        width: 80px;
+        display: block;
+    }
+}
 </style>
 

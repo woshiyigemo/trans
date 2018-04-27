@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueNativeSock from 'vue-native-websocket'
+import store from './store/store'
 // Vue.use(VueNativeSock, 'ws://54.65.108.119:9541', { 
 //   reconnection: true, // (Boolean) whether to reconnect automatically (false)
 //   reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity),
@@ -159,6 +160,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

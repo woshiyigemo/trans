@@ -374,7 +374,24 @@ a,a:hover,a:visited{
     }    
 }
      
-
+.real-verify{
+    .el-input{
+        width:474px;height: 48px;
+        // margin: 21px 0 0 20px;
+        .el-input__inner{
+            height: 48px;
+            line-height: 48px;
+            border:1px solid #384658;
+            background: #151920
+            ;color: #354456!important;
+            border-radius: 2px;
+        }
+        
+    }
+    .el-form-item__label{
+        line-height: 48px;
+    }
+}
 
 
 // 控件覆盖
@@ -468,6 +485,30 @@ a,a:hover,a:visited{
 .el-table th {
     text-align: center;
 }
+
+
+// dialog
+.el-dialog__header {
+    padding: 25px;
+    background-color: #1f2732;
+    .el-dialog__title{
+        color:#fff;
+    }
+    .el-dialog__headerbtn{
+        top: 15px;
+        right: 15px;
+        border: 1px solid #909399;
+        border-radius: 999px;
+        width: 20px;
+        height: 20px;
+    }
+    .dialog-confirm-btn{
+        height: 49px;background: #4c54f9;text-align: center;font-size: 18px;color: #d3d4f4;margin-top: 120px;border-radius: 0;border: none;
+    }
+}
+
+
+
 
 
 

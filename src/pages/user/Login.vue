@@ -68,6 +68,14 @@ export default {
 
         api.userLogin(data).then(res => {
             if(res.error_code == 1000 || res.error_code == 2014){
+                console.log(this.$store)
+                var userInfo = {
+                    name:res.data.user_name,
+                    email:res.data.user_email,
+                    id:res.data.user_id,
+                    nationality:res.data.user_nationality
+                }
+                this.$store.dispatch('userLogin',userInfo)
                 this.$router.push({name:'coinexchange'})
             }
         })

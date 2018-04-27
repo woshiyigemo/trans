@@ -10,6 +10,7 @@ import Regist from '@/pages/user/Regist'
 
 import Account from '@/pages/account/Account'
 import IdentityVerify from '@/pages/account/IdentityVerify'
+import Security from '@/pages/account/Security'
 
 import Property from '@/pages/property/Property'
 import CoinOption from '@/pages/property/CoinOption'
@@ -59,9 +60,18 @@ const router =  new Router({
           component: Account,
           children:[
             {
+              path: '',
+              component: Security
+            },
+            {
               path: 'identityverify',
               name: 'identityverify',
               component: IdentityVerify
+            },
+            {
+              path: 'security',
+              name: 'security',
+              component: Security
             }
           ]
         },

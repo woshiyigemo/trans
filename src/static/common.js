@@ -17,12 +17,20 @@ const nationalityOption = [
 // 错误处理
 const ERR = {
     NOERR:1000,     //没错误
+    // 登录
     EMAILERR:1001,  //邮箱格式错误
     PWDERR:1002,    //密码必须为2-6位数字
     PWD2ERR:1003,   //重复密码必须为2-6位数字
     NATIONALITYERR:1004,   //国籍错误
     PWDNOTSAME:1005,    //两次密码不同
     SLIDERERR:1010, //滑块验证
+
+    // 实名认证
+    FULLNAMEEMPTY:2000,     //全名为空
+    CODEEMPTY:2001,          //证件号为空
+    NOFACEIMG:2002,            //缺少证件照正面
+    NOBACKIMG:2003,           //缺少证件照背面
+    NOBODYIMG:2004            //缺少手持证件照        
 }
 
 
@@ -71,8 +79,31 @@ const Validate = {
             res.errMsg = '校验合法'
         }
         return res
+    },
+    // 实名认证step1
+    idVerify(name,number,faceimg,backimg,bodyimg){
+        var res = {}
+        if(!name.length || name.length == 0){
+            res.errCode =  ERR.FULLNAMEEMPTY
+            res.errMsg = '请填写全名'
+        }else if(!number.length || number.length == 0){
+            res.errCode =  ERR.FULLNAMEEMPTY
+            res.errMsg = '请填写证件号'
+        }else if(!faceimg || faceimg == ''){
+            res.errCode =  ERR.NOFACEIMG
+            res.errMsg = '请上传证件正面照片'
+        }else if(!backimg || backimg == ''){
+            res.errCode =  ERR.NOBACKIMG
+            res.errMsg = '请上传证件反面照片'
+        }else if(!bodyimg || bodyimg == ''){
+            res.errCode =  ERR.NOBODYIMG
+            res.errMsg = '请上传手持证件照片'
+        }else{
+            res.errCode =  ERR.NOERR
+            res.errMsg = '校验合法'
+        }
+        return res
     }
-
 }
 
 export { Validate,ERR ,nationalityOption}
