@@ -15,8 +15,6 @@
             </el-select>
         </div>
         <div class="login_div_user">
-
-            
             <el-tooltip class="item" effect="red" :value="isEmailErr" manual  :content="err.errMsg||''" placement="right">
                 <el-input class="username_input" v-model="email" @focus="clearEmailToolTip" placeholder="邮箱"></el-input>
             </el-tooltip>

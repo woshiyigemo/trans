@@ -98,8 +98,8 @@ const api = {
     checkFindPwdCode(data){
         return instance.post('/user/checkfindpasswordcode', data)
     },
-    // 找回密码 设置密码提交
-    setFindPwdagain(data){
+    // 修改登录密码
+    setSignPwd(data){
         return instance.post('/user/setfindpasswordagain', data)
     },
     // 新增委托

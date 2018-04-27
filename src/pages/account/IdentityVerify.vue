@@ -217,13 +217,16 @@ export default {
         },
         goExchange(){
             this.$router.replace({name:'coinexchange'})
+        },
+        initUserInfo(){
+            this.userNationality = this.$store.state.userInfo.nationality || 1
         }
     },
     created(){
-        this.userNationality = this.$store.state.user.userInfo.nationality || 1
+        this.initUserInfo()
     },
     mounted(){
-        this.enterVerifySuccess
+        this.enterVerifySuccess = false
     }
 }
 </script>

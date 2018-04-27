@@ -245,7 +245,7 @@
                             label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="Untreated"
+                            prop="untreated"
                             label="未成交">
                         </el-table-column>
                         <el-table-column
@@ -780,21 +780,29 @@ export default {
         width: 36px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel2{
         width: 70px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel3{
         width: 100px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel4{
         width: 80px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
    
     .rel4.rise{

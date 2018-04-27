@@ -19,6 +19,9 @@ import OrderList from '@/pages/property/OrderList'
 import Main from '@/pages/Main'
 import Home from '@/pages/Home'
 import CoinExchange from '@/pages/exchange/CoinExchange'
+
+import Order from '@/pages/order/Order'
+
 Vue.use(Router)
 
 const router =  new Router({
@@ -30,6 +33,10 @@ const router =  new Router({
       children:[
         {
           path: '',
+          component: Home
+        },
+        {
+          path: 'home',
           name: 'home',
           component: Home
         },
@@ -77,7 +84,7 @@ const router =  new Router({
         },
         {
           path: 'user',
-          name: 'User',
+          name: 'user',
           component: User,
           children:[
             {
@@ -101,6 +108,11 @@ const router =  new Router({
           path: 'exchange/coinexchange',
           name: 'coinexchange',
           component: CoinExchange
+        },
+        {
+          path:'order',
+          name:'order',
+          component: Order
         }
       ]
     }

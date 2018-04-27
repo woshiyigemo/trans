@@ -27,6 +27,14 @@ const store = new Vuex.Store({
         state.userInfo.email = ''
       }
     },
+    getters:{
+      loggedIn(state){
+        return state.userInfo.loggedin
+      },
+      username(state){
+        return state.userInfo.name
+      }
+    },
     actions:{
         userLogin({commit},params){
           console.log(21312321321313,params)
