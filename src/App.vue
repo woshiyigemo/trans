@@ -6,7 +6,13 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  beforeCreate(){
+    var userinfo = JSON.parse(this.$cookies.get('__uinfo'))
+    if(userinfo && userinfo.email != ''){
+      this.$store.dispatch('userLogin',userinfo)
+    }
+  }
 }
 </script>
 

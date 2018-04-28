@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '../router'
+import VueCookies from 'vue-cookies'
+import store from '../store/store'
 import {
   Message
 } from 'element-ui'
+const expire = 1000 * 60 * 30
 const apiConfig = {
     // baseURL: '/cms',
     // baseURL: 'http://heyang.sy.sxurl.cn',
@@ -14,20 +17,9 @@ const apiConfig = {
     headers: {
         // 'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json;charset=UTF-8'
-        // 'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded'
-        // 'Content-Type': 'application/json'
         // 'content-type':'text/html; charset=UTF-8'
-        // Content-Type:application/x-www-form-urlencoded
     },
-    // proxy: {
-    //     host: 'http://heyang.sy.sxurl.cn',
-    //     port: 80,
-    //     auth:{
-    //         username: 'mikeymike',
-    //         password: 'rapunz3l'
-    //     }
-    // },
     validateStatus() {
         return true
     }
@@ -51,6 +43,7 @@ instance.interceptors.response.use(function (response) {
             message: '登录超时，请重新登录',
             type: 'error'
         })
+        VueCookies.remove('__uinfo')
         router.push({name:'login'})
         console.log(1111,'403错误')
     }else if(response.status < 200 || response.status >= 300){
@@ -58,9 +51,10 @@ instance.interceptors.response.use(function (response) {
             message: '网络错误，刷新网页重试',
             type: 'error'
         })
-    }else if(response.data){
+    }else if(response.data){     
+        var usinfo = VueCookies.get('__uinfo')
+        VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
         console.log(22222,'正确',response)
-        
     }else{
         console.log(3333,'其他接口错误')
     }

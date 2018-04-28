@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import VueNativeSock from 'vue-native-websocket'
+
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 import store from './store/store'
 // Vue.use(VueNativeSock, 'ws://54.65.108.119:9541', { 
 //   reconnection: true, // (Boolean) whether to reconnect automatically (false)
