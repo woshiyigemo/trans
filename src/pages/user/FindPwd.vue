@@ -29,7 +29,7 @@
                         <div class="findpassword_main_div_code_right">
                             <input type="text" v-model="verify">
                         </div> 
-                        <img :src="url">
+                        <img :src="imgCodeUrl">
                         <a @click="another">换一张</a>
                         <div class="findpassword_error findpassword_error_3">不许有空格不许有空格不许有空格不许有空格不许有空格不许有空格不许有空格</div>
                     </div>
@@ -82,7 +82,7 @@ export default {
             curStep:1,
             email:'',
             type:'',
-            url:'http://frontend.sy.sxurl.cn/public/getimgcode?type=1001',
+            imgCodeUrl:api.getImgCode(1001),
             verify:'',
             pwd:'',
             pwd_t:'',
@@ -142,8 +142,7 @@ export default {
             // })
         },
         another(){
-            this.url = this.url+'?'+Math.random()
-            console.log(this.url)
+            this.imgCodeUrl = api.getImgCode(1001)
         },
         sjx_send(){
             var data={

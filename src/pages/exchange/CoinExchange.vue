@@ -88,7 +88,7 @@
                                             <div class="amount-label">
                                                 价格
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model="exchange.price" @change="computeAmount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.price" @change="computeAmount">
                                                 <template slot="append">USDT</template>
                                             </el-input>
                                         </el-col>
@@ -96,15 +96,17 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model="exchange.amount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.amount">
                                                 <template slot="append">BTC</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
                                     <el-slider 
-                                    v-model="exchange.amount" 
+                                    v-model="exchange.percent" 
                                     :show-tooltip="false"
                                     :show-stops="true"
+                                    min.number="0"
+                                    @change="computeAmount"
                                     ></el-slider>
                                     <div class="amount-tips">
                                     交易额:{{allprice}} USDT
@@ -131,7 +133,7 @@
                                         <template slot="append">BTC</template>
                                     </el-input>
                                     <el-slider 
-                                    v-model.number="exchange.percent"
+                                    v-model="exchange.percent"
                                     :show-tooltip="false"
                                     :show-stops="true"
                                     min.number="0"
@@ -628,15 +630,14 @@ export default {
             }
         },
         computeAmount(){
-            // this.exchange.amount = (this.exchange.balance * (this.exchange.percent/100)).toFixed(0)
             if(this.exchange.price == 0){
                 this.exchange.amount = 0 
                 return
             }else{                
                 if(this.exchange.orderType == 'limitprice'){
-                    this.exchange.amount = (Math.floor(this.exchange.balance/this.exchange.price)).toFixed(0)
+                    this.exchange.amount = (Math.floor(this.exchange.balance/this.exchange.price * this.exchange.percent))
                 }else if(this.exchange.orderType == 'marketprice'){
-                    this.exchange.amount = this.price.usdt[0].order_price
+                    this.exchange.amount = (Math.floor(this.exchange.balance/this.price.usdt[0].order_price * this.exchange.percent))
                 }
             }
         },

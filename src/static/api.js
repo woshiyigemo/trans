@@ -95,8 +95,8 @@ const api = {
         return instance.post('/user/register', data)
     },
     //  获取图片验证码
-    getImgCode(data) {
-        return instance.get('/public/getimgcode', data)
+    getImgCode(type ) {
+        return apiConfig.baseURL + '/public/getimgcode?timestamp=' + (new Date().getTime()).toString() + '&type=' + type
     },
     // 验证图片验证码 进入下一步
     checkImgCode(data){
