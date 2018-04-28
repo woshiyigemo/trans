@@ -71,11 +71,13 @@ const router =  new Router({
               component: Security
             },
             {
+              // 实名认证
               path: 'identityverify',
               name: 'identityverify',
               component: IdentityVerify
             },
             {
+              // 个人中心
               path: 'security',
               name: 'security',
               component: Security
@@ -88,11 +90,13 @@ const router =  new Router({
           component: User,
           children:[
             {
+              // 注册
               path: 'regist',
               name: 'regist',
               component: Regist
             },
             {
+              // 登录
               path: 'login',
               name: 'login',
               component: Login
@@ -100,16 +104,25 @@ const router =  new Router({
           ]
         },
         {
+          // 找回/修改登录密码
           path: 'findpassword',
           name: 'findpassword',
           component: FindPwd
         },
         {
+          // 找回/修改交易密码
+          path: 'findpincode',
+          name: 'findpincode',
+          component: FindPwd
+        },
+        {
+          // 交易面板
           path: 'exchange/coinexchange',
           name: 'coinexchange',
           component: CoinExchange
         },
         {
+          // 订单页面
           path:'order',
           name:'order',
           component: Order

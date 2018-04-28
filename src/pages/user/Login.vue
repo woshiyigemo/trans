@@ -73,7 +73,9 @@ export default {
                     name:res.data.user_name,
                     email:res.data.user_email,
                     id:res.data.user_id,
-                    nationality:res.data.user_nationality
+                    nationality:res.data.user_nationality,
+                    hasSettedPincode:res.data.issettransactionpassword,
+                    authState:res.data.authentication_status
                 }
                 this.$store.dispatch('userLogin',userInfo)
                 this.$router.push({name:'coinexchange'})

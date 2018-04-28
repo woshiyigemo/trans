@@ -5,8 +5,8 @@
             <div class="bj_ca"></div>
         </div>
 
-        <!-- 证件 -->
-        <div class="from real-verify" v-if="!verifySuccess">
+        <!-- 为认证或认证被拒绝 -->
+        <div class="from real-verify" v-if="authState == 1 || authState == 2">
             <el-form ref="idInfo"  :model="idInfo" label-width="120px">
                 <h5>1.个人基本资料认证</h5>
                 <el-form-item label="姓名：" class="base-info-line">
@@ -118,7 +118,7 @@
         </div>
         
         <!-- 完成实名认证 -->
-        <div class="cpt" v-show="verifySuccess && enterVerifySuccess">
+        <div class="cpt" v-show="authState == 4">
             <div class="cpt_ok">
                 <img src="~@/assets/img/complete.png" /> 
                 <span>已完成实名认证~</span>
@@ -126,8 +126,8 @@
              <el-button class="go_to_trade" @click="goExchange">去交易</el-button>
         </div>
 
-        <!-- 完成实名认证 -->
-        <div class="cpt" v-show="verifySuccess">
+        <!-- 实名认证审核中 -->
+        <div class="cpt" v-show="authState == 3">
             <div class="cpt_ok" style="width:318px;">
                 <img src="~@/assets/img/complete.png" /> 
                 <span>您的资料提交成功可以去交易了~</span>
@@ -148,8 +148,6 @@ export default {
     },
     data(){
         return{
-            enterVerifySuccess:false,
-            verifySuccess:false,
             uploadUrl:api.uploadUrl(),
             userNationality:1,
             err:{},
@@ -169,6 +167,9 @@ export default {
         },
         labelName(){
             return this.userNationality == 1?'身份证号：':'护照号：'
+        },
+        authState(){
+            return this.$store.getters.authState
         }
     },
     methods:{
@@ -206,7 +207,8 @@ export default {
             api.userAuth(data)
             .then(res => {
                 if(res.error_code == 1000){
-                    this.verifySuccess = true
+                    // store修改为提交中
+                    this.$store.dispatch('completeAuth')
                     this.$message(res.error_desc)
                 }else{
                     this.$message(res.error_desc)

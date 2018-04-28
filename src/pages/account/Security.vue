@@ -4,7 +4,7 @@
         <h5 class="basic_title">基本资料</h5>
         <ul class="message">
             <li>UID:</li>
-            <li>666666</li>
+            <li>{{username}}</li>
         </ul>
         <ul class="message">
             <li>等级:</li>
@@ -18,8 +18,9 @@
         </ul>
         <ul class="message">
             <li>资金密码:</li>
-            <li>*******</li>
-            <li class="capitalpwd">修改</li>
+            <li>{{defaultPinCode}}</li>
+            <li v-if="hasSettedPinCode == 1" class="capitalpwd" @click="changePinCode">修改</li>
+            <li v-if="hasSettedPinCode == 2" class="notset"  @click="changePinCode">设置</li>
         </ul>
         </div>
 
@@ -28,7 +29,7 @@
             <ul class="message">
             <li>谷歌验证:</li>
             <li></li>
-            <li class="google">去绑定</li>
+            <li class="notset">去绑定</li>
         </ul>
         <ul class="message">
             <li>邮箱验证:</li>
@@ -39,13 +40,13 @@
 
         <!-- 模态框 -->
         <el-dialog
-        title="登录密码设置"
-        :visible.sync="signPwdModalVisible"
+        title="交易密码设置"
+        :visible.sync="pinCodeModalVisible"
         width="394px"
         center>
             <div class="login_div_password">
                 <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">
-                    <el-input class="pwd_input" @focus="clearPwdToolTip" type="password" v-model="signPwd.pwd" placeholder="密码"></el-input>
+                    <el-input class="pwd_input" @focus="clearPwdToolTip" type="password" v-model="signPwd.pwd" placeholder="交易密码"></el-input>
                 </el-tooltip>
             </div>
             <div class="login_div_password">
@@ -54,7 +55,7 @@
                 </el-tooltip>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button class="dialog-confirm-btn" @click="setSignPwd">确 定</el-button>
+                <el-button class="dialog-confirm-btn" @click="savePinCode">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -70,7 +71,7 @@ export default {
     },
     data(){
         return{
-            signPwdModalVisible:false,
+            pinCodeModalVisible:false,
             payPwdModalVisible:false,
             signPwd:{
                 pwd:'',
@@ -83,7 +84,15 @@ export default {
         }
     },
     computed:{
-
+        username(){
+            return this.$store.getters.username
+        },
+        hasSettedPinCode(){
+            return this.$store.getters.hasSettedPinCode
+        },
+        defaultPinCode(){
+            this.$store.getters.hasSettedPinCode == 1?'********':''
+        }
     },
     created(){
 
@@ -93,13 +102,16 @@ export default {
     },
     methods:{
         changeSignPwd(){
-            this.signPwdModalVisible = true
+            this.$router.replace({name:'findpassword'})
         },
-        cancelChangeSignPwd(){
-            this.signPwdModalVisible = false
+        changePinCode(){
+            this.$router.replace({name:'findpincode'})
         },
-        saveChangeSignPwd(){
-            this.signPwdModalVisible = false
+        changePinCode(){
+            this.pinCodeModalVisible = true
+        },
+        cancelChangePinCode(){
+            this.pinCodeModalVisible = false
         },
         clearPwdToolTip(){
             if(this.isPwdErr){
@@ -112,7 +124,7 @@ export default {
                 this.isPwdSameErr = false
             }
         },
-        setSignPwd(){
+        savePinCode(){
             var self = this
 
             this.isPwdErr = false
@@ -135,7 +147,7 @@ export default {
                 password:this.signPwd.pwd,
                 password_t:this.signPwd.pwdt
             }
-            api.setSignPwd(data)
+            api.setPinCode(data)
             .then(res => {
                 console.log('hahaha',res)
                 if(res.error_code == 1000){
@@ -143,6 +155,9 @@ export default {
                 }else{
                     this.$message(res.error_desc)
                 }
+                this.pinCodeModalVisible = false
+            }).catch(err => {
+                this.pinCodeModalVisible = false
             })
         },
     }
@@ -165,7 +180,7 @@ export default {
 
 /* 账号安全 */
 .account{width:987px;height: 495px;background: #191f27;padding: 0 50px;box-sizing: border-box;margin-top: 15px;}
-.google{background: url("~@/assets/img/wrong.png") 30% 50% no-repeat;}
+.notset{background: url("~@/assets/img/wrong.png") 30% 50% no-repeat;}
 
 
 

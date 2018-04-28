@@ -148,7 +148,11 @@ const api = {
     },
     // 身份验证
     userAuth(data){
-        return instance.post('/assets/authentication', data)
+        
+    },
+    // 设置交易密码
+    setPinCode(data){
+        return instance.post('/assets/settransactionpassword', data)
     }
 }
 export {api, handleError, handleStatusCode}
