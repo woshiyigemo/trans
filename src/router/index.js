@@ -22,6 +22,7 @@ import CoinExchange from '@/pages/exchange/CoinExchange'
 Vue.use(Router)
 
 const router =  new Router({
+  mode:"history",
   routes: [
     // login
     {
@@ -93,7 +94,7 @@ const router =  new Router({
           ]
         },
         {
-          path: 'findpassword',
+          path: 'findpassword', //我改成FindPwd就变成那样了
           name: 'findpassword',
           component: FindPwd
         },
