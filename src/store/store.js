@@ -43,6 +43,9 @@ const store = new Vuex.Store({
       username(state){
         return state.userInfo.name
       },
+      useremail(state){
+        return state.userInfo.email
+      },
       hasSettedPinCode(state){
         return state.userInfo.hasSettedPincode
       },

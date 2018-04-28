@@ -6,9 +6,16 @@ const currencyType = [
     'UT',
     'BTC'
 ]
-const nationality = [
-    '中国',
-    '澳洲'
+// 国际
+const nationalityOption = [
+    {
+        label:'澳洲',
+        value:2
+    },
+    {
+        label:'中国',
+        value:1
+    }
 ]
 
 
@@ -21,4 +28,4 @@ const nationalityInfo = {
     }
 }
 
-export { currencyType, nationality,nationalityInfo}
+export { currencyType, nationalityOption, nationalityInfo}

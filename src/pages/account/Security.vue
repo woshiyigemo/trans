@@ -23,7 +23,6 @@
             <li v-if="hasSettedPinCode == 2" class="notset"  @click="changePinCode">设置</li>
         </ul>
         </div>
-
         <div class="account ">
             <h5 class="basic_title">账号安全</h5>
             <ul class="message">
@@ -33,7 +32,7 @@
         </ul>
         <ul class="message">
             <li>邮箱验证:</li>
-            <li>maxd@dkkd.com</li>
+            <li>{{useremail}}</li>
             <li class="capitalpwd">修改</li>
         </ul>
         </div>
@@ -87,6 +86,9 @@ export default {
         username(){
             return this.$store.getters.username
         },
+        useremail(){
+            return this.$store.getters.useremail
+        },
         hasSettedPinCode(){
             return this.$store.getters.hasSettedPinCode
         },
@@ -102,7 +104,8 @@ export default {
     },
     methods:{
         changeSignPwd(){
-            this.$router.replace({name:'findpassword'})
+            
+            // this.$router.replace({name:'findpassword'})
         },
         changePinCode(){
             this.$router.replace({name:'findpincode'})
@@ -151,9 +154,17 @@ export default {
             .then(res => {
                 console.log('hahaha',res)
                 if(res.error_code == 1000){
-                    this.$message(res.error_desc)
+                    // this.$message(res.error_desc)
+                    this.$message({
+                        message: res.error_desc,
+                        type: 'success'
+                    })
                 }else{
-                    this.$message(res.error_desc)
+                    // this.$message(res.error_desc)
+                    this.$message({
+                        message: res.error_desc,
+                        type: 'error'
+                    })
                 }
                 this.pinCodeModalVisible = false
             }).catch(err => {

@@ -152,6 +152,9 @@ a,a:hover,a:visited{
                 color:#f0f0f0;
                 margin-bottom: 18px;
             }
+            .el-input-group__append{
+                padding:0 5px;
+            }
             .tips-big{
                 color:#738fb2;
                 font-size: 14px;
@@ -567,6 +570,39 @@ a,a:hover,a:visited{
         color:#fff;
     }
 }
+
+
+.el-message{
+    top:40%;
+    border-width: 0;
+}
+.el-message--success {
+    background-color: transparent;
+    border-color: none;
+}
+.el-message--error {
+    background-color: transparent;
+    border-color: none;
+}
+.el-message .el-icon-error {
+    color: #ed6660;
+    font-size: 60px;
+}
+
+.el-message .el-icon-success {
+    color: #5aa77d;
+    font-size: 60px;
+}
+.el-message--error .el-message__content {
+    color: #fff;
+}
+.el-message-success .el-message__content{
+    color: #fff;
+}
+.el-message__icon {
+    margin-right: 20px;
+}
+
 
 
 .tabs-header{

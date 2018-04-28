@@ -31,11 +31,11 @@
                 <el-input class="pwd_input" v-model="password_t" @focus="clearPwd2ToolTip" type="password" placeholder="重复密码"></el-input>
             </el-tooltip>
         </div>
-        <div class="login_div_other">
+        <!-- <div class="login_div_other">
             <div class="login_div_other_left"><a href="javascript:void(0);"> </a><span>记住密码</span></div>
             <input type="hidden" id="login_div_other_val" value="2">
             <a href="javascript:void(0);" class="login_div_other_right">忘记密码？</a>
-        </div>
+        </div> -->
         <div class="sliderbox">
             <slider @slidercomplete="getSliderStatus"></slider>
         </div>
@@ -47,7 +47,8 @@
 <script>
 
 import Slider from '@/components/Slider'
-import { Validate, ERR, nationalityOption } from '@/static/common'
+import { Validate, ERR } from '@/static/common'
+import { nationalityOption } from '@/static/dataConfig'
 import { api } from '@/static/api'
 
 export default {
