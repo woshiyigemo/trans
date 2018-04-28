@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '../router'
-
+import {
+  Message
+} from 'element-ui'
 const apiConfig = {
     // baseURL: '/cms',
     // baseURL: 'http://heyang.sy.sxurl.cn',
@@ -45,10 +47,19 @@ instance.interceptors.response.use(function (response) {
     console.log(response.data);
 // 对响应数据做点什么
     if(response.data && response.data.error_code && (response.data.error_code != 1000 && response.data.error_code != 2014)){
+        Message({
+            message: '登录超时，请重新登录',
+            type: 'error'
+        })
         router.push({name:'login'})
         console.log(1111,'403错误')
+    }else if(response.status < 200 || response.status >= 300){
+        Message({
+            message: '网络错误，刷新网页重试',
+            type: 'error'
+        })
     }else if(response.data){
-        console.log(22222,'正确')
+        console.log(22222,'正确',response)
         
     }else{
         console.log(3333,'其他接口错误')
@@ -99,8 +110,8 @@ const api = {
     checkFindPwdCode(data){
         return instance.post('/user/checkfindpasswordcode', data)
     },
-    // 找回密码 设置密码提交
-    setFindPwdagain(data){
+    // 修改登录密码
+    setSignPwd(data){
         return instance.post('/user/setfindpasswordagain', data)
     },
     // 新增委托
@@ -149,7 +160,11 @@ const api = {
     },
     // 身份验证
     userAuth(data){
-        return instance.post('/assets/authentication', data)
+        
+    },
+    // 设置交易密码
+    setPinCode(data){
+        return instance.post('/assets/settransactionpassword', data)
     }
 }
 export {api, handleError, handleStatusCode}

@@ -3,17 +3,7 @@ const reg = {
     emailReg:/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
     pwdReg:/\d{1,6}/
 }
-// 国际
-const nationalityOption = [
-    {
-        label:'外国',
-        value:0
-    },
-    {
-        label:'中国',
-        value:1
-    }
-]
+
 // 错误处理
 const ERR = {
     NOERR:1000,     //没错误
@@ -103,6 +93,24 @@ const Validate = {
             res.errMsg = '校验合法'
         }
         return res
+    },
+    // 密码重置
+    pwdReset(pwd,pwd2){
+        var res = {}
+        if(!reg.pwdReg.test(pwd) ){
+            res.errCode = ERR.PWDERR,
+            res.errMsg = '密码必须为2-6位数字'
+        }else if(!reg.pwdReg.test(pwd2)){
+            res.errCode = ERR.PWD2ERR,
+            res.errMsg = '密码必须为2-6位数字'
+        }else if(pwd != pwd2){
+            res.errCode = ERR.PWDNOTSAME
+            res.errMsg = '两次密码不同'
+        }else{
+            res.errCode =  ERR.NOERR
+            res.errMsg = '校验合法'
+        }
+        return res 
     }
 }
 

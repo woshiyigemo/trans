@@ -77,23 +77,36 @@
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
-                                <div class="tips-big">
+                                <!-- <div class="tips-big">
                                     <el-input class="amount-input" type="number" v-model="exchange.price" placeholder="限价价格">
                                     </el-input>
-                                </div>
+                                </div> -->
                                 <div class="deal-form">
-                                    <div class="amount-label">
-                                        数量
-                                    </div>
-                                    <el-input class="amount-input" type="number" v-model="exchange.amount">
-                                        <template slot="append">BTC</template>
-                                    </el-input>
+
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="amount-label">
+                                                价格
+                                            </div>
+                                            <el-input class="amount-input" type="number" v-model="exchange.price" @change="computeAmount">
+                                                <template slot="append">USDT</template>
+                                            </el-input>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="amount-label">
+                                                数量
+                                            </div>
+                                            <el-input class="amount-input" type="number" v-model="exchange.amount">
+                                                <template slot="append">BTC</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
                                     <el-slider 
                                     v-model="exchange.amount" 
                                     :show-tooltip="false"
                                     :show-stops="true"
                                     ></el-slider>
-                                     <div class="amount-tips">
+                                    <div class="amount-tips">
                                     交易额:{{allprice}} USDT
                                     </div>
                                     <div class="btn-wrapper">
@@ -118,10 +131,11 @@
                                         <template slot="append">BTC</template>
                                     </el-input>
                                     <el-slider 
-                                    v-model.number="exchange.amount"
+                                    v-model.number="exchange.percent"
                                     :show-tooltip="false"
                                     :show-stops="true"
                                     min.number="0"
+                                    @change="computeAmount"
                                     ></el-slider>
                                     <div class="amount-tips">
                                     交易额:{{allcurprice}} USDT
@@ -153,10 +167,6 @@
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
                                     <div class="mycoin-list" v-for="(item,index) in mycoins" :key="index">
-                                        <!-- <span class="rel1">{{item.icon}}</span>
-                                        <span class="rel2">{{item.type}}</span>
-                                        <span class="rel3">冲币</span>
-                                        <span class="rel4">提币</span> -->
                                         <span class="rel1">{{item.plate_en.toUpperCase()}}</span>
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
@@ -245,7 +255,7 @@
                             label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="Untreated"
+                            prop="untreated"
                             label="未成交">
                         </el-table-column>
                         <el-table-column
@@ -564,7 +574,7 @@ export default {
         //     // console.log(data)
         // }
         this.socket_1.onmessage = function(data){
-            console.log('原始ws数据',data)
+            // console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
             console.log(res)
             // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
@@ -618,7 +628,17 @@ export default {
             }
         },
         computeAmount(){
-            this.exchange.amount = (this.exchange.balance * (this.exchange.percent/100)).toFixed(0)
+            // this.exchange.amount = (this.exchange.balance * (this.exchange.percent/100)).toFixed(0)
+            if(this.exchange.price == 0){
+                this.exchange.amount = 0 
+                return
+            }else{                
+                if(this.exchange.orderType == 'limitprice'){
+                    this.exchange.amount = (Math.floor(this.exchange.balance/this.exchange.price)).toFixed(0)
+                }else if(this.exchange.orderType == 'marketprice'){
+                    this.exchange.amount = this.price.usdt[0].order_price
+                }
+            }
         },
         computePercent(){
             this.exchange.percent = Math.floor(this.exchange.amount/this.exchange.balance*100)
@@ -662,6 +682,7 @@ export default {
             }
             
             var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.usdt[0].order_price
+
             var type = this.exchange.orderType == 'limitprice'?0:1
             if(this.exchange.amount * price  > this.exchange.balance){
                 this.$message('交易额超过当前账户余额')
@@ -780,21 +801,29 @@ export default {
         width: 36px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel2{
         width: 70px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel3{
         width: 100px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
     .rel4{
         width: 80px;
         display: inline-block;
         text-align: center;
+        white-space:nowrap; 
+        overflow: hidden;
     }
    
     .rel4.rise{

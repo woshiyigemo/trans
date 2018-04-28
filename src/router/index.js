@@ -19,6 +19,9 @@ import OrderList from '@/pages/property/OrderList'
 import Main from '@/pages/Main'
 import Home from '@/pages/Home'
 import CoinExchange from '@/pages/exchange/CoinExchange'
+
+import Order from '@/pages/order/Order'
+
 Vue.use(Router)
 
 const router =  new Router({
@@ -31,6 +34,10 @@ const router =  new Router({
       children:[
         {
           path: '',
+          component: Home
+        },
+        {
+          path: 'home',
           name: 'home',
           component: Home
         },
@@ -65,11 +72,13 @@ const router =  new Router({
               component: Security
             },
             {
+              // 实名认证
               path: 'identityverify',
               name: 'identityverify',
               component: IdentityVerify
             },
             {
+              // 个人中心
               path: 'security',
               name: 'security',
               component: Security
@@ -78,15 +87,17 @@ const router =  new Router({
         },
         {
           path: 'user',
-          name: 'User',
+          name: 'user',
           component: User,
           children:[
             {
+              // 注册
               path: 'regist',
               name: 'regist',
               component: Regist
             },
             {
+              // 登录
               path: 'login',
               name: 'login',
               component: Login
@@ -94,14 +105,28 @@ const router =  new Router({
           ]
         },
         {
-          path: 'findpassword', //我改成FindPwd就变成那样了
+          // 找回/修改登录密码
+          path: 'findpassword',
           name: 'findpassword',
           component: FindPwd
         },
         {
+          // 找回/修改交易密码
+          path: 'findpincode',
+          name: 'findpincode',
+          component: FindPwd
+        },
+        {
+          // 交易面板
           path: 'exchange/coinexchange',
           name: 'coinexchange',
           component: CoinExchange
+        },
+        {
+          // 订单页面
+          path:'order',
+          name:'order',
+          component: Order
         }
       ]
     }
