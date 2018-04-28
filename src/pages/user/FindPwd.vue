@@ -1,7 +1,7 @@
 <template>
     <div>
-        <topline></topline>
-        <navibar></navibar>
+        <!-- <topline></topline> -->
+        <!-- <navibar></navibar> -->
         <div class="findpassword_main">
             <div class="findpassword_main_div">
                 <div class="findpassword_main_div_top">
@@ -21,16 +21,16 @@
                         <!-- <div class="findpassword_main_div_email_right">
                             
                         </div> -->
-                        <div class="findpassword_error"></div>
+                        <div class="findpassword_error">*提示提示提示提示</div>
 
                     </div>
                     <div class="findpassword_main_div_code">
                         <div class="findpassword_main_div_code_left">验证码</div>
                         <div class="findpassword_main_div_code_right">
-                            <input type="text">
+                            <input type="text" v-model="verify">
                         </div> 
-                        <img src="">
-                        <a href="javascript:void(0);">换一张</a>
+                        <img :src="url">
+                        <a @click="another">换一张</a>
                         <div class="findpassword_error findpassword_error_3">不许有空格不许有空格不许有空格不许有空格不许有空格不许有空格不许有空格</div>
                     </div>
                     <a class="findpassword_main_div_btn" @click="toStep2">下一步</a>
@@ -40,24 +40,29 @@
                     <div class="findpasswordtwo_main_ts">为了您的账号安全，请完成身份认证</div>
                     <div class="findpassword_main_div_email findpasswordtwo_email">
                         <div class="findpassword_main_div_email_left">电子邮箱</div>
-                        <div class="findpasswordtwo_email_right">masjd@yodn.com</div>
+                        <div class="findpasswordtwo_email_right">{{email}}</div>
                     </div>
                     <div class="findpassword_main_div_code findpasswordtwo_code">
                         <div class="findpassword_main_div_code_left">验证码</div>
                         <div class="findpassword_main_div_email_right">
                             <input type="text">
                         </div>
+                        <button class="send" @click="sjx_send">发送验证码</button>
                     </div>
                     <a class="findpassword_main_div_btn" @click="toStep3">下一步</a>
                 </div>
                 <div class="step3"  v-if="curStep == 3">
                     <div class="findpasswordtwo_main_div_img3"></div>
-                    <div class="findpasswordthree_desc"></div>
-                    <a class="findpassword_main_div_btn findpasswordsuccess_btn">登录</a>
+                    <div v-show="sjx_show" class="findpasswordthree_desc"></div>  <!-- 密码找回成功图片被隐藏 -->
+                    <div>您正在找回的账户是：<span>{{email}}</span></div>
+                    <div style="overflow:hidden"><span class="mi">新密码</span><input class="sjx_ipt" type="text" v-model="pwd"></div>
+                    
+                     <div style="overflow:hidden"><span class="mi">确认新密码</span><input class="sjx_ipt" type="text" v-model="pwd_t"></div>
+                    <a class="findpassword_main_div_btn findpasswordsuccess_btn" @click="sjx_ok">确定</a>
                 </div>
             </div>
         </div>
-        <foot></foot>
+        <!-- <foot></foot> -->
     </div> 
 </template>
 
@@ -65,6 +70,7 @@
 import Topline from '@/components/Topline'
 import Navibar from '@/components/Navibar'
 import Foot from '@/components/Foot'
+import { api } from '@/static/api'
 
 export default {
     name:'FindPwd',
@@ -74,7 +80,13 @@ export default {
     data(){
         return{
             curStep:1,
-            email:''
+            email:'',
+            type:'',
+            url:'http://frontend.sy.sxurl.cn/public/getimgcode?type=1001',
+            verify:'',
+            pwd:'',
+            pwd_t:'',
+            sjx_show:false
         }
     },
     components:{
@@ -83,7 +95,7 @@ export default {
       Foot:Foot
     },
     created(){
-        
+    //    this.getImg()
     },
     mounted () {
        
@@ -93,11 +105,72 @@ export default {
     },
     methods:{
         toStep2(){
-            this.curStep = 2
+            // this.curStep = 2
+            var data={
+                email:this.email,
+                code:this.verify,
+            }
+            api.checkImgCode(data).then(res =>{
+                console.log(res,111222)
+                // if(res.errpr_code==2008){
+                //    alert("邮箱格式错误！")
+                // }else if(res.errpr_code==3001){
+                //     alert("验证码错误！")
+                // }else if(res.errpr_code==1000){
+                //     this.curStep = 2
+                // }
+                if (res.error_code!=1000) {
+                    alert('出错了')
+                }else{
+                    this.curStep = 2
+                }
+            })
+ 
         },
         toStep3(){
             this.curStep = 3
+            // var data={
+            //     code:this.code
+            // }
+            // api.checkFindPwdCode(data).then(res=>{
+            //     console.log(res,3333)
+            //     if (res.error_code==3007) {
+            //         alert("验证码不能为空")
+            //     }else{
+            //         this.curStep = 3
+            //     }
+            // })
+        },
+        another(){
+            this.url = this.url+'?'+Math.random()
+            console.log(this.url)
+        },
+        sjx_send(){
+            var data={
+                email:this.email
+            }
+            api.sendFindPwdCode(data).then(res =>{
+                console.log(res,1111)
+                if (res.error_code==1000) {
+                    alert('邮件已发送')
+                }
+            })
+        },
+        sjx_ok(){
+            var data={
+                password:this.pwd,
+                password_t:this.pwd_t
+            }
+            api.setFindPwdagain(data).then(res =>{
+                console.log(res,8888)
+                if ((res.error_code!=1000)) {
+                    alert('操作有误')
+                }else{
+                    this.sjx_show=true
+                }
+            })
         }
+
     }
 }
 </script>
@@ -116,7 +189,8 @@ export default {
 .findpassword_main_div_email_left,.findpassword_main_div_code_left{width:95px;float:left;text-align:left;color:#a2b2c8;line-height:50px;height:50px;}
 .findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;background-color:#191f27;}
 .findpassword_main_div_email_right input,.findpassword_main_div_code_right input{width:100%;height:50px;line-height:50px;border:none;background:none;text-align:left;color:#c2c3ca;font-size:20px}
-.findpassword_main_div_code_right{width:300px !important;}
+.findpassword_main_div_code_right{width:300px !important;float: left;}
+.send{width: 115px;height: 50px;border: 1px solid #645afb;color: #645afb;text-align: center;line-height: 47px;background: #1a232c;float: left;margin-left:24px;cursor: pointer; }
 .findpasswordsuccess_main_div_code_right{width:510px;}
 .findpassword_main_div_code img{float:left;margin-left:10px;height:50px;width:125px;}
 .findpassword_main_div_code a{float:left;height:50px;width: 60px;float:left;margin-left:15px;color:#4c54f9;font-size:14px}
@@ -149,4 +223,7 @@ export default {
 .findpassword_error_1{background:#3a4a5e url('~@/assets/img/findpassword5.png') no-repeat  10px 20px;}
 .findpassword_error_2{background:#3a4a5e url('~@/assets/img/findpassword6.png') no-repeat  10px 20px;}
 .findpassword_error_3{background:#3a4a5e url('~@/assets/img/findpassword7.png') no-repeat  10px 20px;}
+
+.mi{display: block;width: 96px;height: 50px;float: left;line-height: 50px;color: #a2b2c8;}
+.sjx_ipt{width: 505px;height: 48px;border: 1px solid #384658;float: left;background: #151920;color: #a2b2c8;}
 </style>

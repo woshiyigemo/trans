@@ -14,78 +14,18 @@
                 <div class="hr"></div>
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_usd"></div>
-                    <div class="main_cat_con_t">
+                    <div v-for="ietm in alist" class="main_cat_con_t">
                         <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div> 
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t main_cat_con_t_first">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t ">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
+                        <div class="main_cat_con_t_money">{{Number(ietm.order_price)}}</div>
+                        <div class="main_cat_con_t_percent">{{ietm.p}}%</div>    
                     </div>
                 </div>
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_hkd"></div>
-                    <div class="main_cat_con_t">
+                    <div class="main_cat_con_t" v-for="i in blist">
                         <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div> 
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t main_cat_con_t_first">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent">+0.68%</div>
-                    </div>
-                    <div class="main_cat_con_t ">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
-                        <div class="main_cat_con_t_money">1234.01</div>
-                        <div class="main_cat_con_t_percent main_cat_con_t_percent_low">+0.68%</div>
+                        <div class="main_cat_con_t_money">{{Number(i.order_price)}}</div>
+                        <div class="main_cat_con_t_percent">{{i.p}}%</div>
                     </div>
                 </div>
                 <div class="main_footer">
@@ -105,7 +45,10 @@ export default {
     },
     data(){
         return{
-            pubNotice:'开放比特币糖果(cdy)充值提现'
+            pubNotice:'开放比特币糖果(cdy)充值提现',
+            socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            alist:[],
+            blist:[]
         }
     },
     components:{
@@ -114,7 +57,15 @@ export default {
         this.getNotice()
     },
     mounted () {
-       
+       var self = this
+        console.log(3333,self)
+        this.socket_1.onmessage = function(data){
+            // console.log('原始ws数据',data)
+            var res = JSON.parse(data.data)
+            console.log('ws数据',res)
+            self.alist =res.price.usdt;
+            self.blist =res.price.ut;
+        }
     },
     watch:{
         

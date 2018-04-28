@@ -25,6 +25,7 @@ import Order from '@/pages/order/Order'
 Vue.use(Router)
 
 const router =  new Router({
+  mode:"history",
   routes: [
     // login
     {

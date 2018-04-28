@@ -44,6 +44,7 @@ instance.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
+    console.log(response.data);
 // 对响应数据做点什么
     if(response.data && response.data.error_code && (response.data.error_code != 1000 && response.data.error_code != 2014)){
         Message({
@@ -95,11 +96,11 @@ const api = {
     },
     //  获取图片验证码
     getImgCode(data) {
-        return instance.post('/public/getimgcode', data)
+        return instance.get('/public/getimgcode', data)
     },
     // 验证图片验证码 进入下一步
     checkImgCode(data){
-        return instance.post('/user/checkimgcode', data)
+        return instance.post('/user/checkfindpasswordimgcode', data)
     },
     //发送找回密码验证码到邮箱
     sendFindPwdCode(data){
