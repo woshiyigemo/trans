@@ -38,7 +38,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     console.log(response.data);
 // 对响应数据做点什么
-    if(response.data && response.data.error_code && (response.data.error_code != 1000 && response.data.error_code != 2014)){
+    if(response.data && response.data.error_code && (response.data.error_code == 2015)){
         Message({
             message: '登录超时，请重新登录',
             type: 'error'
