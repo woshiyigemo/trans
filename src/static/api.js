@@ -51,7 +51,7 @@ instance.interceptors.response.use(function (response) {
             message: '网络错误，刷新网页重试',
             type: 'error'
         })
-    }else if(response.data){     
+    }else if(response.data){
         var usinfo = VueCookies.get('__uinfo')
         VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
         console.log(22222,'正确',response)
@@ -154,7 +154,7 @@ const api = {
     },
     // 身份验证
     userAuth(data){
-        
+
     },
     // 设置交易密码
     setPinCode(data){
