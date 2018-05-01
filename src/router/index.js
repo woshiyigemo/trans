@@ -101,14 +101,14 @@ const router =  new Router({
               path: 'login',
               name: 'login',
               component: Login
+            },
+            {
+              // 找回/修改登录密码
+              path: 'findpassword/:type/',
+              name: 'findpassword',
+              component: FindPwd
             }
           ]
-        },
-        {
-          // 找回/修改登录密码
-          path: 'findpassword',
-          name: 'findpassword',
-          component: FindPwd
         },
         {
           // 找回/修改交易密码

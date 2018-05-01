@@ -63,7 +63,7 @@
                                 </div>
                             </el-tab-pane>
                         </el-tabs> 
-                    </div>
+ nm,                   </div>
 
                     <!-- 交易 -->
                     <div class="exchange">
@@ -82,13 +82,12 @@
                                     </el-input>
                                 </div> -->
                                 <div class="deal-form">
-
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
                                                 价格
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.price" @change="computeAmount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price" @change="computeLimitAmount">
                                                 <template slot="append">USDT</template>
                                             </el-input>
                                         </el-col>
@@ -96,17 +95,18 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.amount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount" @change="computeLimitAmount">
                                                 <template slot="append">BTC</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
                                     <el-slider 
-                                    v-model="exchange.percent" 
+                                    v-model="exchange.limitPriceDeal.percent" 
                                     :show-tooltip="false"
                                     :show-stops="true"
                                     min.number="0"
-                                    @change="computeAmount"
+                                    step.number="5"
+                                    @change="computeLimitAmount"
                                     ></el-slider>
                                     <div class="amount-tips">
                                     交易额:{{allprice}} USDT
@@ -126,25 +126,55 @@
                                 </div>
                                 
                                 <div class="deal-form">
-                                    <div class="amount-label">
-                                        数量
-                                    </div>
-                                    <el-input class="amount-input" type="number" v-model.number="exchange.amount">
-                                        <template slot="append">BTC</template>
-                                    </el-input>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="amount-label">
+                                                价格
+                                            </div>
+                                            <el-input class="amount-input" type="number" 
+                                            name="buy"  v-model.number="exchange.marketPriceDeal.price" 
+                                            :disabled="exchange.marketPriceDeal.buyDisable"
+                                            @focus="getFocus"
+                                            @keyup.native="getBuyKeyup"
+                                            placeholder="买入交易额" >
+                                                <template slot="append">USDT</template>
+                                            </el-input>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="amount-label">
+                                                数量
+                                            </div>
+                                            <el-input class="amount-input" type="number"
+                                            name="sell"  
+                                            placeholder="卖出数量" 
+                                            :disabled="exchange.marketPriceDeal.sellDisable"
+                                            @focus="getFocus"
+                                            @keyup.native="getSellKeyup"
+                                            v-model.number="exchange.marketPriceDeal.amount">
+                                                <template slot="append">BTC</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
                                     <el-slider 
-                                    v-model="exchange.percent"
+                                    v-model="exchange.marketPriceDeal.percent"
                                     :show-tooltip="false"
                                     :show-stops="true"
                                     min.number="0"
-                                    @change="computeAmount"
+                                    step.number="5"
+                                    @change="computeMarketAmount"
                                     ></el-slider>
-                                    <div class="amount-tips">
+                                    <!-- <div class="amount-tips">
                                     交易额:{{allcurprice}} USDT
-                                    </div>
+                                    </div> -->
                                     <div class="btn-wrapper">
-                                        <el-button type="purchase" value="purchase" @click="addDelegate($event)">买入</el-button>
-                                        <el-button type="sell" value="sell"  @click="addDelegate($event)">卖出</el-button>
+                                        <el-button type="purchase" 
+                                        value="purchase" 
+                                        @click="addDelegate($event)"
+                                        :disabled="exchange.marketPriceDeal.buyDisable">买入</el-button>
+                                        <el-button type="sell" 
+                                        value="sell"  
+                                        @click="addDelegate($event)"
+                                        :disabled="exchange.marketPriceDeal.sellDisable">卖出</el-button>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -412,9 +442,6 @@
 // import Vue from 'vue'
 // import VueWebsocket from "vue-websocket";
 // Vue.use(VueWebsocket, "ws://54.65.108.119:9541")
-import Topline from '@/components/Topline'
-import Navibar from '@/components/Navibar'
-import Foot from '@/components/Foot'
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
@@ -475,10 +502,22 @@ export default {
             ],
             exchange:{
                 orderType:'marketprice',
+                focusChoose:'buy',
                 balance:0,
                 percent:0,
-                amount:0,
-                price:0
+                // price:0,
+                marketPriceDeal:{
+                    percent:0,
+                    amount:0,
+                    price:0
+                },
+                limitPriceDeal:{
+                    percent:0,
+                    amount:0,
+                    price:0,
+                    buyDisable:false,
+                    sellDisable:false
+                }
             },
             noticeList:[
                 {
@@ -532,9 +571,6 @@ export default {
         }
     },
     components:{
-      Topline:Topline,
-      Navibar:Navibar,
-      Foot:Foot,
       ScrollBar
     },
     computed:{
@@ -629,17 +665,55 @@ export default {
                 self.marketListUT[i].positive = self.marketListUSDT[i].p >=0?true:false
             }
         },
-        computeAmount(){
-            if(this.exchange.price == 0){
-                this.exchange.amount = 0 
+        computeLimitAmount(){
+            console.log(555555)
+            if(this.exchange.limitPriceDeal.price == 0){
+                this.exchange.limitPriceDeal.amount = 0 
                 return
             }else{                
-                if(this.exchange.orderType == 'limitprice'){
-                    this.exchange.amount = (Math.floor(this.exchange.balance/this.exchange.price * this.exchange.percent))
-                }else if(this.exchange.orderType == 'marketprice'){
-                    this.exchange.amount = (Math.floor(this.exchange.balance/this.price.usdt[0].order_price * this.exchange.percent))
-                }
+                this.exchange.limitPriceDeal.amount = (Math.floor(this.exchange.balance/this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.percent))
             }
+            console.log('限价交易：',this.exchange.limitPriceDeal.amount)
+        },
+        getFocus(e){
+            this.exchange.focusChoose = e.target.name
+        },
+        getBuyKeyup(e){
+            if(Number(e.target.value) > 0){
+                this.exchange.marketPriceDeal.buyDisable = false
+                this.exchange.marketPriceDeal.sellDisable = true
+            }else{
+                this.exchange.marketPriceDeal.sellDisable = false
+            }
+        },
+        getSellKeyup(e){
+            if(Number(e.target.value) > 0){
+                this.exchange.marketPriceDeal.buyDisable = true
+                this.exchange.marketPriceDeal.sellDisable = false
+            }else{
+                this.exchange.marketPriceDeal.buyDisable = false
+            }
+        },
+        computeMarketAmount(){
+            if(this.exchange.focusChoose == 'sell'){
+                // 市价卖
+                this.exchange.marketPriceDeal.amount = (this.exchange.marketPriceDeal.percent * this.exchange.balance).toFixed(2)
+                if(this.exchange.marketPriceDeal.amount > 0){
+                    this.exchange.marketPriceDeal.buyDisable = true
+                }else{
+                    this.exchange.marketPriceDeal.buyDisable = false
+                }
+                return
+            }else if(this.exchange.focusChoose == 'buy'){
+                // 市价买         
+                this.exchange.marketPriceDeal.price = (this.exchange.marketPriceDeal.percent * this.exchange.balance).toFixed(2)
+                if(this.exchange.marketPriceDeal.price > 0){
+                    this.exchange.marketPriceDeal.sellDisable = true
+                }else{
+                    this.exchange.marketPriceDeal.sellDisable = false
+                } 
+            }
+            console.log('市价交易：',this.exchange.marketPriceDeal.amount == 0,this.exchange.marketPriceDeal.price == 0)
         },
         computePercent(){
             this.exchange.percent = Math.floor(this.exchange.amount/this.exchange.balance*100)

@@ -1,7 +1,5 @@
 <template>
     <div>
-        <!-- <topline></topline> -->
-        <!-- <navibar></navibar> -->
         <div class="findpassword_main">
 
             <div class="findpassword_main_div">
@@ -84,14 +82,10 @@
             </div>
 
         </div>
-        <!-- <foot></foot> -->
     </div>
 </template>
 
 <script>
-import Topline from '@/components/Topline'
-import Navibar from '@/components/Navibar'
-import Foot from '@/components/Foot'
 import { api } from '@/static/api'
 
 export default {
@@ -115,9 +109,7 @@ export default {
         }
     },
     components:{
-      Topline:Topline,
-      Navibar:Navibar,
-      Foot:Foot
+
     },
     created(){
     //    this.getImg()
@@ -228,7 +220,7 @@ export default {
 
 .findpassword_main_div_email,.findpassword_main_div_code{width:1000px;line-height:50px;height:50px;margin-top:70px;margin-left: 50px;}
 .findpassword_main_div_email_left,.findpassword_main_div_code_left{width:95px;float:left;text-align:left;color:#a2b2c8;line-height:50px;height:50px;}
-.findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;background-color:#191f27;}
+.findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;padding:0 5px;background-color:#191f27;}
 .findpassword_main_div_email_right input,.findpassword_main_div_code_right input{width:100%;height:50px;line-height:50px;border:none;background:none;text-align:left;color:#c2c3ca;font-size:20px}
 .findpassword_main_div_code_right{width:300px !important;float: left;}
 .send{width: 115px;height: 50px;border: 1px solid #645afb;color: #645afb;text-align: center;line-height: 47px;background: #1a232c;float: left;margin-left:24px;cursor: pointer; }
