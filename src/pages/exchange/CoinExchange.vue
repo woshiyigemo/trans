@@ -575,14 +575,10 @@ export default {
     },
     computed:{
         allprice(){
-            return this.exchange.price * this.exchange.amount
+            return this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.amount
         },
         allcurprice(){
-            if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].order_price){
-                return this.price.usdt[0].order_price * this.exchange.amount
-            }else{
-                return 0
-            }
+
         },
         curPrice(){
             if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].p){
@@ -601,16 +597,6 @@ export default {
     },
     mounted () {
         var self = this
-        console.log(3333,self.realTimeDeal)
-        // this.$options.sockets.onmessage = function(data){
-        //     // console.log(JSON.parse(data.data))
-        //     var res = JSON.parse(data.data)
-        //     console.log(res)
-        //     // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
-        //     self.normalizeCurPrice(res.price)
-        //     self.normalizeRealTime(res.sb)
-        //     // console.log(data)
-        // }
         this.socket_1.onmessage = function(data){
             // console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
@@ -671,7 +657,7 @@ export default {
                 this.exchange.limitPriceDeal.amount = 0 
                 return
             }else{                
-                this.exchange.limitPriceDeal.amount = (Math.floor(this.exchange.balance/this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.percent))
+                this.exchange.limitPriceDeal.amount = (Math.floor(this.exchange.balance/this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.percent/100))
             }
             console.log('限价交易：',this.exchange.limitPriceDeal.amount)
         },
@@ -756,18 +742,19 @@ export default {
                 return
             }
             
-            var price = this.exchange.orderType == 'limitprice'?this.exchange.price:this.price.usdt[0].order_price
+            
+            var deal = this.exchange.orderType == 'limitprice'?this.exchange.limitPriceDeal:this.exchange.marketPriceDeal
 
-            var type = this.exchange.orderType == 'limitprice'?0:1
+            var orderType = this.exchange.orderType == 'limitprice'?0:1
             if(this.exchange.amount * price  > this.exchange.balance){
                 this.$message('交易额超过当前账户余额')
                 return
             }
             var data = {
                 currency:'btc',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
-                order_amount:this.exchange.amount,  //订单数量
-                order_price:Number(price),          //订单价格
-                order_type:type,                    //订单类型，0 限价单，1市价单
+                order_amount:deal.amount,  //订单数量
+                order_price:Number(deal.price),          //订单价格
+                order_type:orderType,                    //订单类型，0 限价单，1市价单
                 trade_currency:'btc',               //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type               //交易类型，0买单，1买单
             }

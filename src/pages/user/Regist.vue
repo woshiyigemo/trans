@@ -18,8 +18,6 @@
             <el-tooltip class="item" effect="red" :value="isEmailErr" manual  :content="err.errMsg||''" placement="right">
                 <el-input class="username_input" v-model="email" @focus="clearEmailToolTip" placeholder="邮箱"></el-input>
             </el-tooltip>
-            <!-- <input type="text">
-            <div class="login_error login_error_1">123123</div> -->
         </div>
         <div class="login_div_password">
             <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">
@@ -31,11 +29,6 @@
                 <el-input class="pwd_input" v-model="password_t" @focus="clearPwd2ToolTip" type="password" placeholder="重复密码"></el-input>
             </el-tooltip>
         </div>
-        <!-- <div class="login_div_other">
-            <div class="login_div_other_left"><a href="javascript:void(0);"> </a><span>记住密码</span></div>
-            <input type="hidden" id="login_div_other_val" value="2">
-            <a href="javascript:void(0);" class="login_div_other_right">忘记密码？</a>
-        </div> -->
         <div class="sliderbox">
             <slider @slidercomplete="getSliderStatus"></slider>
         </div>

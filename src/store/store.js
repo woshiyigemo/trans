@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueCookies from 'vue-cookies'
 Vue.use(Vuex)
-const expire = 1000 * 60 * 30
+const expire = 1000 * 60 * 120
 const store = new Vuex.Store({
     state: {
       userInfo:{
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         state.userInfo.hasSettedPincode  = params.hasSettedPincode
         state.userInfo.authState = params.authState
        
-        VueCookies.set('__uinfo', JSON.stringify(state.userInfo),expire);
+        VueCookies.set('__uinfo', JSON.stringify(state.userInfo),new Date().getTime() + expire);
       },
       logout (state){
         state.userInfo.loggedin = false

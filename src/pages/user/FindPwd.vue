@@ -21,7 +21,7 @@
                         <!-- <div class="findpassword_main_div_email_right">
 
                         </div> -->
-                        <div class="findpassword_error" style="padding-left: 0;" v-show="email_sjx_show">
+                        <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
                            <p class="findpassword_error_1">邮箱号错误</p>
                            <p class="findpassword_error_2">请输入注册时的邮箱</p>
                         </div>
@@ -30,11 +30,11 @@
                     <div class="findpassword_main_div_code">
                         <div class="findpassword_main_div_code_left">验证码</div>
                         <div class="findpassword_main_div_code_right">
-                            <input type="text" v-model="verify" >
+                            <input type="text" v-model="verifyCode" >
                         </div>
                         <img :src="imgCodeUrl">
                         <a @click="another" style="cursor: pointer;">换一张</a>
-                        <div class="findpassword_error findpassword_error_3" v-show="sjx_ver_show">你输入的验证码错误</div>
+                        <div class="findpassword_error findpassword_error_3" v-show="isVerifyCodeErr">你输入的验证码错误</div>
                     </div>
                     <a class="findpassword_main_div_btn" @click="toStep2">下一步</a>
                 </div>
@@ -56,12 +56,11 @@
                 </div>
                 <div class="step3"  v-if="curStep == 3">
                     <div class="findpasswordtwo_main_div_img3"></div>
-                    <!--<div v-show="sjx_show" class="findpasswordthree_desc"></div>  &lt;!&ndash; 密码找回成功图片被隐藏 &ndash;&gt;-->
                     <div class="findpasswordtwo_main_ts">您正在找回的账户是：<span>{{email}}</span></div>
                     <div class="findpassword_main_div_email findpasswordtwo_email">
                       <span class="mi">新密码</span>
                       <input class="sjx_ipt" type="text" v-model="pwd">
-                      <div class="findpassword_error" style="padding-left: 0;" v-show="email_sjx_show">
+                      <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
                         <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
                         <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
                         <p class="findpassword_error_1">不允许有空格</p>
@@ -71,7 +70,7 @@
                      <div class="findpassword_main_div_email findpasswordtwo_email ">
                        <span class="mi">确认新密码</span>
                        <input class="sjx_ipt" type="text" v-model="pwd_t">
-                       <div class="findpassword_error" style="padding-left: 0;" v-show="sjx_ver_show">
+                       <div class="findpassword_error" style="padding-left: 0;" v-show="isVerifyCodeErr">
                          <p class="findpassword_error_1">两次输入的密码不一致</p>
                        </div>
                      </div>
@@ -97,14 +96,12 @@ export default {
         return{
             curStep:1,
             email:'',
-            type:'',
             imgCodeUrl:api.getImgCode(1001),
-            verify:'',
+            verifyCode:'',
             pwd:'',
             pwd_t:'',
-            sjx_show:false,
-            email_sjx_show:false,
-            sjx_ver_show:false,
+            isEmailErr:false,
+            isVerifyCodeErr:false,
             code:''
         }
     },
@@ -125,19 +122,19 @@ export default {
             // this.curStep = 2
             var data={
                 email:this.email,
-                code:this.verify,
+                code:this.verifyCode,
             }
             //找回密码第一步邮箱和验证码验证 2009 邮箱未注册
             api.checkImgCode(data).then(res =>{
                 console.log(res,111222)
                 if (res.error_code == 2008 || res.error_code == 2003 || res.error_code == 2009) {
-                    this.email_sjx_show = true;
+                    this.isEmailErr = true;
                 }else if (res.error_code ==3010 || res.error_code == 3001){
-                    this.sjx_ver_show = true;
+                    this.isVerifyCodeErr = true;
                     this.imgCodeUrl = api.getImgCode(1001);
                 }else{
-                    this.email_sjx_show = false;
-                    this.email_sjx_show = false;
+                    this.isEmailErr = false;
+                    this.isEmailErr = false;
                     this.curStep =2;
                 }
             })
@@ -187,11 +184,11 @@ export default {
             api.setSignPwd(data).then(res =>{
                 console.log(res,8888)
                 if ((res.error_code!=1000)) {
-                    this.email_sjx_show = true
-                    this.sjx_ver_show =true
+                    this.isEmailErr = true
+                    this.isVerifyCodeErr =true
                 }else{
-                  this.email_sjx_show = false
-                  this.sjx_ver_show =false
+                  this.isEmailErr = false
+                  this.isVerifyCodeErr =false
                   this.$alert('<i class="el-icon-circle-check"></i><sapn>恭喜您，密码找回成功~</sapn>', {
                     dangerouslyUseHTMLString: true,
                     showClose:false,

@@ -18,6 +18,12 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 a,a:hover,a:visited{
     text-decoration: none;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0; 
+}
+input[type="number"]{-moz-appearance:textfield;}
 // 登录
 .username_input,
 .pwd_input{
@@ -630,8 +636,124 @@ a,a:hover,a:visited{
         margin-right: 8px;
     }
 }
+// coinoptions
+.coinoption{
+    text-align: center;
+    .el-popover{
+        background-color:#585efa;
+    }
+    
+    .el-popper[x-placement^="bottom"] .popper__arrow::after {
+        border-bottom-color: #585EFA;
+    }
+    .el-popper[x-placement^="bottom"] .popper__arrow {
+        border-bottom-color: #585efa;
+    }
+    .el-table__header-wrapper,
+    .el-table th, .el-table td,
+    .el-table tr{
+        background-color:#1a232c;
+    }
+    .el-table td{
+        border-top: 1px solid #232935;
+    }
+    
+    .el-table th > .cell {
+        font-size: 12px;
+        font-weight: normal;
+        padding: 15px 10px;
+    }
+    .el-table .cell {
+        padding: 22px 10px;
+    }
+    .el-button--text {
+        color: #585efa;
+    }
+}
 
+/*充币样式*/
+.xm-popover {
+    background: #585EFA;
+    border: 0px;
+    color: #FFFFFF;
+    .popper__arrow::after {
+        border-bottom-color: #585EFA;
+    }
+    .popper__arrow {
+        border-bottom-color: #585efa;
+    }
+}
 
+.xm-popover>button {
+    height: 30px;
+    width: 120px;
+    border-radius: 3px;
+    background: #577DFA;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    margin: 15px;
+}
+
+.xm-popover>.popover-titter {
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+.xm-popover>ul>li {
+    line-height: 25px;
+    margin-left: 30px;
+}
+
+.xm-popover>.popover-hint {
+    margin-left: 15px;
+}
+
+/*提币样式*/
+
+.xm-pop {
+    background: #585EFA;
+    border: 0px;
+    color: #FFFFFF;
+}
+
+.xm-pop>.pop-titter {
+    font-size: 18px;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+.xm-pop>p {
+    margin-left: 15px;
+}
+
+.xm-pop>.pop-titter-div {
+    width: 725px;
+    font-size: 18px;
+    line-height: 35px;
+    padding-left: 10px;
+    background: #5056E0;
+    height: 35px;
+    margin-left: 15px;
+}
+
+.xm-pop>ul {
+    width: 480px;
+}
+
+.xm-pop>ul>li {
+    line-height: 20px;
+    margin-left: 30px;
+}
+.xm-pop>.xm-can-ast {
+    position: absolute;
+    top: 98px;
+    right: 38px;
+}
+#xm_num{
+    position: absolute;
+    top: 182px;
+    left: 393px;
+}
 // 滚动条
 .vb > .vb-dragger {
     z-index: 5;

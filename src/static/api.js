@@ -6,7 +6,7 @@ import store from '../store/store'
 import {
   Message
 } from 'element-ui'
-const expire = 1000 * 60 * 30
+const expire = 1000 * 60 * 120
 const apiConfig = {
     // baseURL: '/cms',
     // baseURL: 'http://heyang.sy.sxurl.cn',
@@ -154,11 +154,35 @@ const api = {
     },
     // 身份验证
     userAuth(data){
-
+        return instance.post('/assets/authentication', data)
     },
     // 设置交易密码
     setPinCode(data){
         return instance.post('/assets/settransactionpassword', data)
+    },
+    //充币
+    dataId(data){
+        return instance.post('/assets/rechargeaddress', data)
+    },
+    //获取提币地址
+    getAddress(data){
+        return instance.post('/assets/gettakecoinaddress', data)
+    },
+    //提币计算
+    authentication(data){
+        return instance.post('/assets/authentication', data)
+    },
+    //提币按钮
+    ationbtn(data){
+        return instance.post('/assets/takecoin', data)
+    },
+    //资产中心-财务记录（充币记录）
+    assetschargemoney(data){
+        return instance.get('/assets/assetschargemoney?page=' + data.page)
+    },
+    //资产中心-财务记录（提取币记录）
+    assetsWithdraw(data){
+        return instance.get('/assets/assetsWithdraw?page=' + data.page)
     }
 }
 export {api, handleError, handleStatusCode}

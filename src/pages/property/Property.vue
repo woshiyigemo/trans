@@ -1,86 +1,46 @@
 <template>
-    <div>
-        <el-container class="property-container">
-            <el-aside class="leftside" style="width:200px;">
-                <div class="wrapper">
-                    <div class="topline">
-                        资产中心
-                    </div>
-                    <div class="link active">
-                        冲币提币
-                    </div>
-                </div>
-            </el-aside>
-            <el-main class="rightside">
-                <div class="wrapper">
-                    <router-view/>
-                </div>
-            </el-main>
-        </el-container>
+    <div class="real_name">
+        <div class="real_left">
+            <div class="option">资产中心</div>
+            <router-link class="option" active-class="option-active" to="/property/coinoption">冲币提币</router-link>
+            <router-link class="option" active-class="option-active" to="/property/financialrecords">财务记录</router-link>
+            <router-link class="option" active-class="option-active" to="/property/addressmanagement">提币地址管理</router-link>
+        </div>
+        <div class="real_right">
+            <router-view/>
+        </div>
     </div>
 </template>
-
 <script>
-import { api } from '@/static/api'
 export default {
-  name: 'Property',
-  data () {
-    return {
+  name:'Account',
+  props:{
 
+  },
+  data(){
+        return{
+
+        }
     }
-  },
-  components:{
-
-  },
-  methods:{
-
-  }
 }
 </script>
+<style scoped>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='scss' scoped>
-.property-container{
-    width: 1200px;
-    margin: 0 auto;
-    background-color: #151920;
-    .leftside{
-        background-color: #151920; 
-        color:#526078;
-        padding:12px 12px 12px 0;
-        text-align: center;
-        min-height: 300px;
-        .wrapper{
-            width:200px;  
-            background-color: #191f27;
-        }
-        .topline{
-            height: 80px;
-            line-height: 80px;
-            background-color: #191f27;
-            border-bottom: 1px solid #202234;
-        }
-        .link{
-            height: 60px;
-            line-height: 60px;
-            background-color: #191f27;
-        }
-        .link.active{
-            height: 60px;
-            border-right:2px solid #4c54f9;
-            line-height: 60px;
-            background-color: #000;
-        }
-    }
-    .rightside{
-        padding-left: 12px;
-        padding-top: 12px;
-        .wrapper{
-           padding:20px;
-           background-color: #191f27;
-           
-        }
-    }
+.real_name{width: 1200px;height: 1233px;margin: 0 auto;margin-top: 60px;}
+/* 左侧边栏 */
+.real_left{width: 200px;height: 1233px;background: #191f27;float: left;}
+.real_left .option{
+    width: 200px;height: 59px;font-size: 13px;text-align: center;line-height: 59px;color: #526078;list-style: none;
+    display: block;
 }
+.real_left .option:first-child{height: 81px;line-height: 81px;font-size: 19px;}
+.real_left .option:nth-child(2){border-top: 1px solid #202234;border-bottom: 1px solid #202234;}
+.real_left .option-active{
+    background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;display: block;
+}
+.select{background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;}
 
+/* 右侧内容 */ 
+.real_right{width: 987px;height: 1233px;background: #191f27;float: right;}
 </style>
+

@@ -12,15 +12,16 @@ import Account from '@/pages/account/Account'
 import IdentityVerify from '@/pages/account/IdentityVerify'
 import Security from '@/pages/account/Security'
 
+
 import Property from '@/pages/property/Property'
 import CoinOption from '@/pages/property/CoinOption'
-import OrderList from '@/pages/property/OrderList'
+import FinancialRecords from '@/pages/property/FinancialRecords'
 
 import Main from '@/pages/Main'
 import Home from '@/pages/Home'
 import CoinExchange from '@/pages/exchange/CoinExchange'
 
-import Order from '@/pages/order/Order'
+import OrderList from '@/pages/order/OrderList'
 
 Vue.use(Router)
 
@@ -56,9 +57,9 @@ const router =  new Router({
               component: CoinOption
             },
             {
-              path: 'orderlist',
-              name: 'orderlist',
-              component: OrderList
+              path: 'financialrecords',
+              name: 'financialrecords',
+              component: FinancialRecords
             }
           ]
         },
@@ -126,7 +127,7 @@ const router =  new Router({
           // 订单页面
           path:'order',
           name:'order',
-          component: Order
+          component: OrderList
         }
       ]
     }
