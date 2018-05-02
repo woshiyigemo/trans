@@ -1,9 +1,9 @@
 <template>
-  <div id="drag">
-    <div class="drag_bg weui-btn_primary" :style="{width:curW + 20 +'px'}"></div>
-    <div class="drag_text" onselectstart="return false;" unselectable="on":class="[isDragOk ? 'whitecolor':'graycolor']">{{text}}</div>
-    <div class="handler" :style="{left:curW+'px'}" :class="[isDragOk ? 'handler_ok_bg':'handler_bg']"></div>
-</div>
+    <div id="drag">
+        <div class="drag_bg weui-btn_primary" :style="{width:curW + 20 +'px'}"></div>
+        <div class="drag_text" onselectstart="return false;" unselectable="on":class="[isDragOk ? 'whitecolor':'graycolor']">{{text}}</div>
+        <div class="handler" :style="{left:curW+'px'}" :class="[isDragOk ? 'handler_ok_bg':'handler_bg']"></div>
+    </div>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
             isDragOk:false, //是否拖动成功
             maxWidth:0, //拖动的最大宽度
             element:{},
-            text:'请按住滑动，推动之最右侧!',
+            text:'请按住滑动，推动至最右侧!',
             currentPos:{
                 x: 0,
                 y: 0
