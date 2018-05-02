@@ -6,7 +6,7 @@
         </div>
         <div class="main-wrapper">
             <div class="main-inner">
-                <div class="main_cat">
+                <div class="main_cat" style="display:none;">
                     <a href="javascript:void(0);">USD交易区</a>
                     <a href="">HKD交易区</a>
                     <a href="javascript:void(0);">BTC交易区</a>
@@ -15,7 +15,7 @@
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_usd"></div>
                     <div v-for="ietm in alist" class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
+                        <div class="main_cat_con_t_title">BCH / USDT</div>
                         <div class="main_cat_con_t_money">{{Number(ietm.order_price)}}</div>
                         <div class="main_cat_con_t_percent">{{ietm.p}}%</div>    
                     </div>
@@ -23,13 +23,13 @@
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_hkd"></div>
                     <div class="main_cat_con_t" v-for="i in blist">
-                        <div class="main_cat_con_t_title">BCH / USD</div>
+                        <div class="main_cat_con_t_title">BCH / UT</div>
                         <div class="main_cat_con_t_money">{{Number(i.order_price)}}</div>
                         <div class="main_cat_con_t_percent">{{i.p}}%</div>
                     </div>
                 </div>
                 <div class="main_footer">
-                    <img src="@/assets/img/index6.png" witdh="100%">
+                    <img src="@/assets/img/ban2.jpg" witdh="100%">
                 </div>
             </div>
         </div>
@@ -90,7 +90,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
-.banner{background:#202832 url('~@/assets/img/index1.png') no-repeat center;width:100%;height:580px;}
+
+.banner{background:#202832 url('~@/assets/img/ban.jpg') no-repeat center;width:100%;height:580px;}
 .ad{width:100%;height:60px;line-height:60px;background:#fffbf4;color:#ffa33e; text-align: center;} 
 .ad img{margin-top:-10px;margin-right:15px;}
 .main-wrapper{
@@ -112,7 +113,7 @@ export default {
 .main_cat_con_t{width:190px;height:110px;float:left;margin-left:12px;background:#f7f8fb;padding:18px;box-sizing:border-box;margin-bottom:12px;}
 .main_cat_con_t_first{margin-left:0px;}
 .main_cat_con_t_usd{background:#449283 url('~@/assets/img/index4.png') no-repeat center;}
-.main_cat_con_t_hkd{background:#4c54f9 url('~@/assets/img/index5.png') no-repeat center;}
+.main_cat_con_t_hkd{background:#4c54f9 url('~@/assets/img/ut.png') no-repeat center;}
 .main_cat_con_t_title{width:100%;text-align:left;font-size:12px;height:14px;line-height:14px;font-weight:bold;}
 .main_cat_con_t_money{width:100%;margin-top:18px;font-size:14px;text-align:left;font-weight:bold;font-size:16px;line-height:16px;height:16px;}
 .main_cat_con_t_percent{margin-top:10px;color:#f45e5f;font-size:12px;text-align:left;width:100%;}

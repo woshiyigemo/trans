@@ -63,7 +63,7 @@
                                 </div>
                             </el-tab-pane>
                         </el-tabs> 
- nm,                   </div>
+                   </div>
 
                     <!-- 交易 -->
                     <div class="exchange">
