@@ -90,6 +90,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
+
 .banner{background:#202832 url('~@/assets/img/ban.jpg') no-repeat center;width:100%;height:580px;}
 .ad{width:100%;height:60px;line-height:60px;background:#fffbf4;color:#ffa33e; text-align: center;} 
 .ad img{margin-top:-10px;margin-right:15px;}
