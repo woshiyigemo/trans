@@ -638,7 +638,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 // coinoptions
 .coinoption{
-    text-align: center;
+    // text-align: center;
     .el-popover{
         background-color:#585efa;
     }
@@ -652,22 +652,25 @@ input[type="number"]{-moz-appearance:textfield;}
     .el-table__header-wrapper,
     .el-table th, .el-table td,
     .el-table tr{
-        background-color:#1a232c;
+        font-size: 16px;color: #fff;
+        background-color:#191f27;
     }
     .el-table td{
-        border-top: 1px solid #232935;
+        border-top: 1px solid #202234;
     }
     
     .el-table th > .cell {
         font-size: 12px;
         font-weight: normal;
         padding: 15px 10px;
+        color: #4f5f77;
     }
     .el-table .cell {
         padding: 22px 10px;
     }
     .el-button--text {
-        color: #585efa;
+        font-size: 16px;
+        color: #4c54f9;
     }
 }
 
@@ -696,17 +699,22 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 
 .xm-popover>.popover-titter {
-    font-size: 20px;
+    font-size: 16px;
     margin-left: 15px;
+    color: #9ea2f9;
 }
 
 .xm-popover>ul>li {
     line-height: 25px;
     margin-left: 30px;
+    font-size: 12px;
+    color: #9ea2f9;
 }
 
 .xm-popover>.popover-hint {
     margin-left: 15px;
+    font-size: 12px;
+    color: #9ea2f9;
 }
 
 /*提币样式*/
@@ -721,20 +729,27 @@ input[type="number"]{-moz-appearance:textfield;}
     font-size: 18px;
     margin-left: 15px;
     margin-bottom: 5px;
+    font-size: 16px;
+    color: #9ea2f9;
 }
 
 .xm-pop>p {
     margin-left: 15px;
+    font-size: 12px;
+    color: #9ea2f9;
 }
 
 .xm-pop>.pop-titter-div {
     width: 725px;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 35px;
     padding-left: 10px;
     background: #5056E0;
     height: 35px;
     margin-left: 15px;
+    color: #fff;
+    outline: none;
+    border: none;
 }
 
 .xm-pop>ul {
@@ -744,16 +759,22 @@ input[type="number"]{-moz-appearance:textfield;}
 .xm-pop>ul>li {
     line-height: 20px;
     margin-left: 30px;
+    font-size: 12px;
+    color: #9ea2f9;
 }
 .xm-pop>.xm-can-ast {
+    span:first-child{
+        color: #fff;
+        font-size: 12px;
+        margin-right: 16px;
+    }
     position: absolute;
     top: 98px;
     right: 38px;
 }
 #xm_num{
-    position: absolute;
-    top: 182px;
-    left: 393px;
+    width: 380px;
+    float: left;
 }
 // 滚动条
 .vb > .vb-dragger {
@@ -808,3 +829,9 @@ input[type="number"]{-moz-appearance:textfield;}
     // background-color: rgba(48, 121, 244,.5);
     background-color: #344253;
 }
+
+//样式修改 ----孙家兴
+.breadcrumb >.el-breadcrumb>.findp>.el-breadcrumb__inner{color: #c2c3ca;font-size: 14px;}
+.breadcrumb >.el-breadcrumb>.sy>.el-breadcrumb__inner{color: #455266;font-size: 14px;}
+.findpassword_main_div_email_right>.el-input__inner{background: #151922;}
+//孙家兴以上

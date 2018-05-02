@@ -1,13 +1,14 @@
 <template>
-	<div class="coinoption" style="width: 1200px;height: 940px;">
+	<div class="coinoption" style="width: 987px;height: 940px;">
 		<div class="sjx_main">
 			<div class="sjx_section">
 				<!-- <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>财务记录</span> -->
 				<div class="section_title">
 					<div class="top-title">
 						总资产合计：{{balance}}
+						&nbsp;&nbsp;BTC<span style="font-size:14px;color:#344252;"> ≈ 559655 CNY</span>
 						<div class="quikc-nav">
-							<router-link class="quikc-link" to='/property/orderlist'>财务记录</router-link>
+							<router-link class="quikc-link" to='/property/orderlist' style="margin-right:26px;">财务记录</router-link>
 							<router-link class="quikc-link" to='/property/Address'>提币地址管理</router-link>
 						</div>
 					</div>
@@ -38,9 +39,9 @@
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
 							</el-popover>
-							<el-popover popper-class="xm-pop" ref="pop" offset=0 width="800" trigger="click" placement="bottom-end" content="提币">
+							<el-popover popper-class="xm-pop" ref="pop" offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
 								<p class="pop-titter">提币地址</p>
-								<div class="pop-titter-div">{{Mention}}</div>
+								 <input type="text" class="pop-titter-div" v-model="Mention" /><!--{{Mention}} -->
 								<p style="margin-top: 15px;">数量</p>
 								<p class="xm-can-ast">
 									<span>可提:{{can}}</span>
@@ -50,21 +51,25 @@
 								<input class="combo combo-text" v-model="count" @keyup='sendReq'>  
 								<span style="margin-right: 10px;">{{maney_type}}</span>
 								</span>
-								<p>手续费</p>
+								<div style="overflow:hidden;">
+								<div id="xm_num">
+								<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">手续费</p>
 								<span class="combo">  
-								<span class="combo combo-text1">{{fee}}</span>  
+								<input class="combo combo-text1" v-model="fee"/> 
 								<span>  
 								<span style="margin-right: 10px;">{{maney_type}}</span>
 								</span>
 								</span>
+								</div>
 								<div id="xm_num">
-									<p style="margin-left: 15px;">到账数量</p>
+									<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">到账数量</p>
 									<span class="combo" >  
-									<span class="combo combo-text2" >{{readAmount}}</span>
+									<input class="combo combo-text2" v-model="readAmount" />
 									<span>  
 									<span style="margin-right: 10px;">{{maney_type}}</span>
 									</span>
 									</span>
+								</div>
 								</div>
 								
 								<p class="popover-hint">温馨提示</p>
@@ -73,7 +78,7 @@
 									<li>为保障资金安全，当您账户安全策略变更、密码修改、使用新地址提币，我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
-								<button style="position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#b669fd;border: 0;border-radius: 2px;color: #FFFFFF;" @click="takecoin">提币</button>
+								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="takecoin">提币</button>
 							</el-popover>
 							<el-button v-popover:popover type="text" size="small" class='recharge' @click="rechargeCoin(scope.row)">充币</el-button>
 							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='withdrawCoin(scope.row)'>提币</el-button>
@@ -212,6 +217,7 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
+    li{list-style: none;}
 	.top-title {
 		font-size: 18px;
 		line-height: 32px;
@@ -222,9 +228,9 @@
 		text-align: left;
 	}
 	
-	.coinlist {
-		text-align: center;
-	}
+	// .coinlist {
+	// 	text-align: center;
+	// }
 	
 	
 	.combo {
@@ -261,6 +267,7 @@
 		vertical-align: baseline;
 		border: 0px solid;
 		width: 300px;
+		outline: none;
 	}
 	.combo .combo-text2 {
 		font-size: 18px;
@@ -271,11 +278,12 @@
 		vertical-align: baseline;
 		border: 0px solid;
 		width: 300px;
+		outline: none;
 	}
 	
 	
-	.sjx_main{width: 987px;background: #1a232c;overflow:hidden;}
-	.sjx_section{width: 890px;margin: 0 auto;height:940px;}
+	.sjx_main{width: 987px;background: #191f27;overflow:hidden;}
+	.sjx_section{width: 890px;margin: 0 auto;}
 	.section_title{border-bottom: 1px solid #232935;color: #525d6f;font-size: 12px;padding-top:20px;}
 	.section_title span{color: #c8cdd3;}
 	.quikc-nav{
