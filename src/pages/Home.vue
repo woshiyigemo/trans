@@ -6,7 +6,7 @@
         </div>
         <div class="main-wrapper">
             <div class="main-inner">
-                <div class="main_cat">
+                <div class="main_cat" style="display:none;">
                     <a href="javascript:void(0);">USD交易区</a>
                     <a href="">HKD交易区</a>
                     <a href="javascript:void(0);">BTC交易区</a>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="main_footer">
-                    <img src="@/assets/img/index6.png" witdh="100%">
+                    <img src="@/assets/img/ban2.jpg" witdh="100%">
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
-.banner{background:#202832 url('~@/assets/img/index1.png') no-repeat center;width:100%;height:580px;}
+.banner{background:#202832 url('~@/assets/img/ban.jpg') no-repeat center;width:100%;height:580px;}
 .ad{width:100%;height:60px;line-height:60px;background:#fffbf4;color:#ffa33e; text-align: center;} 
 .ad img{margin-top:-10px;margin-right:15px;}
 .main-wrapper{
