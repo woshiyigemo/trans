@@ -28,7 +28,7 @@
 							ref="popover" width="800" trigger="click">
 								<p class="popover-titter">充币地址</p>
 								<span>{{xm_dress}}</span>
-								<button @click='getData()'>{{xm_getdata}}</button>
+								<button @click='getRechargeAdd()'>{{xm_getdata}}</button>
 								<p class="popover-hint">温馨提示</p>
 								<ul>
 									<li>请勿向上述地址重置任何非BTC资产，否则资产将不可找回。</li>
@@ -75,7 +75,7 @@
 								</ul>
 								<button style="position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#b669fd;border: 0;border-radius: 2px;color: #FFFFFF;" @click="takecoin">提币</button>
 							</el-popover>
-							<el-button v-popover:popover type="text" size="small" class='chongbi'>充币</el-button>
+							<el-button v-popover:popover type="text" size="small" class='recharge'>充币</el-button>
 							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='scrolltop'>提币</el-button>
 						</template>
 					</el-table-column>
@@ -103,6 +103,13 @@
 				xm_dress: "",
 				Mention:"123DSA315sa3dAFSAASD",
 				maney_type:"BTC",
+				rechargeInfo:{
+					showAddress:false,
+					address:''
+				},
+				withdrawInfo:{
+
+				},
 				coinList: [{
 						type: 'USDT',
 						balance: 182.000000,
@@ -131,11 +138,12 @@
 			})
 		},
 		mounted() {
-			this.$nextTick(() => {
-				this.chongBiList = document.getElementsByClassName('chongbi');
-				this.tiBiList = document.getElementsByClassName('tibi');
-				this.chongBiList[this.chongBiList.length - 1].style.display = this.tiBiList[this.chongBiList.length - 1].style.display = 'none';
-			})
+			// this.$nextTick(() => {
+			// 	this.chongBiList = document.getElementsByClassName('recharge');
+			// 	this.tiBiList = document.getElementsByClassName('tibi');
+			// 	this.chongBiList[this.chongBiList.length - 1].style.display = this.tiBiList[this.chongBiList.length - 1].style.display = 'none';
+			// })
+			
 		},
 		methods: {
 			isInDealProcess() {
@@ -150,7 +158,6 @@
 						console.log(this.tiBiList[i].children[0],e.target)
 						if(this.tiBiList[i].children[0] === e.target) {
 							this.index = i;
-							alert(1)
 							this.maney_type=this.coinList[i].type
 							console.log(this.coinList[i].type)
 							break;
@@ -166,7 +173,6 @@
 				api.getAddress(data).then(res=>{
 					console.log(res)
 					if (res.error_code!=1000) {
-						alert("失败")
 					} else{
 						this.Mention=res.data[0]
 					}
@@ -182,23 +188,20 @@
 			
 				})
 			},
-			getData() {
-				console.log(1);
+			// 获取冲币地址
+			getRechargeAdd(){
 				var data = {
 					plate: "usdt"
 				}
-				api.dataId(data).then(res => {
-					console.log(res)
-					if(res.code) {
+				api.getRechargeAddress(data).then(res => {
+					if(res.error_code == 1000) {
 						this.xm_getdata = "复制"
-						this.xm_dress = res.data[0]
+						this.rechargeInfo.address = res.user_address
 					} else {
 
 					}
 					this.xm_getdata = res.data
-
 				})
-
 			},
 			sendReq(){
 				var data = {

@@ -4,7 +4,7 @@
             <div class="option">资产中心</div>
             <router-link class="option" active-class="option-active" to="/property/coinoption">冲币提币</router-link>
             <router-link class="option" active-class="option-active" to="/property/financialrecords">财务记录</router-link>
-            <router-link class="option" active-class="option-active" to="/property/addressmanagement">提币地址管理</router-link>
+            <router-link class="option" active-class="option-active" to="/property/withdrawaddressmanagement">提币地址管理</router-link>
         </div>
         <div class="real_right">
             <router-view/>
