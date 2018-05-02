@@ -974,9 +974,11 @@ export default {
     background: #191f27;
     overflow: hidden;
     white-space:nowrap; 
+    text-overflow: ellipsis;
     color:#c2c3ca;
     list-style-type: none;
-    padding-left:15px;
+    padding-left:12px;
+    padding-right: 12px;
     .notice-squre{
         width: 20px;
         display: inline-block;
@@ -989,6 +991,9 @@ export default {
         font-size: 14px;
         padding-top: 3px;
         padding-bottom: 3px;
+        overflow: hidden;
+        white-space:nowrap; 
+        text-overflow: ellipsis;
     }
 }
 
