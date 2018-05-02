@@ -87,7 +87,7 @@
                                             <div class="amount-label">
                                                 价格
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price" @change="computeLimitAmount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
                                                 <template slot="append">USDT</template>
                                             </el-input>
                                         </el-col>
@@ -95,7 +95,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount" @change="computeLimitAmount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
                                                 <template slot="append">BTC</template>
                                             </el-input>
                                         </el-col>
@@ -652,7 +652,7 @@ export default {
             }
         },
         computeLimitAmount(){
-            console.log(555555)
+            console.log(this.exchange.limitPriceDeal.price,this.exchange.limitPriceDeal.percent)
             if(this.exchange.limitPriceDeal.price == 0){
                 this.exchange.limitPriceDeal.amount = 0 
                 return
@@ -736,11 +736,11 @@ export default {
             const trade_type = $event.currentTarget.value == 'purchase'?1:2
 
             let reg = /\d*/
-            if(this.exchange.amount < 0 || !reg.test(this.exchange.amount)){
-                this.$message('交易数量大于等于0')
-                this.exchange.amount = 0
-                return
-            }
+            // if(this.exchange.amount < 0 || !reg.test(this.exchange.amount)){
+            //     this.$message('交易数量大于等于0')
+            //     this.exchange.amount = 0
+            //     return
+            // }
             
             
             var deal = this.exchange.orderType == 'limitprice'?this.exchange.limitPriceDeal:this.exchange.marketPriceDeal
@@ -751,7 +751,7 @@ export default {
                 return
             }
             var data = {
-                currency:'btc',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
+                currency:'usdt',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
                 order_amount:deal.amount,  //订单数量
                 order_price:Number(deal.price),          //订单价格
                 order_type:orderType,                    //订单类型，0 限价单，1市价单
