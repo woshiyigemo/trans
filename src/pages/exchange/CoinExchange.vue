@@ -746,7 +746,7 @@ export default {
             var deal = this.exchange.orderType == 'limitprice'?this.exchange.limitPriceDeal:this.exchange.marketPriceDeal
 
             var orderType = this.exchange.orderType == 'limitprice'?0:1
-            if(this.exchange.amount * price  > this.exchange.balance){
+            if(this.exchange.orderType == 0 && this.exchange.limitPriceDeal.amount * this.exchange.limitPriceDeal.price  > this.exchange.balance){
                 this.$message('交易额超过当前账户余额')
                 return
             }
