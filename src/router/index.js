@@ -5,6 +5,7 @@ import User from '@/pages/user/User'
 import Slider from '@/components/Slider'
 import Login from '@/pages/user/Login'
 import FindPwd from '@/pages/user/FindPwd'
+import FindPinCode from '@/pages/user/FindPinCode'
 import Regist from '@/pages/user/Regist'
 
 
@@ -108,6 +109,12 @@ const router =  new Router({
               path: 'findpassword/:type/',
               name: 'findpassword',
               component: FindPwd
+            },
+            {
+              // 找回/修改登录密码
+              path: 'findpincode',
+              name: 'findpincode',
+              component: FindPinCode
             }
           ]
         },

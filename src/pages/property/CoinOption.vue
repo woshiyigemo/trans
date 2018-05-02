@@ -282,25 +282,7 @@
 		width: 300px;
 	}
 	
-	.xm-pop>.xm-can-ast {
-		position: absolute;
-		top: 98px;
-		right: 38px;
-	}
-	#xm_num{
-		position: absolute;
-		top: 182px;
-		left: 393px;
-	}
-	table tbody tr td button{
-		padding:0 !important;
-			}
-	table tbody tr td button span {
-		display: block;
-		width: 100%;
-		height:100%;
-	}
-
+	
 	.sjx_main{width: 987px;background: #1a232c;overflow:hidden;}
 	.sjx_section{width: 890px;margin: 0 auto;height:940px;}
 	.section_title{border-bottom: 1px solid #232935;color: #525d6f;font-size: 12px;padding-top:20px;}

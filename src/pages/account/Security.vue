@@ -107,7 +107,7 @@ export default {
             this.$router.replace({name:'findpassword',params:{type:1}})
         },
         changePinCode(){
-            this.$router.replace({name:'findpassword',params:{type:2}})
+            this.$router.replace({name:'findpincode',params:{type:1}})
         },
         changePinCode(){
             this.pinCodeModalVisible = true

@@ -100,7 +100,7 @@ export default {
         this.$router.push({name:'regist'})
     },
     forgetPwd(){
-        this.$router.push({name:'findpassword'})
+        this.$router.push({name:'findpassword',params:{type:2}})
     }
   }
 }
