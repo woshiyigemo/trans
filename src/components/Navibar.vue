@@ -1,6 +1,6 @@
 <template>
     <div class="index_top_t">
-        <div class="logo"></div>
+        <div class="logo" @click="goHome"></div>
         <div class="nav">
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
             <router-link class="navbar" active-class="navbar-active" to="/exchange/coinexchange">币币交易</router-link>
@@ -53,9 +53,8 @@ export default {
         
     },
     methods:{
-        // 获取信息
-        getInfo(){
-
+        goHome(){
+            this.$router.replace({name:home})
         }
     }
 }

@@ -62,6 +62,11 @@ const router =  new Router({
               path: 'financialrecords',
               name: 'financialrecords',
               component: FinancialRecords
+            },
+            {
+              path: 'withdrawaddressmanagement',
+              name: 'withdrawaddressmanagement',
+              component:WithDrawAddressManagement
             }
           ]
         },
@@ -85,11 +90,6 @@ const router =  new Router({
               path: 'security',
               name: 'security',
               component: Security
-            },
-            {
-              path: 'withdrawaddressmanagement',
-              name: 'withdrawaddressmanagement',
-              component:WithDrawAddressManagement
             }
           ]
         },

@@ -1,8 +1,4 @@
 <template>
-  <div style="width: 1200px;height: 940px;margin: 0 auto;overflow: hidden;margin-top: 40px;">
-    <div class="zuo">
-
-    </div>
     <div class="sjx_main">
       <div class="sjx_section">
         <div class="sjx_sec1">
@@ -10,7 +6,7 @@
           <div class="address">
             <div class="address_left">
               <p>币种</p>
-              <el-select v-model="selectedCoinType" clearable placeholder="">
+              <el-select v-model="selectedCoin" clearable placeholder="">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -22,7 +18,7 @@
             <div class="address_right">
               <p>地址</p>
               <div class="right_sec">
-                <input type="text" v-model="newAddress"/>
+                <input type="text" v-model="verifyInfo.newAddress"/>
                 <button @click="preAddAddress">添加</button>
               </div>
             </div>
@@ -34,7 +30,7 @@
         <div class="address_list">
           <div class="address_list_title">地址列表</div>
           <div class="address_list_section">
-            <ul class="clear">
+            <ul class="clear-head">
               <li>
                 <p>币种</p>
               </li>
@@ -59,151 +55,155 @@
           </div>
         </div>
       </div>
+      <!-- 模态框 -->
+      <el-dialog
+        title="安全验证"
+        :visible.sync="addingAddress"
+        width="394px"
+        center>
+        <div class="login_div_password login_div_password2">
+          <el-input class="pwd_input" type="text" v-model="userEmail" placeholder="输入邮箱地址"></el-input>
+        </div>
+        <div class="login_div_password">
+            <el-input class="pwd_input" type="password" v-model="verifyInfo.mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
+            <button class="pwd_btn" @click="getTakeCoinVerifyCode">发送验证码</button>
+        </div>
+        <div class="login_div_password">
+            <el-input class="pwd_input" type="password" v-model="verifyInfo.pinCode" placeholder="交易密码填写"></el-input>
+        </div>
+        <span slot="footer" class="dialog-footer">
+                  <el-button class="dialog-confirm-btn" @click="addAddress">确 定</el-button>
+              </span>
+      </el-dialog>
     </div>
-    <!-- 模态框 -->
-    <el-dialog
-      title="安全验证"
-      :visible.sync="addingAddress"
-      width="394px"
-      center>
-      <div class="login_div_password login_div_password2">
-        <el-input class="pwd_input" type="text" v-model="userEmail" placeholder="输入邮箱地址"></el-input>
-      </div>
-      <div class="login_div_password">
-          <el-input class="pwd_input" type="password" v-model="mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
-          <button class="pwd_btn" @click="getTakeCoinVerifyCode">发送验证码</button>
-      </div>
-      <div class="login_div_password">
-          <el-input class="pwd_input" type="password" v-model="pinCode" placeholder="交易密码填写"></el-input>
-      </div>
-      <span slot="footer" class="dialog-footer">
-                <el-button class="dialog-confirm-btn" @click="addAddress">确 定</el-button>
-            </span>
-    </el-dialog>
-  </div>
 </template>
 <script>
-  export default {
-    name:'WithDrawAddressManagement',
-    data(){
-      return{
-        addingAddress:false,
-        userEmail:'',
-        verifyInfo:{
-          newAddress:'',
-          pinCode:'',
-          mailCode:''
-        },
-        options: [{
-          value: 'BTC',
-          label: 'BTC'
-        }],
-        selectedCoin:{
-          value: 'BTC',
-          label: 'BTC'
-        },
-        addressList:[]
-      }
+import { api } from '@/static/api'
+export default {
+  name:'WithDrawAddressManagement',
+  data(){
+    return{
+      addingAddress:false,
+      userEmail:'',
+      verifyInfo:{
+        newAddress:'',
+        pinCode:'',
+        mailCode:''
+      },
+      options: [{
+        value: 'BTC',
+        label: 'BTC'
+      }],
+      selectedCoin:{
+        value: 'BTC',
+        label: 'BTC'
+      },
+      addressList:[]
+    }
+  },
+  created(){
+    console.log(777777)
+    this.getAddressList()
+  },
+  methods:{
+    // 发送验证邮件
+    getTakeCoinVerifyCode(){
+      api.getTakeCoinVerifyCode()
+      .then(res => {
+        if(res.error_code == 1000){
+          this.$message({
+            message: '发送成功',
+            type: 'success'
+          })
+        }else{
+          this.$message({
+            message:res.error_desc,
+            type: 'error'
+          })
+        }
+      }).catch(err => {
+
+      })
     },
-    methods:{
-      // 发送验证邮件
-      getTakeCoinVerifyCode(){
-        api.getTakeCoinVerifyCode()
-        .then(res => {
-          if(res.error_code == 1000){
+    // 弹出验证窗口
+    preAddAddress(){
+        this.addingAddress = true
+    },
+    // 重置弹出框
+    resetPop(){
+      this.addingAddress = false
+      this.verifyInfo.pinCode = ''
+      this.mailCode = ''
+      this.userEmail =''
+    },
+    // 添加地址
+    addAddress(){
+      if(this.newAddress == '' || this.mailCode == ''){
             this.$message({
-              message: '发送成功',
-              type: 'success'
-            })
-          }else{
-            this.$message({
-              message:res.error_desc,
-              type: 'error'
-            })
-          }
-        }).catch(err => {
-
-        })
-      },
-      // 弹出验证窗口
-      preAddAddress(){
-          this.addingAddress = true
-      },
-      // 重置弹出框
-      resetPop(){
-        this.addingAddress = false
-        this.verifyInfo.pinCode = ''
-        this.mailCode = ''
-        this.userEmail =''
-      },
-      // 添加地址
-      addAddress(){
-        if(this.newAddress == '' || this.mailCode == ''){
-             this.$message({
-              message: '请先填写地址和邮箱验证码',
-              type: 'error'
-            })
-            return
-        }
-        var data = {
-          coin_name: this.selectedCoin.value,         // 币英文名称
-          address: this.newAddress,         // 提币地址
-          password: this.pinCode,         // 交易密码
-          code:this.mailCode                 //邮箱验证码
-        }
-        this.resetPop()
-        api.addTakecoinAddress(data)
-        .then(res => {
-          if(res.error_code == 1000){
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            })
-            this.getAddressList()
-          }else{
-            this.$message({
-              message:res.error_desc,
-              type: 'error'
-            })
-          }
-        }).catch(err => {
-
-        })
-      },
-      // 删除地址
-      deleteAddress(item){
-        var data = {
-          address_id:item.address_id
-        }
-        api.deleteWithdrawAddress()
-        .then(res => {
-          if(res.error_code == 1000){
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.getAddressList()
-          }
-        }).catch(err => {
-
-        })
-      },
-      // 获取提币地址列表
-      getAddressList(){
-        api.withdrawAddressList()
-        .then(res => {
-          if(res.error_code == 1000){
-            this.addressList = res.data
-          }else{
-            this.$message({
-              message: res.error_desc,
-              type: 'error'
-            })
-          }
-        }).catch(err => {})
+            message: '请先填写地址和邮箱验证码',
+            type: 'error'
+          })
+          return
       }
+      var data = {
+        coin_name: this.selectedCoin.value,         // 币英文名称
+        address: this.newAddress,         // 提币地址
+        password: this.pinCode,         // 交易密码
+        code:this.mailCode                 //邮箱验证码
+      }
+      this.resetPop()
+      api.addTakecoinAddress(data)
+      .then(res => {
+        if(res.error_code == 1000){
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+          this.getAddressList()
+        }else{
+          this.$message({
+            message:res.error_desc,
+            type: 'error'
+          })
+        }
+      }).catch(err => {
+
+      })
+    },
+    // 删除地址
+    deleteAddress(item){
+      var data = {
+        address_id:item.address_id
+      }
+      api.deleteWithdrawAddress()
+      .then(res => {
+        if(res.error_code == 1000){
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.getAddressList()
+        }
+      }).catch(err => {
+
+      })
+    },
+    // 获取提币地址列表
+    getAddressList(){
+      api.withdrawAddressList()
+      .then(res => {
+        if(res.error_code == 1000){
+          this.addressList = res.data
+        }else{
+          this.$message({
+            message: res.error_desc,
+            type: 'error'
+          })
+        }
+      }).catch(err => {})
     }
   }
+}
 </script>
 <style rel="stylesheet/scss" scoped>
   li{list-style: none;}
@@ -234,6 +234,15 @@
   .clear li:nth-child(3){width: 130px;text-align: center;}
   .clear li p:first-child{line-height: 40px;color: #5b6777;font-size: 12px;}
   .clear li p:nth-child(2){line-height: 40px;color: #fafeff;font-size: 14px;}
+
+  .address_list_section_head{width: 890px;border-bottom: 1px solid #232935;}
+  .clear-head{overflow: hidden;}
+  .clear-head li{float: left;}
+  .clear-head li:first-child{width: 100px;text-align: center;}
+  .clear-head li:nth-child(2){width: 660px;}
+  .clear-head li:nth-child(3){width: 130px;text-align: center;}
+  .clear-head li p:first-child{line-height: 40px;color: #5b6777;font-size: 12px;}
+  .clear-head li p:nth-child(2){line-height: 40px;color: #fafeff;font-size: 14px;}
 
   .login_div_user,.login_div_password{margin-left: auto;
     margin-right: auto;margin-top:25px;width:310px;height:60px;background:url('~@/assets/img/index8.png') no-repeat left;border-bottom:1px solid #efeff0;padding-left:30px;position:relative;}

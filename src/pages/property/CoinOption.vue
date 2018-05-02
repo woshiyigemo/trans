@@ -13,7 +13,7 @@
 					</div>
 				</div>
 				
-				<el-table class="exchange-table coinlist" :data="coinList" style="width: 100%">
+				<el-table class="exchange-table coinlist" :data="assetslist" style="width: 100%">
 					<el-table-column prop="type" label="币种">
 					</el-table-column>
 					<el-table-column prop="balance" label="可用">
@@ -75,8 +75,8 @@
 								</ul>
 								<button style="position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#b669fd;border: 0;border-radius: 2px;color: #FFFFFF;" @click="takecoin">提币</button>
 							</el-popover>
-							<el-button v-popover:popover type="text" size="small" class='recharge'>充币</el-button>
-							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='scrolltop'>提币</el-button>
+							<el-button v-popover:popover type="text" size="small" class='recharge' @click="rechargeCoin(scope.row)">充币</el-button>
+							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='withdrawCoin(scope.row)'>提币</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -110,7 +110,7 @@
 				withdrawInfo:{
 
 				},
-				coinList: [{
+				assetslist: [{
 						type: 'USDT',
 						balance: 182.000000,
 						frozen: 182.00000,
@@ -119,23 +119,14 @@
 						type: 'BTC',
 						balance: 182.000000,
 						frozen: 182.00000,
-					}, {}
+					}
 				]
 			}
 		},
 		computed:{
 		},
-		components: {
-
-		},
 		created() {
-			var data={
-				count:10,
-				coin_name_en:"btc"
-			}
-			api.authentication(data).then(res=>{
-
-			})
+			this.getAssetsList()
 		},
 		mounted() {
 			// this.$nextTick(() => {
@@ -151,35 +142,7 @@
 					console.log('hahahaha', this.$route.params.dealId, this.$route.params.type)
 				}
 			},
-			scrolltop(e) {
-				this.$nextTick(()=> {
-					document.documentElement.scrollTop += 40;
-					for(var i = 0; i < this.tiBiList.length; i++) {
-						console.log(this.tiBiList[i].children[0],e.target)
-						if(this.tiBiList[i].children[0] === e.target) {
-							this.index = i;
-							this.maney_type=this.coinList[i].type
-							console.log(this.coinList[i].type)
-							break;
-						}
-					}
-				});
-				
-				
-				
-				var data = {
-					 coin_name: "BTC"
-				}
-				api.getAddress(data).then(res=>{
-					console.log(res)
-					if (res.error_code!=1000) {
-					} else{
-						this.Mention=res.data[0]
-					}
-				})
 
-
-			},
 			takecoin(){
 					var data = {
 					 coin_name_en:this.maney_type
@@ -187,6 +150,30 @@
 					api.ationbtn(data).then(res => {
 			
 				})
+			},
+			// 获取资产列表
+			getAssetsList(){
+				api.getAssetslist()
+				.then(res => {
+					if(res.error_code == 1000){
+						this.assetslist = res.assets_list
+					}else{
+						this.$message({
+							message:res.error_desc,
+							type: 'error'
+						})
+					}
+				}).catch(err => {
+
+				})
+			},
+			// 冲币
+			rechargeCoin(row){
+				console.log(row)
+			},
+			// 提币
+			withdrawCoin(row){
+				console.log(row)
 			},
 			// 获取冲币地址
 			getRechargeAdd(){
@@ -232,6 +219,7 @@
 		color: #c2c3ca;
 		margin-bottom: 15px;
 		position: relative;
+		text-align: left;
 	}
 	
 	.coinlist {
