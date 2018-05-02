@@ -142,25 +142,25 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
  li{list-style: none;}
-  .sjx_main{width: 987px;height: 940px;background: #1a232c;}
+  .sjx_main{width: 987px;}
   .sjx_section{width: 890px;margin: 0 auto;height:940px;}
-  .section_title{line-height: 87px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 12px;}
+  .section_title{line-height: 87px;border-bottom: 1px solid #202234;color: #525d6f;font-size: 12px;}
   .section_title span{color: #c8cdd3;}
-  .sjx_btn{height:92px;border-bottom: 1px solid #232935;overflow: hidden;}
-  .btn_section{width: 220px;height: 34px;margin: 28px auto;}
-  .btn_section p{width:110px;height: 34px;line-height: 34px;float: left;text-align: center;color: #bcbfc8;cursor: pointer;background: #24263b;}
+  .sjx_btn{height:92px;border-bottom: 1px solid #202234;overflow: hidden;}
+  .btn_section{width: 220px;height: 34px;margin: 30px auto;border-radius: 2px;overflow: hidden;}
+  .btn_section p{width:110px;height: 34px;line-height: 34px;float: left;text-align: center;font-size:14px;color: #bcbfc8;cursor: pointer;background: #202234;}
   /*切换按钮*/
-  .active{background: #585efa!important;color: #f6fbff!important;}
+  .active{background: #4c54f9!important;color: #f6fbff!important;}
   /* 充币内容 */
-  .charge_title{width:915px;height: 53px;border-bottom: 1px solid #232935;}
-  .charge_title li{line-height: 53px;float: left;}
+  .charge_title{width:890px;height: 53px;border-bottom: 1px solid #202234;}
+  .charge_title li{line-height: 53px;float: left;font-size: 12px;color: #4d5f77;}
   .charge_title li:first-child{width:222px;;text-indent: 30px;}
   .charge_title li:nth-child(2){width: 217px;text-align: center;}
   .charge_title li:nth-child(3){width: 275px;text-align: center;}
   .charge_title li:nth-child(4){width: 174px;text-align: center;}
-  .charge li{color:#dee1e8;}
+  .charge li{color:#ddd;font-size: 14px;}
   /* 提币内容*/
-  .charge_title2 li:first-child{width: 190px;}
+  .charge_title2 li:first-child{width: 185px;}
   .charge_title2 li:nth-child(2){width: 118px;}
   .charge_title2 li:nth-child(3){width: 154px;}
   .charge_title2 li:nth-child(4){width: 130px;}
