@@ -85,7 +85,13 @@
                         prop="untreated"
                         label="未成交">
                     </el-table-column>
+                    <el-table-column type="expand"
+                        prop=""
+                        label="操作">
+                    </el-table-column>
                     </el-table>
+
+                    
                 </el-tab-pane>
                 <el-tab-pane label="成交明细" name="detail">
                     <el-table
