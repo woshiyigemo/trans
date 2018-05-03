@@ -125,12 +125,6 @@ const router =  new Router({
           ]
         },
         {
-          // 找回/修改交易密码
-          path: 'findpincode',
-          name: 'findpincode',
-          component: FindPwd
-        },
-        {
           // 交易面板
           path: 'exchange/coinexchange',
           name: 'coinexchange',

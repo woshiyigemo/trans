@@ -3,10 +3,8 @@
         <div class="login_div_top">登录</div>
         <div class="login_div_user">
             <el-tooltip class="item" effect="red" manual :value="isEmailErr" :content="err.errMsg||''" placement="right">
-                <el-input class="username_input" @focus="clearEmailToolTip" v-model="email" placeholder="邮箱"></el-input>
+                <el-input class="username_input" type="text" @focus="clearEmailToolTip" v-model="email" placeholder="邮箱"></el-input>
             </el-tooltip>
-            <!-- <input type="text">
-            <div class="login_error login_error_1">123123</div> -->
         </div>
         <div class="login_div_password">
             <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">

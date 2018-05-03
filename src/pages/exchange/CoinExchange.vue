@@ -85,7 +85,7 @@
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
-                                                价格
+                                                数量
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
                                                 <template slot="append">USDT</template>
@@ -199,7 +199,7 @@
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
                                     <div class="mycoin-list" v-for="(item,index) in mycoins" :key="index">
-                                        <span class="rel1">{{item.plate_en.toUpperCase()}}</span>
+                                        <span class="rel1">{{item.currency.toUpperCase()}}</span>
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
                                         <span class="rel4">

@@ -102,7 +102,6 @@ export default {
     }
   },
   created(){
-    console.log(777777)
     this.getAddressList()
   },
   methods:{

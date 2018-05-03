@@ -14,7 +14,7 @@
 					</div>
 				</div>
 				
-				<el-table class="exchange-table coinlist" :data="assetslist" style="width: 100%">
+				<el-table class="exchange-table coinlist" :data="assetsList" style="width: 100%">
 					<el-table-column prop="currency" label="币种">
 					</el-table-column>
 					<el-table-column prop="available" label="可用">
@@ -28,8 +28,12 @@
 							placement="bottom-end"
 							ref="popover" width="800" trigger="click">
 								<p class="popover-titter">充币地址</p>
-								<span>{{xm_dress}}</span>
-								<button @click='getRechargeAdd()'>{{xm_getdata}}</button>
+								<button @click="rechargeCoin()">充币地址申请</button>
+								<span>{{rechargeInfo.rechargeAddress}}</span>
+								<button type="button"
+									v-clipboard:copy="rechargeInfo.rechargeAddress"
+									v-clipboard:success="onCopy"
+									v-clipboard:error="onError">复制</button>
 								<p class="popover-hint">温馨提示</p>
 								<ul>
 									<li>请勿向上述地址重置任何非BTC资产，否则资产将不可找回。</li>
@@ -48,7 +52,7 @@
 									<span>限额:{{astrict}}</span>
 								</p>
 								<span class="combo">  
-								<input class="combo combo-text" v-model="count" @keyup='sendReq'>  
+								<input class="combo combo-text" v-model="withdraw.amount" @keyup='sendReq'>  
 								<span style="margin-right: 10px;">{{maney_type}}</span>
 								</span>
 								<div style="overflow:hidden;">
@@ -80,7 +84,7 @@
 								</ul>
 								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="takecoin">提币</button>
 							</el-popover>
-							<el-button v-popover:popover type="text" size="small" class='recharge' @click="rechargeCoin(scope.row)">充币</el-button>
+							<el-button v-popover:popover type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
 							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='withdrawCoin(scope.row)'>提币</el-button>
 						</template>
 					</el-table-column>
@@ -104,27 +108,23 @@
 				fee:0,
 				readAmount:0,
 				astrict: 100000.00000000,
-				xm_getdata: "充币地址申请",
-				xm_dress: "",
 				Mention:"123DSA315sa3dAFSAASD",
 				maney_type:"BTC",
 				rechargeInfo:{
 					showAddress:false,
-					address:''
+					rechargeAddress:'123DSA315sa3dAFSAASD',
+					plate:''
 				},
 				withdrawInfo:{
-
+					avaliable:3.9542,
+					amount:0
 				},
-				assetslist: [{
-						type: 'USDT',
-						balance: 182.000000,
-						frozen: 182.00000,
-					},
-					{
-						type: 'BTC',
-						balance: 182.000000,
-						frozen: 182.00000,
-					}
+				assetsList: [
+					// {
+					// 	currency: 'BTC',
+					// 	available: 182.000000,
+					// 	frozen: 182.00000,
+					// }
 				]
 			}
 		},
@@ -142,12 +142,18 @@
 			
 		},
 		methods: {
-			isInDealProcess() {
-				if(this.$route.params.dealId && this.$route.params.type) {
-					console.log('hahahaha', this.$route.params.dealId, this.$route.params.type)
-				}
+			onCopy: function (e) {
+				this.$message({
+					message:'复制成功',
+					type:'sucess'
+				})
 			},
-
+			onError(){
+				this.$message({
+					message:'复制失败，请重试',
+					type:'error'
+				})
+			},
 			takecoin(){
 					var data = {
 					 coin_name_en:this.maney_type
@@ -161,7 +167,7 @@
 				api.getAssetslist()
 				.then(res => {
 					if(res.error_code == 1000){
-						this.assetslist = res.assets_list
+						this.assetsList = res.assets_list
 					}else{
 						this.$message({
 							message:res.error_desc,
@@ -172,32 +178,33 @@
 
 				})
 			},
-			// 冲币
+			// 点击提币按钮
+			openRechargeDialog(row){
+				this.rechargeInfo.plate = row.currency
+			},
+			// 获取冲币地址
 			rechargeCoin(row){
 				console.log(row)
+				var data = {
+					plate:this.rechargeInfo.plate
+				}
+				api.getRechargeAddress(data)
+				.then(res => {
+					if(res.error_code == 1000){
+						row.address = res.user_address
+						this.rechargeInfo.showAddress = true
+						console.log(this.assetsList)
+					}
+				}).catch(err => {})
 			},
 			// 提币
 			withdrawCoin(row){
 				console.log(row)
 			},
 			// 获取冲币地址
-			getRechargeAdd(){
-				var data = {
-					plate: "usdt"
-				}
-				api.getRechargeAddress(data).then(res => {
-					if(res.error_code == 1000) {
-						this.xm_getdata = "复制"
-						this.rechargeInfo.address = res.user_address
-					} else {
-
-					}
-					this.xm_getdata = res.data
-				})
-			},
 			sendReq(){
 				var data = {
-					count:this.count,
+					count:this.withdrawInfo.amount,
 					coin_name_en:this.coinList[this.index]
 				};
 				api.dataId(data).then(res => {
