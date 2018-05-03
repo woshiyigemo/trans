@@ -215,6 +215,7 @@ export default {
 <style lang='scss' scoped>
 .order-container{
     width: 1200px;
+    height: 940px;
     margin: 0 auto;
     background-color: #1a232c;
     margin-top: 30px;
