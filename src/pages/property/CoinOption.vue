@@ -15,9 +15,9 @@
 				</div>
 				
 				<el-table class="exchange-table coinlist" :data="assetslist" style="width: 100%">
-					<el-table-column prop="type" label="币种">
+					<el-table-column prop="currency" label="币种">
 					</el-table-column>
-					<el-table-column prop="balance" label="可用">
+					<el-table-column prop="available" label="可用">
 					</el-table-column>
 					<el-table-column prop="frozen" label="冻结">
 					</el-table-column>
