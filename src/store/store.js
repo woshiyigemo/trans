@@ -11,7 +11,7 @@ const store = new Vuex.Store({
         id:0,                 //用户id
         name:'',             //用户名
         email:'',            //用户邮箱
-        hasSettedPincode:2,   //是否设置了交易密码 1是2否
+        hasSettedPincode:0,   //是否设置了交易密码 1是0否
         authState:1         //认证状态 1未认证 2认证被拒绝 3认证中 4已认证
       }
     },
@@ -33,7 +33,7 @@ const store = new Vuex.Store({
         state.userInfo.nationality =  1
         state.userInfo.name = ''
         state.userInfo.email = ''
-        state.userInfo.hasSettedPincode  = 1
+        state.userInfo.hasSettedPincode  = 0
         state.userInfo.authState = 1
         VueCookies.remove('__uinfo')
       },
@@ -57,7 +57,7 @@ const store = new Vuex.Store({
       authState(state){
         return state.userInfo.authState
       },
-      hasSettedPincode(){
+      hasSettedPincode(state){
         return state.userInfo.hasSettedPincode
       }
     },

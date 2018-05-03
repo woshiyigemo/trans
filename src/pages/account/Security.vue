@@ -20,7 +20,7 @@
             <li>资金密码:</li>
             <li>{{defaultPinCode}}</li>
             <li v-if="hasSettedPinCode == 1" class="capitalpwd" @click="changePinCode">修改</li>
-            <li v-if="hasSettedPinCode == 2" class="notset"  @click="changePinCode">设置</li>
+            <li v-if="hasSettedPinCode == 0" class="notset"  @click="changePinCode">设置</li>
         </ul>
         </div>
         <div class="account ">

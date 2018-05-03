@@ -38,7 +38,9 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     console.log(response.data);
 // 对响应数据做点什么
-    if(response.data && response.data.error_code && (response.data.error_code == 2015)){
+    if(response.data && response.data.error_code && response.data.error_code == 1000){
+        // 直接返回
+    }else if(response.data && response.data.error_code && response.data.error_code == 2015){
         Message({
             message: '登录超时，请重新登录',
             type: 'error'
@@ -46,20 +48,27 @@ instance.interceptors.response.use(function (response) {
         VueCookies.remove('__uinfo')
         router.push({name:'login'})
         console.log(1111,'403错误')
+    }else if(response.data && response.data.error_code && response.data.error_code == 4003){
+        // 未设置交易密码
+        Message({
+            message: '请先设置交易密码，3秒后跳转',
+            type: 'error'
+        })    
+        // setTimeout(function(){
+        //     router.push({name:'security'})
+        // },3000)
     }else if(response.status < 200 || response.status >= 300){
         Message({
             message: '网络错误，刷新网页重试',
             type: 'error'
         })
-    }else if(response.data){
+    }else{
         var usinfo = VueCookies.get('__uinfo')
         VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
         console.log(22222,'正确',response)
-    }else{
-        console.log(3333,'其他接口错误')
     }
     response = response.data
-return response;
+    return response;
 }, function (error) {
 // 对响应错误做点什么
     return Promise.reject(error);
@@ -164,18 +173,7 @@ const api = {
     getRechargeAddress(data){
         return instance.post('/assets/rechargeaddress', data)
     },
-    //获取提币地址
-    getAddress(data){
-        return instance.post('/assets/gettakecoinaddress', data)
-    },
-    //提币计算
-    authentication(data){
-        return instance.post('/assets/authentication', data)
-    },
-    //提币按钮
-    ationbtn(data){
-        return instance.post('/assets/takecoin', data)
-    },
+
     //资产中心-财务记录（充币记录）
     assetschargemoney(data){
         return instance.get('/assets/assetschargemoney?page=' + data.page)
@@ -201,8 +199,23 @@ const api = {
         return instance.post('/assets/sendaddtakecoinaddressemail', data)
     },
     // 添加提币地址
-    addTakecoinAddress(data){
+    addWithdrawAddress(data){
         return instance.post('/assets/addtakecoinaddress', data)
+    },
+    //获取提币地址
+    getWithdrawAddress(data){
+        return instance.post('/assets/gettakecoinaddress', data)
+    },
+     //提币手续费接口
+    calWithdrawFee(data){
+        return instance.post('/assets/getpoundage', data)
+    },
+    sendWithdrawCode(data){
+        return instance.post('/assets/sendtakecoinemail', data)
+    },
+    //提币按钮
+    withdrawCoin(data){
+        return instance.post('/assets/takecoin', data)
     }
 }
 export {api, handleError, handleStatusCode}

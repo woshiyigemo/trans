@@ -2,7 +2,6 @@
 	<div class="coinoption" style="width: 987px;height: 940px;">
 		<div class="sjx_main">
 			<div class="sjx_section">
-				<!-- <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>财务记录</span> -->
 				<div class="section_title">
 					<div class="top-title">
 						总资产合计：{{balance}}
@@ -28,9 +27,9 @@
 							placement="bottom-end"
 							ref="popover" width="800" trigger="click">
 								<p class="popover-titter">充币地址</p>
-								<button @click="rechargeCoin()">充币地址申请</button>
-								<span>{{rechargeInfo.rechargeAddress}}</span>
-								<button type="button"
+								<button v-if="!rechargeInfo.showAddress"  @click="rechargeCoin">充币地址申请</button>
+								<div v-if="rechargeInfo.showAddress">{{rechargeInfo.rechargeAddress}}</div>
+								<button v-if="rechargeInfo.showAddress" type="button"
 									v-clipboard:copy="rechargeInfo.rechargeAddress"
 									v-clipboard:success="onCopy"
 									v-clipboard:error="onError">复制</button>
@@ -45,33 +44,38 @@
 							</el-popover>
 							<el-popover popper-class="xm-pop" ref="pop" offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
 								<p class="pop-titter">提币地址</p>
-								 <input type="text" class="pop-titter-div" v-model="Mention" /><!--{{Mention}} -->
+								 <!-- <input type="text" class="pop-titter-div" v-model="Mention" /> -->
+								 <span class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</span>
 								<p style="margin-top: 15px;">数量</p>
 								<p class="xm-can-ast">
-									<span>可提:{{can}}</span>
-									<span>限额:{{astrict}}</span>
+									<span>可提:{{withdrawInfo.avaliable}}</span>
+									<span>限额:{{withdrawInfo.realAmount}}</span>
 								</p>
 								<span class="combo">  
-								<input class="combo combo-text" v-model="withdraw.amount" @keyup='sendReq'>  
-								<span style="margin-right: 10px;">{{maney_type}}</span>
+								<input class="combo combo-text" v-model="withdrawInfo.amount" @keyup.native="calFee">  
+								<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
 								</span>
 								<div style="overflow:hidden;">
 								<div id="xm_num">
 								<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">手续费</p>
 								<span class="combo">  
-								<input class="combo combo-text1" v-model="fee"/> 
+								<!-- <input class="combo combo-text1" v-model="fee"/>  -->
+								<span class="combo combo-text1">{{withdrawInfo.fee}}</span>
 								<span>  
-								<span style="margin-right: 10px;">{{maney_type}}</span>
+								<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
 								</span>
 								</span>
 								</div>
 								<div id="xm_num">
 									<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">到账数量</p>
 									<span class="combo" >  
-									<input class="combo combo-text2" v-model="readAmount" />
-									<span>  
-									<span style="margin-right: 10px;">{{maney_type}}</span>
-									</span>
+										<!-- <input class="combo combo-text2" v-model="readAmount" /> -->
+										<span class="combo combo-text2">
+											{{withdrawInfo.realAmount}}
+										</span>
+										<span>  
+											<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
+										</span>
 									</span>
 								</div>
 								</div>
@@ -82,15 +86,35 @@
 									<li>为保障资金安全，当您账户安全策略变更、密码修改、使用新地址提币，我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
-								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="takecoin">提币</button>
+								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
 							</el-popover>
 							<el-button v-popover:popover type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
-							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='withdrawCoin(scope.row)'>提币</el-button>
+							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 			</div>
 		</div>
+		<!-- 模态框 -->
+		<el-dialog
+			title="安全验证"
+			:visible.sync="withdrawInfo.showVarifyModal"
+			width="394px"
+			center>
+			<div class="login_div_password login_div_password2">
+			<el-input class="pwd_input" type="text" v-model="verifyInfo.userEmail" placeholder="输入邮箱地址"></el-input>
+			</div>
+			<div class="login_div_password">
+				<el-input class="pwd_input" type="password" v-model="verifyInfo.mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
+				<button class="pwd_btn" @click="getTakeCoinVerifyCode">发送验证码</button>
+			</div>
+			<div class="login_div_password">
+				<el-input class="pwd_input" type="password" v-model="verifyInfo.pinCode" placeholder="交易密码填写"></el-input>
+			</div>
+			<span slot="footer" class="dialog-footer">
+					<el-button class="dialog-confirm-btn" @click="withdrawCoin">确 定</el-button>
+				</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -103,21 +127,27 @@
 				index:0,
 				balance: 0.173617413,
 				can: 3.9542,
-				count:0,
-				rate:0,
-				fee:0,
 				readAmount:0,
 				astrict: 100000.00000000,
 				Mention:"123DSA315sa3dAFSAASD",
-				maney_type:"BTC",
+				verifyInfo:{
+					userEmail:'',
+					mailCode:'',
+					pinCode:''
+				},
 				rechargeInfo:{
 					showAddress:false,
-					rechargeAddress:'123DSA315sa3dAFSAASD',
+					rechargeAddress:'',
 					plate:''
 				},
 				withdrawInfo:{
+					showVarifyModal:false,
+					withdrawAddress:'',
 					avaliable:3.9542,
-					amount:0
+					fee:0,
+					amount:0,
+					realAmount:0,
+					currency:''
 				},
 				assetsList: [
 					// {
@@ -154,13 +184,12 @@
 					type:'error'
 				})
 			},
-			takecoin(){
-					var data = {
-					 coin_name_en:this.maney_type
-					}
-					api.ationbtn(data).then(res => {
-			
-				})
+			// 重置弹出框
+			resetPop(){
+				this.addingAddress = false
+				this.verifyInfo.pinCode = ''
+				this.verifyInfo.mailCode = ''
+				this.verifyInfo.userEmail =''
 			},
 			// 获取资产列表
 			getAssetsList(){
@@ -168,11 +197,6 @@
 				.then(res => {
 					if(res.error_code == 1000){
 						this.assetsList = res.assets_list
-					}else{
-						this.$message({
-							message:res.error_desc,
-							type: 'error'
-						})
 					}
 				}).catch(err => {
 
@@ -182,43 +206,94 @@
 			openRechargeDialog(row){
 				this.rechargeInfo.plate = row.currency
 			},
+			// 发送邮箱验证码
+			getTakeCoinVerifyCode(){
+				var data = {
+					coin_name_en:this.withdrawInfo.currency
+				}
+				api.sendWithdrawCode(data)
+				.then(res => {
+					if(res.error_code == 1000){
+						console.log(this.assetsList)
+						this.$message('发送成功')
+					}
+				}).catch(err => { })
+			},
 			// 获取冲币地址
-			rechargeCoin(row){
-				console.log(row)
+			rechargeCoin(){
+				console.log(1111111111)
 				var data = {
 					plate:this.rechargeInfo.plate
 				}
 				api.getRechargeAddress(data)
 				.then(res => {
 					if(res.error_code == 1000){
-						row.address = res.user_address
+						this.rechargeInfo.rechargeAddress = res.user_address
 						this.rechargeInfo.showAddress = true
 						console.log(this.assetsList)
+					}else{
+						console.log(9999999)
+					}
+				}).catch(err => {console.log(7777777)})
+			},
+			// 点击提币按钮
+			openWithdrawDialog(row){
+				
+				this.withdrawInfo.currency = row.currency
+				console.log(row,this.withdrawInfo)
+				var data = {
+					coin_name:row.currency
+				}
+				api.getWithdrawAddress(data)
+				.then(res => {
+					if(res.error_code == 1000){
+						console.log(res)
+						if(res.error_code == 1000){
+							this.withdrawInfo.withdrawAddress = res.user_address
+						}
+						this.withdrawInfo.currency = row.currency
 					}
 				}).catch(err => {})
 			},
-			// 提币
-			withdrawCoin(row){
-				console.log(row)
+			openVerifyDialog(){
+				this.withdrawInfo.showVarifyModal = true
 			},
-			// 获取冲币地址
-			sendReq(){
+			// 提币
+			withdrawCoin(){
 				var data = {
 					count:this.withdrawInfo.amount,
-					coin_name_en:this.coinList[this.index]
-				};
-				api.dataId(data).then(res => {
-					if(res.error_code==1000) {
-						this.fee = res.fee;
-						this.readAmount = res.realAmount;
-
-					}else {
-						
+					coin_name_en:this.withdrawInfo.currency,
+					password:this.verifyInfo.pinCode,
+					code:this.verifyInfo.mailCode
+				}
+				api.withdrawCoin(data)
+				.then(res=>{
+					this.withdrawInfo.showVarifyModal = false
+					this.resetPop()
+					if(res.error_code == 1000){
+						this.$message('提取成功')
 					}
-					
+				}).catch(err => {
+
+				})
+			},
+			calFee(){
+				var data = {
+					count:this.withdrawInfo.amount,
+					coin_name_en:this.withdrawInfo.currency
+				}
+				api.calWithdrawFee(data)
+				.then(res=>{
+					console.log(res)
+					if(res.error_code == 1000){
+						this.withdrawInfo.rate = res.rate
+						this.withdrawInfo.fee = res.fee
+						this.withdrawInfo.realAmount = res.realAmount
+					}
+				}).catch(err => {
+
 				})
 			}
-
 		}
 	}
 </script>
