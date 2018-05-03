@@ -206,8 +206,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
-.findpassword_main{width:100%;background:#151922;overflow:hidden}
-.findpassword_main_div{background:#1a232c;width:1200px;height:940px;overflow:hidden;margin:0 auto;margin-top: 40px;}
+.findpassword_main{width:100%;height:1020px;background:#151922;overflow:hidden}
+.findpassword_main_div{background:#191f27;width:1200px;height:940px;overflow:hidden;margin:0 auto;margin-top: 40px;}
 .sjx_main{width:1100px;margin: 0 auto;height: 940px;}
 .findpassword_main_div_top{width:100%;height:50px;line-height:50px;border-bottom:1px solid #202234;text-align:left;font-size:14px;color:#adaeb6;padding-top:14px;}
 .findpassword_main_div_top a{color:#3a4556;}
