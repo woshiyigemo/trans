@@ -6,8 +6,8 @@
           <div class="address">
             <div class="address_left">
               <p>币种</p>
-              <el-select v-model="selectedCoin" clearable placeholder="">
-                <el-option
+              <el-select class="abc" v-model="selectedCoin" clearable placeholder="">
+                <el-option class="def"
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"

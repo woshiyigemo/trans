@@ -830,8 +830,15 @@ input[type="number"]{-moz-appearance:textfield;}
     background-color: #344253;
 }
 
-//样式修改 ----孙家兴
+//样式覆盖修改 ----孙家兴
 .breadcrumb >.el-breadcrumb>.findp>.el-breadcrumb__inner{color: #c2c3ca;font-size: 14px;}
 .breadcrumb >.el-breadcrumb>.sy>.el-breadcrumb__inner{color: #455266;font-size: 14px;}
 .findpassword_main_div_email_right>.el-input__inner{background: #151922;}
+.address_left{
+    .el-select{
+        .el-input__inner{background: #151922;}
+    }
+    
+}
+.abc .def .el-select-dropdown{background: #35404e;border:none;}
 //孙家兴以上
