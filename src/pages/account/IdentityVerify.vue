@@ -9,16 +9,20 @@
         <div class="from real-verify" v-if="authState == 1 || authState == 2">
             <el-form ref="idInfo"  :model="idInfo" label-width="120px">
                 <h5>1.个人基本资料认证</h5>
-                <el-form-item label="姓名：" class="base-info-line">
-                    <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字" placement="right">
-                        <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable></el-input>
-                    </el-tooltip>
+                <el-form-item label="姓名：" class="base-info-line modification">
+
+                        <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable style="float:left;"></el-input>
+                        <div class="findpassword_error" style="padding-left: 0;z-index:2000;position:absolute;top:0px;left:508px;">
+                            <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
+                            <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
+                            <p class="findpassword_error_1">不允许有空格</p>
+                        </div>
                 </el-form-item>
 
-                <el-form-item :label="labelName"  class="base-info-line">
-                    <el-tooltip :popper-class="toolTipClass" class="item" effect="#3a4a5e" content="*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字*Center Right 提示文字" placement="right">
+                <el-form-item :label="labelName"  class="base-info-line modification">
+
                         <el-input  :placeholder="pHolder" v-model="idInfo.number" clearable></el-input>
-                    </el-tooltip>
+
                 </el-form-item>
                 <h5 style="height:100px;line-height:125px;">2.信息认证</h5>
                 <div class="information">
@@ -157,8 +161,7 @@ export default {
                 face_image:'',
                 back_image:'',
                 body_image:''
-            },
-            toolTipClass: 'page-login-toolTipClass'
+            }
         }
     },
     computed:{
@@ -251,7 +254,6 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
     border-top: 1px solid #202234;margin:0;
     padding: 8px 0;
 }
-.page-login-toolTipClass{background: #3a4a5e!important;border-left-color: #3a4a5e!important;max-width: 200px;color: #a6c4ea;}
 /* 信息验证 */
 .port{height: 120px;border-top: 1px solid #202234;}
 .port ul{overflow: hidden;list-style: none;}
@@ -281,6 +283,24 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
 }
 .upload-btn{padding: 2px 12px;;border-radius: 30px;text-align: center;line-height: 26px!important;font-size: 12px;background-color:  #3a4a5e; color: #6d86a5;cursor: pointer;border-color:#3a4a5e;margin: 0 5px;}
 
+/* 错误提示 */
+.findpassword_error{text-align:left;color:#8faacc;font-size:12px;padding:13px 16px;padding-left:25px;box-sizing:border-box;border-radius:2px;width:230px;position:relative;min-height:50px;height:auto;margin-left:30px;background:#3a4a5e;float: left;line-height:20px;}
+.findpassword_error::after{
+	content: "";
+	width:0px;
+    height:0px;
+    border-top:6px solid rgba(0,0,0,0);
+    border-right:6px solid #3a4a5e;
+    border-bottom:6px solid rgba(0,0,0,0);
+    border-left:6px solid rgba(0,0,0,0);
+    position:absolute;
+    left:0px;
+    margin-left:-12px;
+    top:10px;
+}
+.findpassword_error_1{background:#3a4a5e url('~@/assets/img/findpassword5.png') no-repeat 10px 6px;text-indent: 30px;}
+.findpassword_error_2{background:#3a4a5e url('~@/assets/img/findpassword6.png') no-repeat  10px 6px;text-indent: 30px;}
+.findpassword_error_3{background:#3a4a5e url('~@/assets/img/findpassword7.png') no-repeat  10px 20px;}
 
 .image-preview{
         display: inline-block;

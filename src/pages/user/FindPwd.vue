@@ -17,24 +17,28 @@
                     <div class="findpassword_main_div_img1"></div>
                     <div class="findpassword_main_div_email">
                         <div class="findpassword_main_div_email_left">电子邮箱</div>
-                        <el-input class="findpassword_main_div_email_right" v-model="email" placeholder="请输入内容"></el-input>
+                        <el-input class="findpassword_main_div_email_right" @focus="get_focus" v-model="email" placeholder="请输入内容"></el-input>
                         <!-- <div class="findpassword_main_div_email_right">
 
                         </div> -->
-                        <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
-                           <p class="findpassword_error_1">邮箱号错误</p>
-                           <p class="findpassword_error_2">请输入注册时的邮箱</p>
-                        </div>
+                        <transition name="fade">
+                            <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
+                            <p class="findpassword_error_1">邮箱号错误</p>
+                            <p class="findpassword_error_2">请输入注册时的邮箱</p>
+                            </div>
+                        </transition>
 
                     </div>
                     <div class="findpassword_main_div_code">
                         <div class="findpassword_main_div_code_left">验证码</div>
                         <div class="findpassword_main_div_code_right">
-                            <input type="text" v-model="verifyCode" >
+                            <input type="text" v-model="verifyCode"  @focus="get_focus">
                         </div>
                         <img :src="imgCodeUrl">
                         <a @click="another" style="cursor: pointer;">换一张</a>
-                        <div class="findpassword_error findpassword_error_3" v-show="isVerifyCodeErr">你输入的验证码错误</div>
+                        <transition name="fade">
+                            <div class="findpassword_error findpassword_error_3" v-show="isVerifyCodeErr">你输入的验证码错误</div>
+                        </transition>
                     </div>
                     <a class="findpassword_main_div_btn" @click="toStep2">下一步</a>
                 </div>
@@ -60,11 +64,11 @@
                     <div class="findpassword_main_div_email findpasswordtwo_email">
                       <span class="mi">新密码</span>
                       <input class="sjx_ipt" type="text" v-model="pwd">
-                      <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
-                        <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
-                        <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
-                        <p class="findpassword_error_1">不允许有空格</p>
-                      </div>
+                        <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
+                            <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
+                            <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
+                            <p class="findpassword_error_1">不允许有空格</p>
+                        </div>
                     </div>
 
                      <div class="findpassword_main_div_email findpasswordtwo_email ">
@@ -198,7 +202,12 @@ export default {
                   })
                 }
             })
+        },
+        get_focus(){
+            this.isEmailErr =false
+            this.isVerifyCodeErr =false
         }
+
 
     }
 }
@@ -206,8 +215,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
-.findpassword_main{width:100%;background:#151922;overflow:hidden}
-.findpassword_main_div{background:#1a232c;width:1200px;height:940px;overflow:hidden;margin:0 auto;margin-top: 40px;}
+.findpassword_main{width:100%;height:1020px;background:#151922;overflow:hidden}
+.findpassword_main_div{background:#191f27;width:1200px;height:940px;overflow:hidden;margin:0 auto;margin-top: 40px;}
 .sjx_main{width:1100px;margin: 0 auto;height: 940px;}
 .findpassword_main_div_top{width:100%;height:50px;line-height:50px;border-bottom:1px solid #202234;text-align:left;font-size:14px;color:#adaeb6;padding-top:14px;}
 .findpassword_main_div_top a{color:#3a4556;}
@@ -256,4 +265,12 @@ export default {
 
 .mi{display: block;width: 96px;height: 50px;float: left;line-height: 50px;color: #a2b2c8;}
 .sjx_ipt{width: 505px;height: 48px;border: 1px solid #384658;float: left;background: #151920;color: #a2b2c8;}
+
+/* 提示过度动画  */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

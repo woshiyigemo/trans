@@ -8,8 +8,8 @@
                     <div class="breadcrumb">
                         <!-- <a href="">首页 > </a>找回密码 -->
                         <el-breadcrumb separator-class="el-icon-arrow-right">
-                            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                            <el-breadcrumb-item>找回密码</el-breadcrumb-item>
+                            <el-breadcrumb-item class="sjx_yangshi" :to="{ path: '/' }">首页</el-breadcrumb-item>
+                            <el-breadcrumb-item class="sjx_yangshi2">修改交易密码</el-breadcrumb-item>
                         </el-breadcrumb>
                     </div>
                 </div>
@@ -130,6 +130,7 @@ export default {
                 if (res.error_code == 2008 || res.error_code == 2003 || res.error_code == 2009) {
                     this.isEmailErr = true;
                 }else if (res.error_code ==3010 || res.error_code == 3001){
+                    console.log(data)
                     this.isVerifyCodeErr = true;
                     this.imgCodeUrl = api.getImgCode(1002);
                 }else{
@@ -206,7 +207,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  rel='stylesheet/scss' scoped>
-.findpassword_main{width:100%;background:#1b1720;overflow:hidden}
+.findpassword_main{width:100%;height:1020px;background:#151920;overflow:hidden}
 .findpassword_main_div{background:#191f27;width:1200px;height:940px;overflow:hidden;margin:0 auto;margin-top: 40px;}
 .sjx_main{width:1100px;margin: 0 auto;height: 940px;}
 .findpassword_main_div_top{width:100%;height:50px;line-height:50px;border-bottom:1px solid #202234;text-align:left;font-size:14px;color:#adaeb6;padding-top:14px;}
@@ -217,8 +218,8 @@ export default {
 
 .findpassword_main_div_email,.findpassword_main_div_code{width:1000px;line-height:50px;height:50px;margin-top:70px;margin-left: 50px;}
 .findpassword_main_div_email_left,.findpassword_main_div_code_left{width:95px;float:left;text-align:left;color:#a2b2c8;line-height:50px;height:50px;}
-.findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;padding:0 5px;background-color:#191f27;}
-.findpassword_main_div_email_right input,.findpassword_main_div_code_right input{width:100%;height:50px;line-height:50px;border:none;background:none;text-align:left;color:#c2c3ca;font-size:20px}
+.findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;padding:0 5px;background-color:#151922;}
+.findpassword_main_div_email_right input,.findpassword_main_div_code_right input{width:100%;height:50px;line-height:50px;border:none;background:none;text-align:left;color:#c2c3ca;font-size:20px;outline: none;}
 .findpassword_main_div_code_right{width:300px !important;float: left;}
 .send{width: 115px;height: 50px;border: 1px solid #645afb;color: #645afb;text-align: center;line-height: 47px;background: #1a232c;float: left;margin-left:24px;cursor: pointer; }
 .findpasswordsuccess_main_div_code_right{width:510px;}

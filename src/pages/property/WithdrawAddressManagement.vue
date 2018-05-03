@@ -208,7 +208,7 @@ export default {
   li{list-style: none;}
   .zuo{width: 200px;height: 940px;background: #1a232c;float: left;}
   .sjx_main{width: 987px;height: 940px;float: right;overflow: hidden;}
-  .sjx_section{width: 987px;height:246px;background: #1a232c;}
+  .sjx_section{width: 987px;height:246px;}
   .sjx_sec1{width: 890px;margin: 0 auto;height:246px;}
   .section_title{line-height: 87px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 15px;}
   .section_title span{color: #c8cdd3;}
@@ -222,7 +222,7 @@ export default {
   .address_right input{width: 485px;height: 46px;background: #151922;border: 1px solid #444c57;color: #f5feed;}
   .address_right button{width: 117px;height: 48px;background: #585efa;border: none;color: #f5feed;margin-left:30px;cursor: pointer;}
 
-  .sjx_section2{width:987px;height: 680px;background: #1a232c;margin-top: 15px;}
+  .sjx_section2{width:987px;height: 680px;margin-top: 15px;}
   .address_list{width: 890px;margin: 0 auto;height: 680px;}
   .address_list_title{width: 890px;height: 89px;line-height: 89px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 15px;}
   .address_list_section{width: 890px;height: 107px;border-bottom: 1px solid #232935;}
