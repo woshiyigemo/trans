@@ -160,8 +160,8 @@ const api = {
     setPinCode(data){
         return instance.post('/assets/settransactionpassword', data)
     },
-    //充币
-    dataId(data){
+    //获取充币地址
+    getRechargeAddress(data){
         return instance.post('/assets/rechargeaddress', data)
     },
     //获取提币地址
@@ -183,6 +183,26 @@ const api = {
     //资产中心-财务记录（提取币记录）
     assetsWithdraw(data){
         return instance.get('/assets/assetsWithdraw?page=' + data.page)
+    },
+    // 提币地址列表
+    withdrawAddressList(data){
+        return instance.post('/assets/getusertakecoinadresslist', data)
+    },
+    // 删除提币地址
+    deleteWithdrawAddress(data){
+        return instance.post('/assets/deletetakecoinaddress', data)
+    },
+    // 发送修改交易密码验证码
+    getPinCodeVerifyCode(data){
+        return instance.post('/assets/sendupdatetransactionpasswordcode', data)
+    },
+    // 发送提币验证邮件
+    getTakeCoinVerifyCode(data){
+        return instance.post('/assets/sendaddtakecoinaddressemail', data)
+    },
+    // 添加提币地址
+    addTakecoinAddress(data){
+        return instance.post('/assets/addtakecoinaddress', data)
     }
 }
 export {api, handleError, handleStatusCode}

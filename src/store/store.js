@@ -56,6 +56,9 @@ const store = new Vuex.Store({
       },
       authState(state){
         return state.userInfo.authState
+      },
+      hasSettedPincode(){
+        return state.userInfo.hasSettedPincode
       }
     },
     actions:{

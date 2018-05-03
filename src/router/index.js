@@ -17,6 +17,7 @@ import Security from '@/pages/account/Security'
 import Property from '@/pages/property/Property'
 import CoinOption from '@/pages/property/CoinOption'
 import FinancialRecords from '@/pages/property/FinancialRecords'
+import WithDrawAddressManagement from '@/pages/property/WithDrawAddressManagement'
 
 import Main from '@/pages/Main'
 import Home from '@/pages/Home'
@@ -61,6 +62,11 @@ const router =  new Router({
               path: 'financialrecords',
               name: 'financialrecords',
               component: FinancialRecords
+            },
+            {
+              path: 'withdrawaddressmanagement',
+              name: 'withdrawaddressmanagement',
+              component:WithDrawAddressManagement
             }
           ]
         },
