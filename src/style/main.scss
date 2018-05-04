@@ -593,12 +593,15 @@ input[type="number"]{-moz-appearance:textfield;}
     .el-table td{
         color:#fff;
     }
+    //sjx修改
+    .el-table__expanded-cell{padding: 0!important;}
     .el-table--enable-row-hover .el-table__body tr:hover > td {
         background-color: #1e2631;
     }
     .el-table::before {
         height: 0;
     }
+
 }
 
 
