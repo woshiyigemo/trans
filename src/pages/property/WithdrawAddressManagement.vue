@@ -93,11 +93,11 @@ export default {
       options: [{
         value: 'btc',
         label: 'btc'
+      },{
+        value: 'eth',
+        label: 'eth'
       }],
-      selectedCoin:{
-        value: 'btc',
-        label: 'btc'
-      },
+      selectedCoin:'btc',
       addressList:[]
     }
   },

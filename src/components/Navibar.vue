@@ -13,7 +13,32 @@
         </div>
         <div class="person-nav-wrapper"  v-if="userloggedin">
             <router-link class="person-nav" active-class="person-nav-active" to="/order">订单</router-link>
-            <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link>
+            <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
+            <el-dropdown class="person-nav" >
+                <span>
+                    用户：{{username}}
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>
+                        <router-link class="person-nav" active-class="person-nav-active" to="/account/security">
+                            账户安全
+                        </router-link>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <router-link class="person-nav" active-class="person-nav-active" to="/account/identityverify">
+                            实名认证
+                        </router-link>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <!-- <router-link class="person-nav" @click="logout" active-class="person-nav-active" to="/home"> -->
+                        <div class="person-nav" @click="logout">
+                            退出
+                        </div>
+                        <!-- </router-link> -->
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            
             <router-link class="person-nav" active-class="person-nav-active" to="/property/coinoption">资产</router-link>
         </div>
     </div>
@@ -44,7 +69,7 @@ export default {
         }
     },
     created(){
-        this.user.loggedin = this.$store.state.userInfo.loggedin
+
     },
     mounted () {
        
@@ -55,6 +80,10 @@ export default {
     methods:{
         goHome(){
             this.$router.replace({name:'home'})
+        },
+        logout(){
+            console.log(979797)
+            this.$store.dispatch('userLogout')
         }
     }
 }
@@ -82,6 +111,7 @@ export default {
     height:30px;
     line-height: 30px;
     font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
 }
 .person-nav-active{
     color:#4c54f9;

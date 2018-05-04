@@ -637,6 +637,7 @@ input[type="number"]{-moz-appearance:textfield;}
     }
 }
 // coinoptions
+.financial-record,
 .coinoption{
     // text-align: center;
     .el-popover{
@@ -652,7 +653,7 @@ input[type="number"]{-moz-appearance:textfield;}
     .el-table__header-wrapper,
     .el-table th, .el-table td,
     .el-table tr{
-        font-size: 16px;color: #fff;
+        font-size: 14px;color: #fff;
         background-color:#191f27;
     }
     .el-table td{

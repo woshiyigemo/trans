@@ -77,15 +77,11 @@
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
-                                <!-- <div class="tips-big">
-                                    <el-input class="amount-input" type="number" v-model="exchange.price" placeholder="限价价格">
-                                    </el-input>
-                                </div> -->
                                 <div class="deal-form">
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
-                                                数量
+                                                价格
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
                                                 <template slot="append">USDT</template>
@@ -129,7 +125,7 @@
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
-                                                价格
+                                                数量
                                             </div>
                                             <el-input class="amount-input" type="number" 
                                             name="buy"  v-model.number="exchange.marketPriceDeal.price" 

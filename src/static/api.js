@@ -54,9 +54,9 @@ instance.interceptors.response.use(function (response) {
             message: '请先设置交易密码，3秒后跳转',
             type: 'error'
         })    
-        // setTimeout(function(){
-        //     router.push({name:'security'})
-        // },3000)
+        setTimeout(function(){
+            router.push({name:'security'})
+        },3000)
     }else if(response.status < 200 || response.status >= 300){
         Message({
             message: '网络错误，刷新网页重试',
@@ -173,13 +173,12 @@ const api = {
     getRechargeAddress(data){
         return instance.post('/assets/rechargeaddress', data)
     },
-
     //资产中心-财务记录（充币记录）
-    assetschargemoney(data){
-        return instance.get('/assets/assetschargemoney?page=' + data.page)
+    assetsRechargeRecord(data){
+        return instance.get('/assets/assetsRecord?page=' + data.page)
     },
     //资产中心-财务记录（提取币记录）
-    assetsWithdraw(data){
+    assetsWithdrawRecord(data){
         return instance.get('/assets/assetsWithdraw?page=' + data.page)
     },
     // 提币地址列表
