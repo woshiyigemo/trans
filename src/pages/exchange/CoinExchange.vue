@@ -237,7 +237,7 @@
                     <div class="kline-header">
                          <i class="arrow-right el-icon-arrow-right"></i>
                             图表
-                            <el-select v-model="curChart" style="width:100px;" filterable placeholder="请选择">
+                            <el-select v-model="curChart" style="width:140px;">
                                 <el-option
                                 v-for="item in chartOptions"
                                 :key="item.value"
@@ -564,23 +564,14 @@ export default {
                     notice_content:"2323"
                 }
             ],
-            curChart:null,
+            curChart:'ETH/USTD',
             chartOptions:[
                 {
-                    value:1,
-                    label:'BTC/USTD'
+                    value:'ETH/USTD',
+                    label:'ETH/USTD'
                 },
                 {
-                    value:2,
-                    label:'BTC/USTD'
-                },
-                {
-                    value:3,
-                    label:'BTC/USTD'
-                },
-
-                {
-                    value:4,
+                    value:'BTC/USTD',
                     label:'BTC/USTD'
                 }
             ],
