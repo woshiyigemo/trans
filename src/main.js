@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import VueNativeSock from 'vue-native-websocket'
-
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 import store from './store/store'

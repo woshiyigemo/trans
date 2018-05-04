@@ -62,7 +62,7 @@
         width="394px"
         center>
         <div class="login_div_password login_div_password2">
-          <el-input class="pwd_input" type="text" v-model="userEmail" placeholder="输入邮箱地址"></el-input>
+          <el-input class="pwd_input" type="text" v-model="verifyInfo.userEmail" placeholder="输入邮箱地址"></el-input>
         </div>
         <div class="login_div_password">
             <el-input class="pwd_input" type="password" v-model="verifyInfo.mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
@@ -91,18 +91,17 @@ export default {
         mailCode:''
       },
       options: [{
-        value: 'BTC',
-        label: 'BTC'
+        value: 'btc',
+        label: 'btc'
       }],
       selectedCoin:{
-        value: 'BTC',
-        label: 'BTC'
+        value: 'btc',
+        label: 'btc'
       },
       addressList:[]
     }
   },
   created(){
-    console.log(777777)
     this.getAddressList()
   },
   methods:{
@@ -128,13 +127,14 @@ export default {
     // 弹出验证窗口
     preAddAddress(){
         this.addingAddress = true
+        console.log(1312321313,this.selectedCoin)
     },
     // 重置弹出框
     resetPop(){
       this.addingAddress = false
       this.verifyInfo.pinCode = ''
-      this.mailCode = ''
-      this.userEmail =''
+      this.verifyInfo.mailCode = ''
+      this.verifyInfo.userEmail =''
     },
     // 添加地址
     addAddress(){
@@ -145,14 +145,15 @@ export default {
           })
           return
       }
+      
       var data = {
-        coin_name: this.selectedCoin.value,         // 币英文名称
-        address: this.newAddress,         // 提币地址
-        password: this.pinCode,         // 交易密码
-        code:this.mailCode                 //邮箱验证码
+        coin_name: this.selectedCoin,         // 币英文名称
+        address: this.verifyInfo.newAddress,         // 提币地址
+        password: this.verifyInfo.pinCode,         // 交易密码
+        code:this.verifyInfo.mailCode                 //邮箱验证码
       }
       this.resetPop()
-      api.addTakecoinAddress(data)
+      api.addWithdrawAddress(data)
       .then(res => {
         if(res.error_code == 1000){
           this.$message({

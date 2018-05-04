@@ -5,11 +5,11 @@ $--color-primary: teal;
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 @import "~element-ui/packages/theme-chalk/src/index";
-*,body{
+*:not(input),body{
     
     padding:0;margin:0;box-sizing: border-box;
 	-webkit-touch-callout: none;
-	-webkit-user-select: none;
+	
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
