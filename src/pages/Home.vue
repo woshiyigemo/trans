@@ -46,7 +46,7 @@ export default {
     data(){
         return{
             pubNotice:'开放比特币糖果(cdy)充值提现',
-            socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            newsocket:new WebSocket('ws://54.65.108.119:9541'),
             alist:[],
             blist:[]
         }
@@ -57,12 +57,12 @@ export default {
         this.getNotice()
     },
     mounted () {
-       var self = this
-        console.log(3333,self)
-        this.socket_1.onmessage = function(data){
+        var self = this
+        console.log(1111,self)
+        this.newsocket.onmessage = function(data){           
             // console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
-            console.log('ws数据',res)
+            // console.log('ws数据',res)
             self.alist =res.price.usdt;
             self.blist =res.price.ut;
         }

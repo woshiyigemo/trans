@@ -3,7 +3,7 @@
         <div class="logo" @click="goHome"></div>
         <div class="nav">
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
-            <router-link class="navbar" active-class="navbar-active" v-if="!userloggedin" to="/exchange/coinexchange">币币交易</router-link>
+            <router-link class="navbar" active-class="navbar-active" to="/exchange/coinexchange">币币交易</router-link>
             <!-- <a href="">币币交易</a>
             <a href="">币币交易</a> -->
         </div>

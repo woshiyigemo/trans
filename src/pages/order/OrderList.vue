@@ -88,6 +88,24 @@
                     <el-table-column type="expand"
                         prop=""
                         label="操作">
+                        <template slot-scope="props">
+                            <div class="details" style="width:100%;height:93px;background:#151922;">
+                                <ul class="details_title">
+                                    <li>时间</li>
+                                    <li>价格</li>
+                                    <li>数量</li>
+                                    <li>成交额</li>
+                                    <li>手续费</li>
+                                </ul>
+                                <ul class="details_section">
+                                    <li>{{props.row.time}}</li>
+                                    <li>{{props.row.price}}</li>
+                                    <li>{{props.row.number}}</li>
+                                    <li>{{props.row.deal}}</li>
+                                    <li></li>
+                                </ul>
+                            </div>
+                        </template>
                     </el-table-column>
                     </el-table>
 
@@ -148,7 +166,8 @@ export default {
         activeName:'current',
         curDelegate:[],
         hisDelegate:[],
-        detailDelegate:[]
+        detailDelegate:[],
+        hisDetails:[]
     }
   },
   components:{
@@ -158,6 +177,7 @@ export default {
       this.getCurDelegate()
       this.getHisDelegate()
       this.getDealDetail()
+    //   this.getHisDetails()
   },
   methods:{
       handleClick(a){
@@ -179,7 +199,7 @@ export default {
           var data = {}
           api.hisDelegate()
           .then(res => {
-              console.log(res)
+              console.log(res,111)
               if(res.error_code == 1000){
                   this.hisDelegate = res.entrusts
               }
@@ -187,6 +207,18 @@ export default {
 
           })
       },
+      //历史委托详情未完成
+    //   getHisDetails(){
+    //       var data ={
+    //           order_id:row.id,
+    //           currency:'btc'
+    //       }
+    //       api.hisDetails()
+    //       .then(res => {
+    //           cosnole.log(res,2222)
+    //         //   this.hisDetails = res.entrusts
+    //       })
+    //   },
       getDealDetail(){
           var data = {}
           api.dealDetail()
@@ -227,6 +259,15 @@ export default {
     margin-top: 30px;
     .order-tab{
         width: 100%;
+    }
+    .details{
+        .details_title{overflow: hidden;
+            li{list-style: none;width: 234px;height: 45px;line-height: 45px;float: left;color: #5b667c;}
+        }
+        .details_section{overflow: hidden;
+            li{list-style: none;width: 234px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;}
+        }
+        
     }
 }
 </style>

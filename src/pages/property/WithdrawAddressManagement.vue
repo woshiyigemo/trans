@@ -222,7 +222,7 @@ export default {
   .address_right{width: 637px;height: 73px;margin-left: 28px;}
   .address_right p{font-size: 12px;color: #626c78;line-height: 40px;}
   .address_right input{width: 485px;height: 46px;background: #151922;border: 1px solid #444c57;color: #f5feed;}
-  .address_right button{width: 117px;height: 48px;background: #585efa;border: none;color: #f5feed;margin-left:30px;cursor: pointer;}
+  .address_right button{width: 117px;height: 48px;background: #585efa;border: none;color: #f5feed;margin-left:28px;cursor: pointer;}
 
   .sjx_section2{width:987px;height: 680px;margin-top: 15px;}
   .address_list{width: 890px;margin: 0 auto;height: 680px;}
