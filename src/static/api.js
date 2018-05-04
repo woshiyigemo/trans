@@ -93,6 +93,10 @@ const api = {
     userLogin(data) {
         return instance.post('/user/login', data)
     },
+    // 用户退出
+    userLogOut(data) {
+        return instance.post('/assets/loginout', data)
+    },
     // 用户注册
     userRegist(data) {
         return instance.post('/user/register', data)

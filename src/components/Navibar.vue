@@ -14,7 +14,7 @@
         <div class="person-nav-wrapper"  v-if="userloggedin">
             <router-link class="person-nav" active-class="person-nav-active" to="/order">订单</router-link>
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
-            <el-dropdown class="person-nav" >
+            <el-dropdown id="nav-dropdown" class="person-nav" trigger="click" >
                 <span>
                     用户：{{username}}
                 </span>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { api } from '@/static/api'
 export default {
     name:'Navibar',
     props:{
@@ -82,8 +83,12 @@ export default {
             this.$router.replace({name:'home'})
         },
         logout(){
-            console.log(979797)
-            this.$store.dispatch('userLogout')
+            api.userLogOut()
+            .then(res => {
+                this.$store.dispatch('userLogout')
+            }).catch(err => {
+                this.$store.dispatch('userLogout')
+            })  
         }
     }
 }

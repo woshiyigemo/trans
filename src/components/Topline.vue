@@ -1,6 +1,8 @@
 <template>
     <div class="index_top">
-        BTC/CNY : <span>{{btccny}}</span> ETH/CNY : <span>{{ethcny}}</span>USDT/CNY : {{usdtcny}}
+        <!-- BTC/CNY : <span>{{btccny}}</span>  -->
+        ETH/CNY : <span>{{ethcny}}</span>
+        USDT/CNY : {{usdtcny}}
     </div>
 </template>
 
@@ -13,8 +15,8 @@ export default {
     data(){
         return{
             btccny:67871.91,
-            ethcny:5511.54,
-            usdtcny:6.35
+            ethcny:5011.54,
+            usdtcny:6.31
         }
     },
     created(){

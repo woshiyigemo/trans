@@ -1,5 +1,5 @@
 <template>
-	<div class="coinoption" style="width: 987px;height: 940px;">
+	<div class="coinoption" >
 		<div class="sjx_main">
 			<div class="sjx_section">
 				<div class="section_title">
