@@ -45,7 +45,9 @@ input[type="number"]{-moz-appearance:textfield;}
         background-color: #fff!important;
     }
 }
-.login_div{
+.login_div,
+.login_div_password,
+.findpassword_main_div_email_right{
     .el-input__inner{
         border:none;
     }
