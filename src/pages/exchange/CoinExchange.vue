@@ -4,12 +4,12 @@
             <el-aside class="leftside" style="width:370px;">
                 <div class="inner-wrapper">
                     <el-container class="dash">
-                        <el-aside class="left-pic"  style="width:76px;">
-                            <img class="left-pic"  src="@icon/bitcoin-icon.png" alt=""/>
+                        <el-aside class="left-pic"  style="width:88px;">
+                            <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1" v-if="price.usdt[0]" >BTC/USDT  {{price.usdt[0].order_price}}</div>
-                            <div class="right-l2">≈  559655 CNY</div>
+                            <div class="right-l1" v-if="price.usdt[0]" >ETH/USDT  {{price.usdt[0].order_price}}</div>
+                            <div class="right-l2">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
                             <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
                             <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high}} 低：{{price.usdt[0].low}}</div>
                         </el-main>
@@ -77,15 +77,11 @@
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
-                                <!-- <div class="tips-big">
-                                    <el-input class="amount-input" type="number" v-model="exchange.price" placeholder="限价价格">
-                                    </el-input>
-                                </div> -->
                                 <div class="deal-form">
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
-                                                数量
+                                                价格
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
                                                 <template slot="append">USDT</template>
@@ -112,8 +108,14 @@
                                     交易额:{{allprice}} USDT
                                     </div>
                                     <div class="btn-wrapper">
-                                        <el-button type="purchase" value="purchase" @click="addDelegate($event)">买入</el-button>
-                                        <el-button type="sell" value="sell"  @click="addDelegate($event)">卖出</el-button>
+                                        <el-button 
+                                        type="purchase" 
+                                        value="purchase" 
+                                        @click="addDelegate($event)">买入</el-button>
+                                        <el-button 
+                                        type="sell" 
+                                        value="sell"  
+                                        @click="addDelegate($event)">卖出</el-button>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -129,7 +131,7 @@
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="amount-label">
-                                                价格
+                                                数量
                                             </div>
                                             <el-input class="amount-input" type="number" 
                                             name="buy"  v-model.number="exchange.marketPriceDeal.price" 
@@ -204,7 +206,7 @@
                                         <span class="rel3">{{item.frozen}}</span>
                                         <span class="rel4">
                                              <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
-                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">冲币</el-button>
+                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
                                         </span>
                                     </div>
                                 </div>
@@ -259,16 +261,26 @@
                         <el-table-column
                             prop="time"
                             label="时间"
+                            width="180"
                             >
                         </el-table-column>
                         <el-table-column
                             prop="duad"
                             label="交易对"
                             >
+                            <template slot-scope="scope">
+                                {{scope.row.duad.toUpperCase()}}
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="direction"
                             label="方向">
+                            <template slot-scope="scope">
+                                <span 
+                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 1?"买入":"卖出"}}
+                                </span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="price"
@@ -309,16 +321,26 @@
                         <el-table-column
                             prop="time"
                             label="时间"
+                            width="180"
                             >
                         </el-table-column>
                         <el-table-column
                             prop="duad"
                             label="交易对"
                             >
+                            <template slot-scope="scope">
+                                {{scope.row.duad.toUpperCase()}}
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="direction"
                             label="方向">
+                            <template slot-scope="scope">
+                                <span 
+                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 1?"买入":"卖出"}}
+                                </span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="price"
@@ -453,6 +475,7 @@ export default {
     },
     data(){
         return{
+            
             // socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_2:new WebSocket('ws://54.65.108.119:9542'),
@@ -575,7 +598,7 @@ export default {
     },
     computed:{
         allprice(){
-            return this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.amount
+            return (this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.amount).toFixed(4)
         },
         allcurprice(){
 
@@ -598,10 +621,8 @@ export default {
     mounted () {
         var self = this
         this.socket_1.onmessage = function(data){
-            // console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
             console.log(res)
-            // console.log(555555,data.data.sb,JSON.parse(data.data.sb))
             self.normalizeCurPrice(res.price)
             self.normalizeRealTime(res.sb)
         }
@@ -609,7 +630,6 @@ export default {
             var res = JSON.parse(data.data)
             console.log(res)
             self.realTimeDealList = res
-            // {processed_amount: "100.0000", order_price: "600.00", order_time: "2018-04-24 03:22:47"
         }
     },
     watch:{
@@ -751,11 +771,11 @@ export default {
                 return
             }
             var data = {
-                currency:'usdt',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
+                currency:'USDT',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
                 order_amount:deal.amount,  //订单数量
                 order_price:Number(deal.price),          //订单价格
                 order_type:orderType,                    //订单类型，0 限价单，1市价单
-                trade_currency:'btc',               //交易货币，货币符号 CNY,BTC，ETH，UT等
+                trade_currency:'ETC',               //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type               //交易类型，0买单，1买单
             }
             api.addDelegate(data)
@@ -854,7 +874,7 @@ export default {
 .market-list{
     width: 100%;
     background: #191f27;
-    overflow: hidden;
+    // overflow: hidden;
     white-space:nowrap; 
     color:#c2c3ca;
     line-height: 1.5;
@@ -964,6 +984,7 @@ export default {
 }
 .market-list{
     text-align: center;
+    font-size:12px;
 }
 
 .mycoins-table{
@@ -988,7 +1009,7 @@ export default {
     }
     .notice-li{
         line-height: 1.5;
-        font-size: 14px;
+        font-size: 12px;
         padding-top: 3px;
         padding-bottom: 3px;
         overflow: hidden;

@@ -1,5 +1,5 @@
 <template>
-	<div class="coinoption" style="width: 987px;height: 940px;">
+	<div class="coinoption" >
 		<div class="sjx_main">
 			<div class="sjx_section">
 				<div class="section_title">
@@ -8,7 +8,7 @@
 						&nbsp;&nbsp;BTC<span style="font-size:14px;color:#344252;"> ≈ 559655 CNY</span>
 						<div class="quikc-nav">
 							<router-link class="quikc-link" to='/property/orderlist' style="margin-right:26px;">财务记录</router-link>
-							<router-link class="quikc-link" to='/property/Address'>提币地址管理</router-link>
+							<router-link class="quikc-link" to='/property/withdrawaddressmanagement'>提币地址管理</router-link>
 						</div>
 					</div>
 				</div>

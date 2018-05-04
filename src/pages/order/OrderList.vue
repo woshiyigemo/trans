@@ -14,10 +14,19 @@
                     <el-table-column
                         prop="duad"
                         label="交易对">
+                        <template slot-scope="scope">
+                            {{scope.row.duad.toUpperCase()}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="direction"
                         label="方向">
+                        <template slot-scope="scope">
+                            <span 
+                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
+                                {{scope.row.direction_type == 0?"买入":"卖出"}}
+                            </span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="price"
@@ -58,12 +67,20 @@
                     </el-table-column>
                     <el-table-column
                         prop="duad"
-                        label="交易对"
-                        width="180">
+                        label="交易对">
+                        <template slot-scope="scope">
+                            {{scope.row.duad.toUpperCase()}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="direction"
                         label="方向">
+                        <template slot-scope="scope">
+                            <span 
+                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
+                                {{scope.row.direction_type == 0?"买入":"卖出"}}
+                            </span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="price"
@@ -122,12 +139,20 @@
                     </el-table-column>
                     <el-table-column
                         prop="duad"
-                        label="交易对"
-                        width="180">
+                        label="交易对">
+                        <template slot-scope="scope">
+                            {{scope.row.duad.toUpperCase()}}
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="direction"
                         label="方向">
+                        <template slot-scope="scope">
+                            <span 
+                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
+                                {{scope.row.direction_type == 0?"买入":"卖出"}}
+                            </span>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="price"
@@ -137,17 +162,17 @@
                         prop="number"
                         label="数量">
                     </el-table-column>
-                    <el-table-column
+                    <!-- <el-table-column
                         prop="total"
                         label="委托总数">
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column
                         prop="deal"
                         label="成交额">
                     </el-table-column>
                     <el-table-column
-                        prop="untreated"
-                        label="未成交">
+                        prop="fee"
+                        label="手续费">
                     </el-table-column>
                     </el-table>
                 </el-tab-pane>
@@ -253,7 +278,8 @@ export default {
 <style lang='scss' scoped>
 .order-container{
     width: 1200px;
-    height: 940px;
+    min-height: 940px;
+    padding: 0 20px;
     margin: 0 auto;
     background-color: #1a232c;
     margin-top: 30px;
