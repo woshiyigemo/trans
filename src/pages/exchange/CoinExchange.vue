@@ -45,14 +45,14 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="UT">
+                            <!-- <el-tab-pane label="UT">
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
                                     <span class="rel3">最新价</span>
                                     <span class="rel4">24h涨幅</span>
                                 </div>
-                                <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
+                                <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                     <div> 
                                         
                                         <div class="market-list" v-for="(item,index) in marketListUT"  :key="index">
@@ -63,7 +63,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </el-tab-pane>
+                            </el-tab-pane> -->
                         </el-tabs> 
                    </div>
 
@@ -73,8 +73,7 @@
                             <i class="arrow-right el-icon-arrow-right"></i>
                             交易
                         </div>
-                        <el-tabs type="border-card" v-model="exchange.orderType" class="market-table">
-                            
+                        <el-tabs type="border-card" v-model="exchange.orderType" class="market-table"> 
                             <el-tab-pane name="limitprice" label="限价">
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
@@ -121,7 +120,7 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane  name="marketprice" label="市价">
+                            <!-- <el-tab-pane  name="marketprice" label="市价">
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
@@ -167,9 +166,6 @@
                                     step.number="5"
                                     @change="computeMarketAmount"
                                     ></el-slider>
-                                    <!-- <div class="amount-tips">
-                                    交易额:{{allcurprice}} USDT
-                                    </div> -->
                                     <div class="btn-wrapper">
                                         <el-button type="purchase" 
                                         value="purchase" 
@@ -181,7 +177,7 @@
                                         :disabled="exchange.marketPriceDeal.sellDisable">卖出</el-button>
                                     </div>
                                 </div>
-                            </el-tab-pane>
+                            </el-tab-pane> -->
                         </el-tabs> 
                     </div>
 
@@ -772,7 +768,7 @@ export default {
                 order_amount:deal.amount,  //订单数量
                 order_price:Number(deal.price),          //订单价格
                 order_type:orderType,                    //订单类型，0 限价单，1市价单
-                trade_currency:'ETC',               //交易货币，货币符号 CNY,BTC，ETH，UT等
+                trade_currency:'ETH',               //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type               //交易类型，0买单，1买单
             }
             api.addDelegate(data)
@@ -791,7 +787,7 @@ export default {
             console.log(row)
             var data = {
                 order_id:row.id,
-                currency:'btc'
+                currency:row.order_type
             }
             api.cancelDelegate(data)
             .then(res => {
