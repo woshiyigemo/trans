@@ -20,7 +20,7 @@
                         <div class="main_cat_con_t_percent">{{ietm.p}}%</div>    
                     </div>
                 </div>
-                <div class="main_cat_con">
+                <div class="main_cat_con" style="display:none">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_hkd"></div>
                     <div class="main_cat_con_t" v-for="i in blist">
                         <div class="main_cat_con_t_title">BCH / UT</div>
