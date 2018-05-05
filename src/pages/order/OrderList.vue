@@ -202,7 +202,6 @@ export default {
       this.getCurDelegate()
       this.getHisDelegate()
       this.getDealDetail()
-    //   this.getHisDetails()
   },
   methods:{
       handleClick(a){
@@ -232,18 +231,6 @@ export default {
 
           })
       },
-      //历史委托详情未完成
-    //   getHisDetails(){
-    //       var data ={
-    //           order_id:row.id,
-    //           currency:'btc'
-    //       }
-    //       api.hisDetails()
-    //       .then(res => {
-    //           cosnole.log(res,2222)
-    //         //   this.hisDetails = res.entrusts
-    //       })
-    //   },
       getDealDetail(){
           var data = {}
           api.dealDetail()

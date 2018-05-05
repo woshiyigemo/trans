@@ -423,4 +423,20 @@
 	.charge_title2 li:nth-child(4){width: 130px;}
 	.charge_title2 li:nth-child(5){width: 170px;text-align: center;}
 	.charge_title2 li:nth-child(6){width: 133px;text-align: center;}
+
+	/* 提币弹窗 */
+	.login_div_user,.login_div_password{margin-left: auto;
+    margin-right: auto;margin-top:25px;width:310px;height:60px;background:url('~@/assets/img/index8.png') no-repeat left;border-bottom:1px solid #efeff0;padding-left:30px;position:relative;}
+  .login_div_user input{background:none;text-align:left;font-size: 14px;color:#363a3f;line-height:60px;width:270px;height:60px;border:none;}
+  .login_div_password{background:url('~@/assets/img/index9.png') no-repeat left;}
+  .login_div_password2{background:url('~@/assets/img/email.png') no-repeat left;}
+  .login_div_password input{background:none;text-align:left;font-size: 14px;color:#363a3f;line-height:60px;width:270px;height:60px;border:none;}
+  .login_div_other{margin-left: auto;
+    margin-right: auto;width:310px;height:20px;margin-top:30px;}
+  .login_div_other_left{width:90px;height:20px;font-size: 12px;float:left;color:#555555;}
+  .login_div_other_left a{width:12px;height:12px;border:1px solid #4e56f9;margin-top:4px;display:block;float:left;}
+  .login_div_other_left_a_click{background:url('~@/assets/img/index10.png') no-repeat left;border:none !important;}
+  .login_div_other_left span{height:20px;line-height:20px;float:left;margin-left:10px}
+  .login_div_other_right{width:80px;height:20px;text-align:right;font-size: 12px;float:right;color:#8f94fb}
+  .pwd_btn{width: 88px;height: 37px;border: 1px solid #5d5dfb;color: #5d5dfb;font-size: 12px;background: #fff;}
 </style>
