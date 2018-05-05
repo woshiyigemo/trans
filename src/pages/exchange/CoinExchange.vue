@@ -475,7 +475,6 @@ export default {
     },
     data(){
         return{
-            
             // socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_2:new WebSocket('ws://54.65.108.119:9542'),
@@ -782,10 +781,10 @@ export default {
         },
         // 取消委托
         cancelDelegate(row){
-            console.log(row)
+            console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:'btc'
+                currency:'0'
             }
             api.cancelDelegate(data)
             .then(res => {
