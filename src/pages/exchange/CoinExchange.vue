@@ -9,7 +9,7 @@
                         </el-aside>
                         <el-main class="right-word">
                             <div class="right-l1" v-if="price.usdt[0]" >ETH/USDT  {{price.usdt[0].order_price}}</div>
-                            <div class="right-l2" v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
+                            <div class="right-l2">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
                             <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
                             <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high}} 低：{{price.usdt[0].low}}</div>
                         </el-main>
@@ -33,9 +33,7 @@
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
                                         <div class="market-list" v-for="(item,index) in marketListUSDT" :key="index">
-                                            <span class="rel1">
-                                                {{item.icon}}
-                                            </span>
+                                            <span class="rel1">{{item.icon}}</span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
                                             </span>
@@ -59,7 +57,7 @@
                                             <span class="rel1">{{item.icon}}</span>
                                             <span class="rel2">{{item.name.toUpperCase()}}</span>
                                             <span class="rel3">{{item.order_price}}</span>
-                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</span>
+                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{item.p}}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -290,7 +288,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(ETH)">
+                            label="数量(BTC)">
                         </el-table-column>
                         <el-table-column
                             prop="total"
@@ -350,7 +348,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(ETH)">
+                            label="数量(BTC)">
                         </el-table-column>
                         <el-table-column
                             prop="total"
@@ -469,8 +467,6 @@
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
-import { coinTypeIcon } from '@/static/dataConfig';
-
 // import ReconnectingWebSocket from 'reconnecting-websocket'
 export default {
     name:'CoinExchange',
@@ -479,6 +475,7 @@ export default {
     },
     data(){
         return{
+            
             // socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_2:new WebSocket('ws://54.65.108.119:9542'),
@@ -570,12 +567,12 @@ export default {
             curChart:'ETH/USTD',
             chartOptions:[
                 {
-                    value:'ETH/USDT',
-                    label:'ETH/USDT'
+                    value:'ETH/USTD',
+                    label:'ETH/USTD'
                 },
                 {
-                    value:'BTC/USDT',
-                    label:'BTC/USDT'
+                    value:'BTC/USTD',
+                    label:'BTC/USTD'
                 }
             ],
             curDelegation:[],
@@ -726,9 +723,7 @@ export default {
             api.curDelegate(data)
             .then(res => {
                 console.log("当前委托",res)
-                if(res.error_code == 1000){
-                    this.curDelegation = res.entrusts
-                }
+                this.curDelegation = res.entrusts
             }).catch(err => {
 
             })
@@ -790,14 +785,12 @@ export default {
             console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:'0'
+                currency:'btc'
             }
             api.cancelDelegate(data)
             .then(res => {
-                if(res.error_code == 1000){
-                    this.$message(res.error_desc)
-                    this.getCurDelegate()
-                }
+                this.$message(res.error_desc)
+                this.getCurDelegate()
             }).catch(err => {
                 this.$message('网络失败请重试')
             })
@@ -811,6 +804,8 @@ export default {
                 console.log(res)
                 if(res.error_code == 1000){
                     this.noticeList = res.data
+                }else{
+                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 
@@ -820,9 +815,7 @@ export default {
             var data = {}
             api.getAssetslist(data)
             .then(res=>{
-                if(res.error_code == 1000){
-                    this.mycoins = res.assets_list
-                }
+                this.mycoins = res.assets_list
             }).catch(err => {
 
             })
@@ -845,6 +838,8 @@ export default {
             .then(res => {
                 if(res.error_code == 1000){
                     this.exchange.balance = res.available
+                }else{
+                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 
@@ -854,11 +849,6 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.coin-icon{
-    width: 18px;
-    height: 18px;
-    display: block;
-}
 .market-table{
     background-color: #191f27;
     font-size: 14px;
