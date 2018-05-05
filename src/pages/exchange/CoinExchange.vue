@@ -569,11 +569,12 @@ export default {
                 {
                     value:'ETH/USDT',
                     label:'ETH/USDT'
-                },
-                {
-                    value:'BTC/USDT',
-                    label:'BTC/USDT'
                 }
+                // ,
+                // {
+                //     value:'BTC/USDT',
+                //     label:'BTC/USDT'
+                // }
             ],
             curDelegation:[],
             hisDelegation:[],
