@@ -111,11 +111,6 @@ export default {
             message: '发送成功',
             type: 'success'
           })
-        }else{
-          this.$message({
-            message:res.error_desc,
-            type: 'error'
-          })
         }
       }).catch(err => {
 
@@ -158,11 +153,6 @@ export default {
             type: 'success'
           })
           this.getAddressList()
-        }else{
-          this.$message({
-            message:res.error_desc,
-            type: 'error'
-          })
         }
       }).catch(err => {
 
@@ -173,7 +163,7 @@ export default {
       var data = {
         address_id:item.address_id
       }
-      api.deleteWithdrawAddress()
+      api.deleteWithdrawAddress(data)
       .then(res => {
         if(res.error_code == 1000){
           this.$message({
