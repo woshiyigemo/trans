@@ -91,13 +91,10 @@ export default {
         mailCode:''
       },
       options: [{
-        value: 'BTC',
-        label: 'BTC'
-      },{
         value: 'ETH',
         label: 'ETH'
       }],
-      selectedCoin:'BTC',
+      selectedCoin:'ETH',
       addressList:[]
     }
   },
