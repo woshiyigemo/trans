@@ -137,6 +137,10 @@ const api = {
     hisDelegate(data){
         return instance.post('/entrust/history', data)
     },
+    // 历史委托详情
+    hisDetails(data) {
+        return instance.post(' /entrust/userdetail', data)
+    },
     // 根据交易ID获取交易明细
     dealDetail(data){
         return instance.post('/entrust/userdetail', data)
