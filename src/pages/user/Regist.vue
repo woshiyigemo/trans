@@ -115,9 +115,10 @@ export default {
             }
             api.userRegist(data)
             .then(function(res){
-                console.log('hahaha',res)
-
-            })
+                if(res.error_code == 1000){
+                    
+                }
+            }).catch(err => {})
         },
         getSliderStatus(status){
             this.sliderStatus = status

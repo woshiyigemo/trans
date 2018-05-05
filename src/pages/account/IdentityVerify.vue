@@ -214,8 +214,6 @@ export default {
                     // store修改为提交中
                     this.$store.dispatch('completeAuth')
                     this.$message(res.error_desc)
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 

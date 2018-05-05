@@ -18,7 +18,16 @@ const nationalityOption = [
     }
 ]
 
-// 
+// 币种对应图标
+const coinTypeIcon = {
+    'ada':'ada.png',
+    'bch':'bch.png',
+    'btc':'btc.png',
+    'dash':'dash.png',
+    'eos':'eos.png',
+    'etc':'etc.png',
+    'eth':'eth.png'
+}
 
 const nationalityInfo = {
     1:{
@@ -29,4 +38,4 @@ const nationalityInfo = {
     }
 }
 
-export { currencyType, nationalityOption, nationalityInfo}
+export { currencyType, nationalityOption, nationalityInfo,coinTypeIcon}
