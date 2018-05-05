@@ -3,7 +3,7 @@
         <div class="logo" @click="goHome"></div>
         <div class="nav">
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
-            <router-link class="navbar" active-class="navbar-active" to="/exchange/coinexchange">币币交易</router-link>
+            <router-link class="navbar" active-class="navbar-active" v-if="userloggedin" to="/exchange/coinexchange">币币交易</router-link>
             <!-- <a href="">币币交易</a>
             <a href="">币币交易</a> -->
         </div>
@@ -13,13 +13,44 @@
         </div>
         <div class="person-nav-wrapper"  v-if="userloggedin">
             <router-link class="person-nav" active-class="person-nav-active" to="/order">订单</router-link>
-            <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link>
+            <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
+            <el-dropdown class="person-nav" trigger="click" >
+                <span>
+                    用户：{{username}}
+                </span>
+                <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
+                <el-dropdown-menu slot="dropdown" class="nav-dropdown">
+                    <el-dropdown-item>
+                        <!-- <router-link class="person-nav"  to="/account/security"> -->
+                        <span class="person-nav-block" @click="goSecurity">
+                            账户安全
+                        </span>
+                        <!-- </router-link> -->
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <!-- <router-link class="person-nav" to="/account/identityverify"> -->
+                        <span class="person-nav-block" @click="goIdentityVerify">
+                            实名认证
+                        </span>
+                        <!-- </router-link> -->
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <!-- <router-link class="person-nav" @click="logout" active-class="person-nav-active" to="/home"> -->
+                        <span class="person-nav-block" @click="logout">
+                            退出
+                        </span>
+                        <!-- </router-link> -->
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            
             <router-link class="person-nav" active-class="person-nav-active" to="/property/coinoption">资产</router-link>
         </div>
     </div>
 </template>
 
 <script>
+import { api } from '@/static/api'
 export default {
     name:'Navibar',
     props:{
@@ -44,7 +75,7 @@ export default {
         }
     },
     created(){
-        this.user.loggedin = this.$store.state.userInfo.loggedin
+
     },
     mounted () {
        
@@ -55,6 +86,20 @@ export default {
     methods:{
         goHome(){
             this.$router.replace({name:'home'})
+        },
+        goSecurity(){
+            this.$router.replace({name:'security'})
+        },
+        goIdentityVerify(){
+            this.$router.replace({name:'identityverify'})
+        },
+        logout(){
+            api.userLogOut()
+            .then(res => {
+                this.$store.dispatch('userLogout')
+            }).catch(err => {
+                this.$store.dispatch('userLogout')
+            })  
         }
     }
 }
@@ -82,6 +127,15 @@ export default {
     height:30px;
     line-height: 30px;
     font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
+}
+.person-nav-block{
+    color:#627482;
+    padding: 0 15px;
+    height:30px;
+    line-height: 30px;
+    font-size:12px;display:block;box-sizing:border-box;
+    outline: none;
 }
 .person-nav-active{
     color:#4c54f9;

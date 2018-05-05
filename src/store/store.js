@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueCookies from 'vue-cookies'
+import router from '../router'
 Vue.use(Vuex)
 const expire = 1000 * 60 * 120
 const store = new Vuex.Store({
@@ -24,7 +25,6 @@ const store = new Vuex.Store({
         state.userInfo.email = params.email || ''
         state.userInfo.hasSettedPincode  = params.hasSettedPincode
         state.userInfo.authState = params.authState
-       
         VueCookies.set('__uinfo', JSON.stringify(state.userInfo),new Date().getTime() + expire);
       },
       logout (state){
@@ -36,6 +36,7 @@ const store = new Vuex.Store({
         state.userInfo.hasSettedPincode  = 0
         state.userInfo.authState = 1
         VueCookies.remove('__uinfo')
+        router.replace({path:'/home'})
       },
       completeAuth(state){
         state.userInfo.authState = 3

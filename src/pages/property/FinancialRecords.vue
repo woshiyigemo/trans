@@ -1,6 +1,6 @@
 <template>
     <!-- 交易记录 -->
-    <div class="record" style="width: 1200px;height: 940px;">
+    <div class="financial-record" style="width: 1200px;height: 940px;">
       <div class="sjx_main">
        <div class="sjx_section">
          <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>财务记录</span></div>
@@ -11,70 +11,39 @@
          </div>
          <!--充币内容-->
          <div v-if="active==0" class="charge_section" >
-           <ul class="charge_title">
-             <li>时间</li>
-             <li>币种</li>
-             <li>数量</li>
-             <li>状态</li>
-           </ul>
-
-           <ul class="charge_title charge" v-for="(item,index) in rechargeRecordList" :key="index">
-             <li>{{item.add_time}}</li>
-             <li>{{item.currency}}</li>
-             <li>{{item.number}}</li>
-             <li>{{item.log_status}}</li>
-           </ul>
-          
-           <!-- <ul class="charge_title charge">
-             <li>2018-03-01 09:30:05</li>
-             <li>USDT</li>
-             <li>156.80000000</li>
-             <li>已完成</li>
-           </ul>
-
-           <ul class="charge_title charge">
-             <li>2018-03-01 09:30:05</li>
-             <li>USDT</li>
-             <li>156.80000000</li>
-             <li style="color: #5d63f5;">TSID查询</li>
-           </ul> -->
+           <el-table class="exchange-table coinlist" :data="rechargeRecordList" style="width: 100%">
+              <el-table-column prop="add_time" label="时间">
+              </el-table-column>
+              <el-table-column prop="currency" label="币种">
+                <template slot-scope="scope">
+                  {{scope.row.currency.toUpperCase()}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="number" label="数量">
+              </el-table-column>
+              <el-table-column prop="log_status" label="状态">
+            	</el-table-column>
+				    </el-table>
          </div>
          <!--提币内容-->
          <div v-if="active==1" class="charge_section">
-           <ul class="charge_title charge_title2">
-             <li>时间</li>
-             <li>币种</li>
-             <li>提币数量</li>
-             <li>手续费</li>
-             <li>到账数量</li>
-             <li>状态</li>
-           </ul>
-
-          <ul class="charge_title charge" v-for="(item,index) in rechargeRecordList" :key="index">
-             <li>{{item.add_time}}</li>
-             <li>{{item.currency}}</li>
-             <li>{{item.number_withdraw}}</li>
-             <li>{{item.fee}}</li>
-             <li>{{item.number_account}}</li>
-             <li>{{item.log_status}}</li>
-           </ul>
-           <!-- <ul class="charge_title charge charge_title2">
-             <li>2018-03-01 09:30:05</li>
-             <li>USDT</li>
-             <li>156.80000000</li>
-             <li>1.00000000</li>
-             <li>156.80000000</li>
-             <li>已完成</li>
-           </ul>
-
-           <ul class="charge_title charge charge_title2">
-             <li>2018-03-01 09:30:05</li>
-             <li>USDT</li>
-             <li>156.80000000</li>
-             <li>1.00000000</li>
-             <li>156.80000000</li>
-             <li style="color: #5d63f5;">TSID查询</li>
-           </ul> -->
+           	<el-table class="exchange-table coinlist" :data="withdrawRecordList" style="width: 100%">
+              <el-table-column prop="add_time" label="时间">
+              </el-table-column>
+              <el-table-column prop="currency" label="币种">
+                <template slot-scope="scope">
+                  {{scope.row.currency.toUpperCase()}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="number_withdraw" label="提币数量">
+              </el-table-column>
+              <el-table-column prop="fee" label="手续费">
+            	</el-table-column>
+              <el-table-column prop="number_account" label="到账数量">
+            	</el-table-column>
+              <el-table-column prop="log_status" label="状态">
+            	</el-table-column>
+				    </el-table>
          </div>
        </div>
     </div>
@@ -98,36 +67,25 @@ export default {
     },
     methods:{
       toggle(index){
-        this.active=index
+        this.active = index
       },
       getWithdrawRecordList(){
-        var data={
+        var data = {
           page:1
         }
-        api.assetschargemoney(data).then(res => {
-          console.log(res)
+        api.assetsWithdrawRecord(data).then(res => {
           if(res.error_code == 1000){
             this.withdrawRecordList = res.assets_list
-          }else{
-            this.$message({
-                message: res.error_desc,
-                type: 'error'
-            })
           }
         })
       },
       getRechargeRecordList(){
-        var data={
+        var data = {
           page:1
         }
-        api.assetsWithdraw(data).then(res => {
+        api.assetsRechargeRecord(data).then(res => {
           if(res.error_code == 1000){
             this.rechargeRecordList = res.assets_list
-          }else{
-            this.$message({
-                message: res.error_desc,
-                type: 'error'
-            })
           }
         })
       }
