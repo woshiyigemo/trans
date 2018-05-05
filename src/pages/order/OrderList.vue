@@ -50,7 +50,7 @@
                 <el-tab-pane label="委托历史" name="history">
                     <el-table
                     :data="hisDelegate"
-                    style="width: 100%">
+                    style="width: 100%"  >
                     <el-table-column
                         prop="time"
                         label="时间"
@@ -86,9 +86,8 @@
                         label="未成交">
                     </el-table-column>
                     <el-table-column type="expand"
-                        prop=""
                         label="操作">
-                        <template slot-scope="props">
+                        <template slot-scope="props" @click="qw(props.row)">
                             <div class="details" style="width:100%;height:93px;background:#151922;">
                                 <ul class="details_title">
                                     <li>时间</li>
@@ -102,7 +101,7 @@
                                     <li>{{props.row.price}}</li>
                                     <li>{{props.row.number}}</li>
                                     <li>{{props.row.deal}}</li>
-                                    <li></li>
+                                    <li>{{props.row.deal}}</li>
                                 </ul>
                             </div>
                         </template>
@@ -166,8 +165,7 @@ export default {
         activeName:'current',
         curDelegate:[],
         hisDelegate:[],
-        detailDelegate:[],
-        hisDetails:[]
+        detailDelegate:[]
     }
   },
   components:{
@@ -177,9 +175,12 @@ export default {
       this.getCurDelegate()
       this.getHisDelegate()
       this.getDealDetail()
-    //   this.getHisDetails()
   },
   methods:{
+      qw(){
+          console.log(row)
+          console.log(this.detailDelegate)
+      },
       handleClick(a){
           console.log(a)
       },
@@ -207,18 +208,6 @@ export default {
 
           })
       },
-      //历史委托详情未完成
-    //   getHisDetails(){
-    //       var data ={
-    //           order_id:row.id,
-    //           currency:'btc'
-    //       }
-    //       api.hisDetails()
-    //       .then(res => {
-    //           cosnole.log(res,2222)
-    //         //   this.hisDetails = res.entrusts
-    //       })
-    //   },
       getDealDetail(){
           var data = {}
           api.dealDetail()
