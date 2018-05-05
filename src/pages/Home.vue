@@ -86,11 +86,10 @@ export default {
             }
             api.getNotice(data)
             .then(res => {
-                console.log(res)
-                this.pubNotice = res.data.notice_content
-            }).catch(err => {
-
-            })
+                if(res.error_code == 1000){
+                    this.pubNotice = res.data.notice_content
+                }
+            }).catch(err => {})
         }
     }
 }

@@ -65,7 +65,7 @@ export default {
         }
 
         api.userLogin(data).then(res => {
-            if(res.error_code == 1000 || res.error_code == 2014){
+            if(res.error_code == 1000){
                 console.log(this.$store)
                 var userInfo = {
                     name:res.data.user_name,

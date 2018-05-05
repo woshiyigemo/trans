@@ -158,12 +158,6 @@ export default {
                         message: res.error_desc,
                         type: 'success'
                     })
-                }else{
-                    // this.$message(res.error_desc)
-                    this.$message({
-                        message: res.error_desc,
-                        type: 'error'
-                    })
                 }
                 this.pinCodeModalVisible = false
             }).catch(err => {

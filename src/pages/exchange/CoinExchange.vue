@@ -723,7 +723,9 @@ export default {
             api.curDelegate(data)
             .then(res => {
                 console.log("当前委托",res)
-                this.curDelegation = res.entrusts
+                if(res.error_code == 1000){
+                    this.curDelegation = res.entrusts
+                }
             }).catch(err => {
 
             })
@@ -789,8 +791,10 @@ export default {
             }
             api.cancelDelegate(data)
             .then(res => {
-                this.$message(res.error_desc)
-                this.getCurDelegate()
+                if(res.error_code == 1000){
+                    this.$message(res.error_desc)
+                    this.getCurDelegate()
+                }
             }).catch(err => {
                 this.$message('网络失败请重试')
             })
@@ -804,8 +808,6 @@ export default {
                 console.log(res)
                 if(res.error_code == 1000){
                     this.noticeList = res.data
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 
@@ -815,7 +817,9 @@ export default {
             var data = {}
             api.getAssetslist(data)
             .then(res=>{
-                this.mycoins = res.assets_list
+                if(res.error_code == 1000){
+                    this.mycoins = res.assets_list
+                }
             }).catch(err => {
 
             })
@@ -838,8 +842,6 @@ export default {
             .then(res => {
                 if(res.error_code == 1000){
                     this.exchange.balance = res.available
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 

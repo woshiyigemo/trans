@@ -233,8 +233,6 @@
 						this.rechargeInfo.rechargeAddress = res.user_address
 						this.rechargeInfo.showAddress = true
 						console.log(this.assetsList)
-					}else{
-						console.log(9999999)
 					}
 				}).catch(err => {console.log(7777777)})
 			},

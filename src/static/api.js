@@ -40,6 +40,8 @@ instance.interceptors.response.use(function (response) {
 // 对响应数据做点什么
     if(response.data && response.data.error_code && response.data.error_code == 1000){
         // 直接返回
+        var usinfo = VueCookies.get('__uinfo')
+        VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
     }else if(response.data && response.data.error_code && response.data.error_code == 2015){
         Message({
             message: '登录超时，请重新登录',
@@ -57,6 +59,8 @@ instance.interceptors.response.use(function (response) {
         setTimeout(function(){
             router.replace({name:'security'})
         },3000)
+        var usinfo = VueCookies.get('__uinfo')
+        VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
     }else if(response.data && response.data.error_code && response.data.error_code == 4002){
         // 未设置提笔地址
         Message({
@@ -66,15 +70,19 @@ instance.interceptors.response.use(function (response) {
         setTimeout(function(){
             router.replace({name:'security'})
         },3000)
+        var usinfo = VueCookies.get('__uinfo')
+        VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
     }else if(response.status < 200 || response.status >= 300){
         Message({
             message: '网络错误，刷新网页重试',
             type: 'error'
         })
     }else{
-        var usinfo = VueCookies.get('__uinfo')
-        VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
-        console.log(22222,'正确',response)
+        Message({
+            message: response.data.error_desc,
+            type: 'error'
+        })
+        
     }
     response = response.data
     return response;

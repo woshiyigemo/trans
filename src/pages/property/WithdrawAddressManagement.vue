@@ -114,11 +114,6 @@ export default {
             message: '发送成功',
             type: 'success'
           })
-        }else{
-          this.$message({
-            message:res.error_desc,
-            type: 'error'
-          })
         }
       }).catch(err => {
 
@@ -161,11 +156,6 @@ export default {
             type: 'success'
           })
           this.getAddressList()
-        }else{
-          this.$message({
-            message:res.error_desc,
-            type: 'error'
-          })
         }
       }).catch(err => {
 
