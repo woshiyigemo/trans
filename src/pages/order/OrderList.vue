@@ -288,10 +288,10 @@ export default {
     }
     .details{
         .details_title{overflow: hidden;
-            li{list-style: none;width: 234px;height: 45px;line-height: 45px;float: left;color: #5b667c;}
+            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #5b667c;text-align: center;}
         }
         .details_section{overflow: hidden;
-            li{list-style: none;width: 234px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;}
+            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
         }
         
     }

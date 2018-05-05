@@ -92,7 +92,7 @@
                                                 数量
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
-                                                <template slot="append">BTC</template>
+                                                <template slot="append">ETH</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -153,7 +153,7 @@
                                             @focus="getFocus"
                                             @keyup.native="getSellKeyup"
                                             v-model.number="exchange.marketPriceDeal.amount">
-                                                <template slot="append">BTC</template>
+                                                <template slot="append">ETH</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>

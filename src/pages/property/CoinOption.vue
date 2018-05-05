@@ -52,7 +52,15 @@
 									<p class="pop-titter">提币地址</p>
 								</div>
 								 <!-- <input type="text" class="pop-titter-div" v-model="Mention" /> -->
-								 <div class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</div>
+								 <!-- <div class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</div> -->
+								 <el-select class="pop-titter-div" v-model="withdrawInfo.withdrawAddress[0]">
+									<el-option
+									v-for="item in withdrawInfo.withdrawAddress"
+									:key="item.address"
+									:label="item.address"
+									:value="item.address">
+									</el-option>
+								</el-select>
 								<p style="margin-top: 15px;">数量</p>
 								<p class="xm-can-ast">
 									<span>可提:{{withdrawInfo.avaliable}}</span>
@@ -149,8 +157,8 @@
 				},
 				withdrawInfo:{
 					showVarifyModal:false,
-					withdrawAddress:'',
-					avaliable:3.9542,
+					withdrawAddress:[],
+					avaliable:'',
 					fee:0,
 					amount:0,
 					realAmount:0,
@@ -162,7 +170,7 @@
 					// 	available: 182.000000,
 					// 	frozen: 182.00000,
 					// }
-				]
+				],
 			}
 		},
 		computed:{
@@ -204,7 +212,7 @@
 
 				})
 			},
-			// 点击提币按钮
+			// 点击充币按钮
 			openRechargeDialog(row){
 				this.rechargeInfo.plate = row.currency
 			},
@@ -221,7 +229,7 @@
 					}
 				}).catch(err => { })
 			},
-			// 获取冲币地址
+			// 获取充币地址
 			rechargeCoin(){
 				console.log(1111111111)
 				var data = {
@@ -240,20 +248,31 @@
 			},
 			// 点击提币按钮
 			openWithdrawDialog(row){
-				
 				this.withdrawInfo.currency = row.currency
-				console.log(row,this.withdrawInfo)
+				console.log(row,this.withdrawInfo,111222333)
 				var data = {
 					coin_name:row.currency
 				}
 				api.getWithdrawAddress(data)
 				.then(res => {
 					if(res.error_code == 1000){
-						console.log(res)
+						console.log(res,2323)
 						if(res.error_code == 1000){
-							this.withdrawInfo.withdrawAddress = res.user_address
+							console.log(res.data,999)
+							this.withdrawInfo.withdrawAddress = res.data
 						}
 						this.withdrawInfo.currency = row.currency
+					}
+				}).catch(err => {})
+
+				var data ={
+					currency:row.currency
+				}
+				api.userAccount(data)
+				.then(res =>{
+					console.log(res,123)
+					if(res.error_code == 1000){
+						this.withdrawInfo.avaliable = res.available
 					}
 				}).catch(err => {})
 			},
@@ -296,6 +315,7 @@
 
 				})
 			}
+
 		}
 	}
 </script>
