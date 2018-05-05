@@ -9,7 +9,7 @@
                         </el-aside>
                         <el-main class="right-word">
                             <div class="right-l1" v-if="price.usdt[0]" >ETH/USDT  {{price.usdt[0].order_price}}</div>
-                            <div class="right-l2">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
+                            <div class="right-l2" v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
                             <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
                             <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high}} 低：{{price.usdt[0].low}}</div>
                         </el-main>
@@ -57,7 +57,7 @@
                                             <span class="rel1">{{item.icon}}</span>
                                             <span class="rel2">{{item.name.toUpperCase()}}</span>
                                             <span class="rel3">{{item.order_price}}</span>
-                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{item.p}}%</span>
+                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                                                 数量
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
-                                                <template slot="append">BTC</template>
+                                                <template slot="append">ETH</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -153,7 +153,7 @@
                                             @focus="getFocus"
                                             @keyup.native="getSellKeyup"
                                             v-model.number="exchange.marketPriceDeal.amount">
-                                                <template slot="append">BTC</template>
+                                                <template slot="append">ETH</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -288,7 +288,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(BTC)">
+                            label="数量(ETH)">
                         </el-table-column>
                         <el-table-column
                             prop="total"
@@ -348,7 +348,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(BTC)">
+                            label="数量(ETH)">
                         </el-table-column>
                         <el-table-column
                             prop="total"

@@ -14,18 +14,18 @@
                 <div class="hr"></div>
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_usd"></div>
-                    <div v-for="ietm in alist" class="main_cat_con_t">
-                        <div class="main_cat_con_t_title">BCH / USDT</div>
-                        <div class="main_cat_con_t_money">{{Number(ietm.order_price)}}</div>
-                        <div class="main_cat_con_t_percent">{{ietm.p}}%</div>    
+                    <div v-for="(item,index) in marketListUSDT" class="main_cat_con_t" :key="index">
+                        <div class="main_cat_con_t_title">{{item.name.toUpperCase()}} / USDT</div>
+                        <div class="main_cat_con_t_money">{{Number(item.order_price)}}</div>
+                        <div class="main_cat_con_t_percent" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</div>    
                     </div>
                 </div>
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_hkd"></div>
-                    <div class="main_cat_con_t" v-for="i in blist">
-                        <div class="main_cat_con_t_title">BCH / UT</div>
-                        <div class="main_cat_con_t_money">{{Number(i.order_price)}}</div>
-                        <div class="main_cat_con_t_percent">{{i.p}}%</div>
+                    <div class="main_cat_con_t" v-for="(item,index) in marketListUT" :key="index">
+                        <div class="main_cat_con_t_title">{{item.name.toUpperCase()}} / UT</div>
+                        <div class="main_cat_con_t_money">{{Number(item.order_price)}}</div>
+                        <div class="main_cat_con_t_percent" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</div>
                     </div>
                 </div>
                 <div class="main_footer">
@@ -47,8 +47,8 @@ export default {
         return{
             pubNotice:'开放比特币糖果(cdy)充值提现',
             newsocket:new WebSocket('ws://54.65.108.119:9541'),
-            alist:[],
-            blist:[]
+            marketListUSDT:[],
+            marketListUT:[]
         }
     },
     components:{
@@ -63,8 +63,16 @@ export default {
             // console.log('原始ws数据',data)
             var res = JSON.parse(data.data)
             // console.log('ws数据',res)
-            self.alist =res.price.usdt;
-            self.blist =res.price.ut;
+            self.marketListUSDT =res.price.usdt;
+            self.marketListUT =res.price.ut;
+            for(var i in this.marketListUSDT){
+                self.marketListUSDT[i].icon = '$'
+                self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
+            }
+            for(var i in this.marketListUT){
+                self.marketListUT[i].icon = '$'
+                self.marketListUT[i].positive = self.marketListUSDT[i].p >=0?true:false
+            }
         }
     },
     watch:{
@@ -119,4 +127,11 @@ export default {
 .main_cat_con_t_percent{margin-top:10px;color:#f45e5f;font-size:12px;text-align:left;width:100%;}
 .main_cat_con_t_percent_low{color:#14bb81;}
 .main_footer{width:1200px;margin-top:20px}
+.rise{
+        color:#a4454b;
+    }
+.fall{
+
+        color:#5ead6f;
+    }
 </style>

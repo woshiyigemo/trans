@@ -55,7 +55,16 @@ instance.interceptors.response.use(function (response) {
             type: 'error'
         })    
         setTimeout(function(){
-            router.push({name:'security'})
+            router.replace({name:'security'})
+        },3000)
+    }else if(response.data && response.data.error_code && response.data.error_code == 4002){
+        // 未设置提笔地址
+        Message({
+            message: '请先设置提币地址，3秒后跳转',
+            type: 'error'
+        })    
+        setTimeout(function(){
+            router.replace({name:'security'})
         },3000)
     }else if(response.status < 200 || response.status >= 300){
         Message({
