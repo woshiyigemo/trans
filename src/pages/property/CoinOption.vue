@@ -53,7 +53,7 @@
 								</div>
 								 <!-- <input type="text" class="pop-titter-div" v-model="Mention" /> -->
 								 <!-- <div class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</div> -->
-								 <el-select class="pop-titter-div" v-model="withdrawInfo.withdrawAddress[0]">
+								 <el-select class="pop-titter-div" v-model="withdrawInfo.selectedAddress">
 									<el-option
 									v-for="item in withdrawInfo.withdrawAddress"
 									:key="item.address"
@@ -67,7 +67,7 @@
 									<span>限额:{{withdrawInfo.realAmount}}</span>
 								</p>
 								<span class="combo">  
-								<input class="combo combo-text" v-model="withdrawInfo.amount" @keyup.native="calFee">  
+								<input class="combo combo-text" type="number" v-model.number="withdrawInfo.amount" @keyup="calFee">  
 								<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
 								</span>
 								<div style="overflow:hidden;">
@@ -76,9 +76,10 @@
 								<span class="combo">  
 								<!-- <input class="combo combo-text1" v-model="fee"/>  -->
 								<span class="combo combo-text1">{{withdrawInfo.fee}}</span>
-								<span>  
-								<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
+								<span  style="padding-right:15px;line-height:35px;">  
+									{{withdrawInfo.currency.toUpperCase()}}
 								</span>
+	
 								</span>
 								</div>
 								<div id="xm_num">
@@ -88,8 +89,9 @@
 										<span class="combo combo-text2">
 											{{withdrawInfo.realAmount}}
 										</span>
-										<span>  
-											<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
+										<span style="padding-right:15px;line-height:35px;">  
+											{{withdrawInfo.currency.toUpperCase()}}
+										</span>
 										</span>
 									</span>
 								</div>
@@ -157,6 +159,7 @@
 				},
 				withdrawInfo:{
 					showVarifyModal:false,
+					selectedAddress:'',
 					withdrawAddress:[],
 					avaliable:'',
 					fee:0,
@@ -258,6 +261,9 @@
 						if(res.error_code == 1000){
 							console.log(res.data,999)
 							this.withdrawInfo.withdrawAddress = res.data
+							if(this.withdrawInfo.withdrawAddress.length > 0){
+								this.withdrawInfo.selectedAddress = this.withdrawInfo.withdrawAddress[0].address
+							}
 						}
 						this.withdrawInfo.currency = row.currency
 					}
@@ -283,7 +289,8 @@
 					count:this.withdrawInfo.amount,
 					coin_name_en:this.withdrawInfo.currency,
 					password:this.verifyInfo.pinCode,
-					code:this.verifyInfo.mailCode
+					code:this.verifyInfo.mailCode,
+					address:this.withdrawInfo.selectedAddress
 				}
 				api.withdrawCoin(data)
 				.then(res=>{
@@ -297,6 +304,7 @@
 				})
 			},
 			calFee(){
+				if(this.withdrawInfo.amount <= 0) return
 				var data = {
 					count:this.withdrawInfo.amount,
 					coin_name_en:this.withdrawInfo.currency
@@ -305,9 +313,9 @@
 				.then(res=>{
 					console.log(res)
 					if(res.error_code == 1000){
-						this.withdrawInfo.rate = res.rate
-						this.withdrawInfo.fee = res.fee
-						this.withdrawInfo.realAmount = res.realAmount
+						this.withdrawInfo.rate = res.data.rate
+						this.withdrawInfo.fee = res.data.fee
+						this.withdrawInfo.realAmount = res.data.realAmount
 					}
 				}).catch(err => {
 
@@ -341,9 +349,9 @@
 		height: 35px;
 		display: inline-block;
 		white-space: nowrap;
-		vertical-align: middle;
 		margin: 15px 15px;
-		line-height: 30px;
+		vertical-align: top;
+		// line-height: 30px;
 	}
 	
 	.combo .combo-text {
@@ -366,7 +374,7 @@
 		border: 0px;
 		margin: 0;
 		padding: 0px 2px;
-		vertical-align: baseline;
+		line-height:35px;
 		border: 0px solid;
 		width: 300px;
 		outline: none;
@@ -376,8 +384,8 @@
 		color: #FFFFFF;
 		border: 0px;
 		margin: 0;
+		line-height:35px;
 		padding: 0px 2px;
-		vertical-align: baseline;
 		border: 0px solid;
 		width: 300px;
 		outline: none;

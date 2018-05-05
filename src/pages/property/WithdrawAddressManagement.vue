@@ -163,7 +163,7 @@ export default {
       var data = {
         address_id:item.address_id
       }
-      api.deleteWithdrawAddress()
+      api.deleteWithdrawAddress(data)
       .then(res => {
         if(res.error_code == 1000){
           this.$message({

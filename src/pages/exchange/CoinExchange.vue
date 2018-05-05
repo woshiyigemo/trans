@@ -33,7 +33,9 @@
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
                                         <div class="market-list" v-for="(item,index) in marketListUSDT" :key="index">
-                                            <span class="rel1">{{item.icon}}</span>
+                                            <span class="rel1">
+                                                {{item.icon}}
+                                            </span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
                                             </span>
@@ -467,6 +469,8 @@
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
+import { coinTypeIcon } from '@/static/dataConfig';
+
 // import ReconnectingWebSocket from 'reconnecting-websocket'
 export default {
     name:'CoinExchange',
@@ -567,12 +571,12 @@ export default {
             curChart:'ETH/USTD',
             chartOptions:[
                 {
-                    value:'ETH/USTD',
-                    label:'ETH/USTD'
+                    value:'ETH/USDT',
+                    label:'ETH/USDT'
                 },
                 {
-                    value:'BTC/USTD',
-                    label:'BTC/USTD'
+                    value:'BTC/USDT',
+                    label:'BTC/USDT'
                 }
             ],
             curDelegation:[],
@@ -851,6 +855,11 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+.coin-icon{
+    width: 18px;
+    height: 18px;
+    display: block;
+}
 .market-table{
     background-color: #191f27;
     font-size: 14px;
