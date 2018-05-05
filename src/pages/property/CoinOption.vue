@@ -117,6 +117,7 @@
 			title="安全验证"
 			:visible.sync="withdrawInfo.showVarifyModal"
 			width="394px"
+			@close="resetPop"
 			center>
 			<div class="login_div_password login_div_password2">
 			<el-input class="pwd_input" type="text" v-model="verifyInfo.userEmail" placeholder="输入邮箱地址"></el-input>
@@ -321,7 +322,6 @@
 
 				})
 			}
-
 		}
 	}
 </script>

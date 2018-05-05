@@ -214,7 +214,7 @@ export default {
   .sjx_section2{width:987px;height: 680px;margin-top: 15px;}
   .address_list{width: 890px;margin: 0 auto;height: 680px;}
   .address_list_title{width: 890px;height: 89px;line-height: 89px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 15px;}
-  .address_list_section{width: 890px;height: 107px;border-bottom: 1px solid #232935;}
+  .address_list_section{width: 890px;border-bottom: 1px solid #232935;}
   .clear{overflow: hidden;}
   .clear li{float: left;height: 107px;}
   .clear li:first-child{width: 100px;text-align: center;}
