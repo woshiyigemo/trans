@@ -5,9 +5,9 @@
 				<div class="section_title">
 					<div class="top-title">
 						总资产合计：{{balance}}
-						&nbsp;&nbsp;BTC<span style="font-size:14px;color:#344252;"> ≈ 559655 CNY</span>
+						&nbsp;&nbsp;USDT<span style="font-size:14px;color:#344252;"> ≈ {{(balance * 6.3).toFixed(2)}} CNY</span>
 						<div class="quikc-nav">
-							<router-link class="quikc-link" to='/property/orderlist' style="margin-right:26px;">财务记录</router-link>
+							<router-link class="quikc-link" to='/property/financialrecords' style="margin-right:26px;">财务记录</router-link>
 							<router-link class="quikc-link" to='/property/withdrawaddressmanagement'>提币地址管理</router-link>
 						</div>
 					</div>
@@ -15,6 +15,9 @@
 				
 				<el-table class="exchange-table coinlist" :data="assetsList" style="width: 100%">
 					<el-table-column prop="currency" label="币种">
+						<template slot-scope="scope">
+							{{scope.row.currency.toUpperCase()}}
+						</template>
 					</el-table-column>
 					<el-table-column prop="available" label="可用">
 					</el-table-column>
@@ -26,9 +29,11 @@
 							offset=0
 							placement="bottom-end"
 							ref="popover" width="800" trigger="click">
-								<p class="popover-titter">充币地址</p>
+								<div>
+									<p class="popover-titter">充币地址</p>
+								</div>
 								<button v-if="!rechargeInfo.showAddress"  @click="rechargeCoin">充币地址申请</button>
-								<div v-if="rechargeInfo.showAddress">{{rechargeInfo.rechargeAddress}}</div>
+								<span v-if="rechargeInfo.showAddress">{{rechargeInfo.rechargeAddress}}</span>
 								<button v-if="rechargeInfo.showAddress" type="button"
 									v-clipboard:copy="rechargeInfo.rechargeAddress"
 									v-clipboard:success="onCopy"
@@ -43,9 +48,11 @@
 								</ul>
 							</el-popover>
 							<el-popover popper-class="xm-pop" ref="pop" offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
-								<p class="pop-titter">提币地址</p>
+								<div>
+									<p class="pop-titter">提币地址</p>
+								</div>
 								 <!-- <input type="text" class="pop-titter-div" v-model="Mention" /> -->
-								 <span class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</span>
+								 <div class="pop-titter-div" >{{withdrawInfo.withdrawAddress}}</div>
 								<p style="margin-top: 15px;">数量</p>
 								<p class="xm-can-ast">
 									<span>可提:{{withdrawInfo.avaliable}}</span>
@@ -164,11 +171,6 @@
 			this.getAssetsList()
 		},
 		mounted() {
-			// this.$nextTick(() => {
-			// 	this.chongBiList = document.getElementsByClassName('recharge');
-			// 	this.tiBiList = document.getElementsByClassName('tibi');
-			// 	this.chongBiList[this.chongBiList.length - 1].style.display = this.tiBiList[this.chongBiList.length - 1].style.display = 'none';
-			// })
 			
 		},
 		methods: {
@@ -369,7 +371,7 @@
 	.section_title{border-bottom: 1px solid #232935;color: #525d6f;font-size: 12px;padding-top:20px;}
 	.section_title span{color: #c8cdd3;}
 	.quikc-nav{
-		font-size: 16px;
+		font-size: 14px;
 		color: #718198;
 		float: right;
 		.quikc-link,

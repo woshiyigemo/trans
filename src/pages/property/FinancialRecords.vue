@@ -15,6 +15,9 @@
               <el-table-column prop="add_time" label="时间">
               </el-table-column>
               <el-table-column prop="currency" label="币种">
+                <template slot-scope="scope">
+                  {{scope.row.currency.toUpperCase()}}
+                </template>
               </el-table-column>
               <el-table-column prop="number" label="数量">
               </el-table-column>
@@ -28,6 +31,9 @@
               <el-table-column prop="add_time" label="时间">
               </el-table-column>
               <el-table-column prop="currency" label="币种">
+                <template slot-scope="scope">
+                  {{scope.row.currency.toUpperCase()}}
+                </template>
               </el-table-column>
               <el-table-column prop="number_withdraw" label="提币数量">
               </el-table-column>

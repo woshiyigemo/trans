@@ -1,12 +1,12 @@
 <template>
-    <div class="sjx_main">
+    <div class="sjx_main addressmanagement">
       <div class="sjx_section">
         <div class="sjx_sec1">
           <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>提币地址管理</span></div>
           <div class="address">
             <div class="address_left">
               <p>币种</p>
-              <el-select class="abc" v-model="selectedCoin" clearable placeholder="">
+              <el-select class="coin-selecter" v-model="selectedCoin">
                 <el-option class="def"
                   v-for="item in options"
                   :key="item.value"
@@ -18,7 +18,7 @@
             <div class="address_right">
               <p>地址</p>
               <div class="right_sec">
-                <input type="text" v-model="verifyInfo.newAddress"/>
+                <input type="text" class="address-input" v-model="verifyInfo.newAddress"/>
                 <button @click="preAddAddress">添加</button>
               </div>
             </div>
@@ -91,13 +91,13 @@ export default {
         mailCode:''
       },
       options: [{
-        value: 'btc',
-        label: 'btc'
+        value: 'BTC',
+        label: 'BTC'
       },{
-        value: 'eth',
-        label: 'eth'
+        value: 'ETH',
+        label: 'ETH'
       }],
-      selectedCoin:'btc',
+      selectedCoin:'BTC',
       addressList:[]
     }
   },
@@ -216,13 +216,13 @@ export default {
   .section_title span{color: #c8cdd3;}
   .address{margin-top: 17px;height: 130px;}
   .address_left,.address_right{float: left;}
-  .address_left{width: 126px;height: 73px;}
+  .address_left{width: 126px;}
   .address_left .el-select{width: 124px;height: 46px;border: 1px solid #444c57;line-height: 46px;background: #151922;}
   .address_left p{font-size: 12px;color: #626c78;line-height: 40px;}
-  .address_right{width: 637px;height: 73px;margin-left: 28px;}
+  .address_right{width: 637px;margin-left: 15px;}
   .address_right p{font-size: 12px;color: #626c78;line-height: 40px;}
-  .address_right input{width: 485px;height: 46px;background: #151922;border: 1px solid #444c57;color: #f5feed;}
-  .address_right button{width: 117px;height: 48px;background: #585efa;border: none;color: #f5feed;margin-left:28px;cursor: pointer;}
+  .address_right input{width: 485px;height: 42px;background: #151922;border: 1px solid #444c57;color: #f5feed;}
+  .address_right button{width: 100px;height: 46px;background: #585efa;border: none;color: #f5feed;margin-left:12px;cursor: pointer;}
 
   .sjx_section2{width:987px;height: 680px;margin-top: 15px;}
   .address_list{width: 890px;margin: 0 auto;height: 680px;}

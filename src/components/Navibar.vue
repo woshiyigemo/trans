@@ -14,26 +14,31 @@
         <div class="person-nav-wrapper"  v-if="userloggedin">
             <router-link class="person-nav" active-class="person-nav-active" to="/order">订单</router-link>
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
-            <el-dropdown id="nav-dropdown" class="person-nav" trigger="click" >
+            <el-dropdown class="person-nav" trigger="click" >
                 <span>
                     用户：{{username}}
                 </span>
-                <el-dropdown-menu slot="dropdown">
+                <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
+                <el-dropdown-menu slot="dropdown" class="nav-dropdown">
                     <el-dropdown-item>
-                        <router-link class="person-nav" active-class="person-nav-active" to="/account/security">
+                        <!-- <router-link class="person-nav"  to="/account/security"> -->
+                        <span class="person-nav-block" @click="goSecurity">
                             账户安全
-                        </router-link>
+                        </span>
+                        <!-- </router-link> -->
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link class="person-nav" active-class="person-nav-active" to="/account/identityverify">
+                        <!-- <router-link class="person-nav" to="/account/identityverify"> -->
+                        <span class="person-nav-block" @click="goIdentityVerify">
                             实名认证
-                        </router-link>
+                        </span>
+                        <!-- </router-link> -->
                     </el-dropdown-item>
                     <el-dropdown-item>
                         <!-- <router-link class="person-nav" @click="logout" active-class="person-nav-active" to="/home"> -->
-                        <div class="person-nav" @click="logout">
+                        <span class="person-nav-block" @click="logout">
                             退出
-                        </div>
+                        </span>
                         <!-- </router-link> -->
                     </el-dropdown-item>
                 </el-dropdown-menu>
@@ -82,6 +87,12 @@ export default {
         goHome(){
             this.$router.replace({name:'home'})
         },
+        goSecurity(){
+            this.$router.replace({name:'security'})
+        },
+        goIdentityVerify(){
+            this.$router.replace({name:'identityverify'})
+        },
         logout(){
             api.userLogOut()
             .then(res => {
@@ -116,6 +127,14 @@ export default {
     height:30px;
     line-height: 30px;
     font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
+}
+.person-nav-block{
+    color:#627482;
+    padding: 0 15px;
+    height:30px;
+    line-height: 30px;
+    font-size:12px;display:block;box-sizing:border-box;
     outline: none;
 }
 .person-nav-active{
