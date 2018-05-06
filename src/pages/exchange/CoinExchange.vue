@@ -18,10 +18,10 @@
                     <!-- 市场 -->
                     <div class="cur-price">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right"></i>
+                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMarket"></i>
                             市场
                         </div>
-                        <el-tabs type="border-card" class="market-table">
+                        <el-tabs v-show="showMarket" type="border-card" class="market-table">
                             
                             <el-tab-pane label="USTD">
                                 <div class="market-list-header" >
@@ -68,11 +68,11 @@
                     <!-- 交易 -->
                     <div class="exchange">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right"></i>
+                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeal"></i>
                             交易
                         </div>
-                        <el-tabs type="border-card" v-model="exchange.orderType" class="market-table"> 
-                            <el-tab-pane name="limitprice" label="限价">
+                        <el-tabs  type="border-card" v-model="exchange.orderType" class="market-table"> 
+                            <el-tab-pane  v-show="showDeal"  name="limitprice" label="限价">
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
@@ -183,16 +183,16 @@
                     <!-- 持有 -->
                     <div class="mycoins">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right"></i>
+                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMyCoin"></i>
                             持有
                         </div>
-                        <div class="market-list-header pad15" >
+                        <div v-show="showMyCoin" class="market-list-header pad15" >
                             <span class="rel1">币种</span>
                             <span class="rel2">可用</span>
                             <span class="rel3">冻结</span>
                             <span class="rel4">操作</span>
                         </div>
-                        <div class="mycoins-table">
+                        <div v-show="showMyCoin" class="mycoins-table">
                             <div class="vuebar-element" 
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
@@ -213,10 +213,10 @@
 
                     <div class="boardcast">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right"></i>
+                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowNotice"></i>
                             公告
                         </div>
-                        <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
+                        <div v-show="showNotice" class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
                             <div >
                                 <ul class="notice-list">
                                     <li class="notice-li" v-for="(item,index) in noticeList" :key="index">
@@ -231,7 +231,7 @@
             <el-main class="rightside">
                 <div class="kline">
                     <div class="kline-header">
-                         <i class="arrow-right el-icon-arrow-right"></i>
+                         <i class="arrow-right el-icon-arrow-right" @click="toggleShowKline"></i>
                             图表
                             <el-select v-model="curChart" style="width:140px;">
                                 <el-option
@@ -242,16 +242,16 @@
                                 </el-option>
                             </el-select>
                     </div>
-                    <div style="height:400px;">
+                    <div style="height:400px;" v-show="showKline">
                        <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto src="http://frontend.sy.sxurl.cn/kline/versiontwo?plate_id=usdt_to_eth&1524061966"></iframe> 
                     </div>
                 </div>
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right"></i>
+                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowCurDelegate"></i>
                             当前委托
                     </div>
-                    <el-table class="center-table"
+                    <el-table v-show="showCurDelegate" class="center-table"
                     :data="curDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -273,8 +273,8 @@
                             label="方向">
                             <template slot-scope="scope">
                                 <span 
-                                :class="scope.row.direction == 0?'buy-direction':'sell-direction'">
-                                    {{scope.row.direction == 0?"买入":"卖出"}}
+                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 1?"买入":"卖出"}}
                                 </span>
                             </template>
                         </el-table-column>
@@ -308,10 +308,10 @@
                 </div> 
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right"></i>
+                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowHisDelegate"></i>
                             历史委托
                     </div>
-                    <el-table class="center-table"
+                    <el-table v-show="showHisDelegate" class="center-table"
                     :data="hisDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -333,8 +333,8 @@
                             label="方向">
                             <template slot-scope="scope">
                                 <span 
-                                :class="scope.row.direction == 0?'buy-direction':'sell-direction'">
-                                    {{scope.row.direction == 0?"买入":"卖出"}}
+                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 1?"买入":"卖出"}}
                                 </span>
                             </template>
                         </el-table-column>
@@ -355,7 +355,7 @@
                             label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="Untreated"
+                            prop="untreated"
                             label="未成交">
                         </el-table-column>
                         <!-- <el-table-column
@@ -370,10 +370,10 @@
                     <el-col :span="16">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right"></i>
+                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeep"></i>
                                     深度图
                             </div>
-                            <el-row>
+                            <el-row v-show="showDeep">
                                 <el-col :span="12">
                                     <el-table class="center-table"
                                     :data="realTimeDeal.buy"
@@ -428,10 +428,10 @@
                     <el-col :span="8">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right"></i>
+                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowRealTime"></i>
                                     实时成交
                             </div>
-                            <el-table class="exchange-table"
+                            <el-table v-show="showRealTime" class="exchange-table"
                             :data="realTimeDealList"
                             style="width: 100%">
                                 <el-table-column
@@ -471,7 +471,16 @@ export default {
     },
     data(){
         return{
-            
+            showMarket:true,
+            showDeal:true,
+            showMyCoin:true,
+            showNotice:true,
+            showKline:true,
+            showCurDelegate:true,
+            showHisDelegate:true,
+            showDeep:true,
+            showRealTime:true,
+
             // socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
             socket_2:new WebSocket('ws://54.65.108.119:9542'),
@@ -520,7 +529,7 @@ export default {
                 // }
             ],
             exchange:{
-                orderType:'marketprice',
+                orderType:'limitprice',
                 focusChoose:'buy',
                 balance:0,
                 percent:0,
@@ -842,6 +851,34 @@ export default {
             }).catch(err => {
 
             })
+        },
+        // 切换
+        toggleShowMarket(){
+            this.showMarket = !this.showMarket
+        },
+        toggleShowDeal(){
+            this.showDeal = !this.showDeal
+        },
+        toggleShowMyCoin(){
+            this.showMyCoin = !this.showMyCoin
+        },
+        toggleShowKline(){
+            this.showKline = !this.showKline
+        },
+        toggleShowCurDelegate(){
+            this.showCurDelegate = !this.showCurDelegate
+        },
+        toggleShowHisDelegate(){
+            this.showHisDelegate = !this.showHisDelegate
+        },
+        toggleShowDeep(){
+            this.showDeep = !this.showDeep
+        },
+        toggleShowRealTime(){
+            this.showRealTime = !this.showRealTime
+        },
+        toggleShowNotice(){
+            this.showNotice = !this.showNotice
         }
     }
 }

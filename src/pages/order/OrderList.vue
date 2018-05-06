@@ -24,8 +24,8 @@
                         label="方向">
                         <template slot-scope="scope">
                             <span 
-                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
-                                {{scope.row.direction_type == 0?"买入":"卖出"}}
+                            :class="scope.row.direction_type == 1?'buy-direction':'sell-direction'">
+                                {{scope.row.direction_type == 1?"买入":"卖出"}}
                             </span>
                         </template>
                     </el-table-column>
@@ -79,8 +79,8 @@
                             label="方向">
                             <template slot-scope="scope">
                                 <span 
-                                :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
-                                    {{scope.row.direction_type == 0?"买入":"卖出"}}
+                                :class="scope.row.direction_type == 1?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction_type == 1?"买入":"卖出"}}
                                 </span>
                             </template>
                         </el-table-column>
@@ -152,8 +152,8 @@
                         label="方向">
                         <template slot-scope="scope">
                             <span 
-                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
-                                {{scope.row.direction_type == 0?"买入":"卖出"}}
+                            :class="scope.row.direction_type == 1?'buy-direction':'sell-direction'">
+                                {{scope.row.direction_type == 1?"买入":"卖出"}}
                             </span>
                         </template>
                     </el-table-column>
