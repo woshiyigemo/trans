@@ -65,13 +65,13 @@ export default {
             // console.log('ws数据',res)
             self.marketListUSDT =res.price.usdt;
             self.marketListUT =res.price.ut;
-            for(var i in this.marketListUSDT){
+            for(var i in self.marketListUSDT){
                 self.marketListUSDT[i].icon = '$'
                 self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
             }
-            for(var i in this.marketListUT){
+            for(var i in self.marketListUT){
                 self.marketListUT[i].icon = '$'
-                self.marketListUT[i].positive = self.marketListUSDT[i].p >=0?true:false
+                self.marketListUT[i].positive = self.marketListUT[i].p >=0?true:false
             }
         }
     },

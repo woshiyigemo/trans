@@ -43,6 +43,7 @@
 </template>
 <script>
 export default {
+   name:'Wiki',
    data() {
       return {
         restaurants: [],

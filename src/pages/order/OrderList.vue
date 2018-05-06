@@ -9,6 +9,7 @@
                     style="width: 100%">
                     <el-table-column
                         prop="time"
+                        width="180"
                         label="时间">
                     </el-table-column>
                     <el-table-column
@@ -59,74 +60,76 @@
                 <el-tab-pane label="委托历史" name="history">
                     <el-table
                     :data="hisDelegate"
+                    @expand-change="expandLine"    
                     style="width: 100%">
-                    <el-table-column
-                        prop="time"
-                        label="时间"
-                        width="180">
-                    </el-table-column>
-                    <el-table-column
-                        prop="duad"
-                        label="交易对">
-                        <template slot-scope="scope">
-                            {{scope.row.duad.toUpperCase()}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="direction"
-                        label="方向">
-                        <template slot-scope="scope">
-                            <span 
-                            :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
-                                {{scope.row.direction_type == 0?"买入":"卖出"}}
-                            </span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="price"
-                        label="价格">
-                    </el-table-column>
-                    <el-table-column
-                        prop="number"
-                        label="数量">
-                    </el-table-column>
-                    <el-table-column
-                        prop="total"
-                        label="委托总数">
-                    </el-table-column>
-                    <el-table-column
-                        prop="deal"
-                        label="成交额">
-                    </el-table-column>
-                    <el-table-column
-                        prop="untreated"
-                        label="未成交">
-                    </el-table-column>
-                    <el-table-column type="expand"
-                        prop=""
-                        label="操作">
-                        <template slot-scope="props">
-                            <div class="details" style="width:100%;height:93px;background:#151922;">
-                                <ul class="details_title">
-                                    <li>时间</li>
-                                    <li>价格</li>
-                                    <li>数量</li>
-                                    <li>成交额</li>
-                                    <li>手续费</li>
-                                </ul>
-                                <ul class="details_section">
-                                    <li>{{props.row.time}}</li>
-                                    <li>{{props.row.price}}</li>
-                                    <li>{{props.row.number}}</li>
-                                    <li>{{props.row.deal}}</li>
-                                    <li></li>
-                                </ul>
-                            </div>
-                        </template>
-                    </el-table-column>
-                    </el-table>
-
-                    
+                        <el-table-column
+                            prop="time"
+                            label="时间"
+                            width="180">
+                        </el-table-column>
+                        <el-table-column
+                            prop="duad"
+                            label="交易对">
+                            <template slot-scope="scope">
+                                {{scope.row.duad.toUpperCase()}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="direction"
+                            label="方向">
+                            <template slot-scope="scope">
+                                <span 
+                                :class="scope.row.direction_type == 0?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction_type == 0?"买入":"卖出"}}
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                            prop="price"
+                            label="价格">
+                        </el-table-column>
+                        <el-table-column
+                            prop="number"
+                            label="数量">
+                        </el-table-column>
+                        <el-table-column
+                            prop="total"
+                            label="委托总数">
+                        </el-table-column>
+                        <el-table-column
+                            prop="deal"
+                            label="成交额">
+                        </el-table-column>
+                        <el-table-column
+                            prop="untreated"
+                            label="未成交">
+                        </el-table-column>
+                        <el-table-column type="expand"
+                            prop=""
+                            label="操作">
+                            <template slot-scope="props">
+                                <div class="details">
+                                    <ul class="details_title">
+                                        <li>时间</li>
+                                        <li>价格</li>
+                                        <li>数量</li>
+                                        <li>成交额</li>
+                                        <li>手续费</li>
+                                    </ul>
+                                    <ul v-if="!props.row.loading" v-for="(item,index) in props.row.detailList" :key="index" class="details_section">
+                                        <li>{{item.time}}</li>
+                                        <li>{{item.price}}</li>
+                                        <li>{{item.number}}</li>
+                                        <li>{{item.total}}</li>
+                                        <li>{{item.fee}}</li>
+                                    </ul>
+                                    <div v-if="props.row.loading" class="details_loading">
+                                        <i class="el-icon-loading"></i>
+                                    </div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                    </el-table>   
                 </el-tab-pane>
                 <el-tab-pane label="成交明细" name="detail">
                     <el-table
@@ -200,8 +203,11 @@ export default {
   },
   created(){
       this.getCurDelegate()
+      setInterval(this.getCurDelegate(),5000)
       this.getHisDelegate()
+      setInterval(this.getHisDelegate(),5000)
       this.getDealDetail()
+      setInterval(this.getDealDetail(),5000)
   },
   methods:{
       handleClick(a){
@@ -225,7 +231,7 @@ export default {
           .then(res => {
               console.log(res,111)
               if(res.error_code == 1000){
-                  this.hisDelegate = res.entrusts
+                  this.hisDelegate = res.entrusts 
               }
           }).catch(err => {
 
@@ -233,7 +239,7 @@ export default {
       },
       getDealDetail(){
           var data = {}
-          api.dealDetail()
+          api.delegateDetail()
           .then(res => {
               console.log(res)
               if(res.error_code == 1000){
@@ -247,15 +253,34 @@ export default {
             console.log(row)
             var data = {
                 order_id:row.id,
-                currency:'btc'
+                currency:row.order_type
             }
             api.cancelDelegate(data)
             .then(res => {
                 this.$message(res.error_desc)
                 this.getCurDelegate()
-            }).catch(err => {
-                this.$message('网络失败请重试')
-            })
+            }).catch(err => {})
+      },
+      expandLine(row, expandedRows){
+          var self = this
+          if(row.detailList && row.detailList.length >= 0){
+              return
+          }
+          this.$set(row,'loading',true)
+          var data = {
+            order_id:row.id,
+            currency:row.currency,
+            trade_currency:row.trade_currency
+          }
+          api.orderDetail(data)
+          .then(res => {
+              console.log(res)
+              if(res.error_code == 1000){  
+                this.$set(row,'detailList',res.entrusts)
+                this.$set(row,'loading',false)
+                console.log(row,self.hisDelegate,expandedRows)
+              }
+          }).catch(err => {})
       }
       
   }
@@ -274,13 +299,18 @@ export default {
         width: 100%;
     }
     .details{
+        width:100%;
+        background:#151922;
         .details_title{overflow: hidden;
             li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #5b667c;text-align: center;}
         }
         .details_section{overflow: hidden;
             li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
         }
-        
+        .details_loading{
+            text-align: center;
+            padding: 15px 0;
+        }
     }
 }
 </style>

@@ -32,7 +32,11 @@
       </div>
   </div>
 </template>
-
+<script>
+    export default {
+        name:'GoogleVerifyIntro'
+    }
+</script>
 <style scoped>
 .settingMain{width: 1200px;height: 943px;margin: 0 auto;background: #191f27;margin-top: 40px;}
 .section{width: 1120px;height: 943px;margin: 0 auto;}

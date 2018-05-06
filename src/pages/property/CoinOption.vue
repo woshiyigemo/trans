@@ -4,8 +4,8 @@
 			<div class="sjx_section">
 				<div class="section_title">
 					<div class="top-title">
-						总资产合计：{{balance}}
-						&nbsp;&nbsp;USDT<span style="font-size:14px;color:#344252;"> ≈ {{(balance * 6.3).toFixed(2)}} CNY</span>
+						<!-- 总资产合计：{{balance}}
+						&nbsp;&nbsp;USDT<span style="font-size:14px;color:#344252;"> ≈ {{(balance * 6.3).toFixed(2)}} CNY</span> -->
 						<div class="quikc-nav">
 							<router-link class="quikc-link" to='/property/financialrecords' style="margin-right:26px;">财务记录</router-link>
 							<router-link class="quikc-link" to='/property/withdrawaddressmanagement'>提币地址管理</router-link>
@@ -142,12 +142,7 @@
 		name: 'CoinOption',
 		data() {
 			return {
-				index:0,
-				balance: 0.173617413,
-				can: 3.9542,
-				readAmount:0,
-				astrict: 100000.00000000,
-				Mention:"123DSA315sa3dAFSAASD",
+				balance: 0,
 				verifyInfo:{
 					userEmail:'',
 					mailCode:'',

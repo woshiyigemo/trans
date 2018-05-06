@@ -4,8 +4,7 @@
         <div class="nav">
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
             <router-link class="navbar" active-class="navbar-active" v-if="userloggedin" to="/exchange/coinexchange">币币交易</router-link>
-            <!-- <a href="">币币交易</a>
-            <a href="">币币交易</a> -->
+            <router-link class="navbar" active-class="navbar-active" to="/wiki">新手帮助</router-link>
         </div>
         <div class="login_btn_div"  v-if="!userloggedin">
             <router-link class="login_btn_div_login" to="/user/login">登录</router-link>
@@ -109,7 +108,7 @@ export default {
 <style rel='stylesheet/scss' scoped>
 .index_top_t{text-align: center;width:100%;min-height:56px;height:auto;background:#202832;overflow:hidden}
 .logo{float:left;width:125px;height:56px;background:url('~@/assets/img/logo.png') no-repeat center;margin-left:80px;}
-.nav{width:auto;margin-left:90px;height:56px;min-width:320px;float:left;}
+.nav{width:auto;margin-left:90px;height:56px;min-width:320px;float:left;font-size: 14px;}
 .nav a{float:left;width:auto;margin-right:65px;height:56px;line-height:56px;text-decoration: none;}
 .nav a:hover{color:#4c54f9;text-decoration: none;}
 .nav_show{color:#4c54f9 !important;}

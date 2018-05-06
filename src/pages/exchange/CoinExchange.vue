@@ -8,10 +8,10 @@
                             <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1" v-if="price.usdt[0]" >ETH/USDT  {{price.usdt[0].order_price}}</div>
-                            <div class="right-l2">≈  {{(price.usdt[0].order_price*6.3).toFixed(2)}}CNY</div>
+                            <div class="right-l1"  v-if="price.usdt[0]">ETH/USDT  {{price.usdt[0].order_price||0}}</div>
+                            <div class="right-l2"  v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3||0).toFixed(2)}}CNY</div>
                             <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
-                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high}} 低：{{price.usdt[0].low}}</div>
+                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high||0}} 低：{{price.usdt[0].low||0}}</div>
                         </el-main>
                         
                     </el-container>
@@ -273,8 +273,8 @@
                             label="方向">
                             <template slot-scope="scope">
                                 <span 
-                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
-                                    {{scope.row.direction == 1?"买入":"卖出"}}
+                                :class="scope.row.direction == 0?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 0?"买入":"卖出"}}
                                 </span>
                             </template>
                         </el-table-column>
@@ -333,8 +333,8 @@
                             label="方向">
                             <template slot-scope="scope">
                                 <span 
-                                :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
-                                    {{scope.row.direction == 1?"买入":"卖出"}}
+                                :class="scope.row.direction == 0?'buy-direction':'sell-direction'">
+                                    {{scope.row.direction == 0?"买入":"卖出"}}
                                 </span>
                             </template>
                         </el-table-column>
@@ -602,7 +602,9 @@ export default {
     },
     created(){
         this.getCurDelegate()
+        setInterval(this.getCurDelegate(),5000)
         this.getHisDelegate()
+        setInterval(this.getHisDelegate(),5000)
         this.getNotice()
         this.getAssetslist()
         this.userAccount()
@@ -836,8 +838,6 @@ export default {
             .then(res => {
                 if(res.error_code == 1000){
                     this.exchange.balance = res.available
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 

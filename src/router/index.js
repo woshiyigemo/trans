@@ -1,23 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
+
+// 用户登录
 import User from '@/pages/user/User'
-import Slider from '@/components/Slider'
 import Login from '@/pages/user/Login'
 import FindPwd from '@/pages/user/FindPwd'
 import FindPinCode from '@/pages/user/FindPinCode'
 import Regist from '@/pages/user/Regist'
 
-
+// 账户安全
 import Account from '@/pages/account/Account'
 import IdentityVerify from '@/pages/account/IdentityVerify'
 import Security from '@/pages/account/Security'
 
-
+// 资产
 import Property from '@/pages/property/Property'
 import CoinOption from '@/pages/property/CoinOption'
 import FinancialRecords from '@/pages/property/FinancialRecords'
 import WithDrawAddressManagement from '@/pages/property/WithDrawAddressManagement'
+
+// 新手帮助
+import GoogleVerifyIntro from '@/pages/help/GoogleVerifyIntro'
+import Wiki from '@/pages/help/Wiki'
 
 import Main from '@/pages/Main'
 import Home from '@/pages/Home'
@@ -135,6 +141,18 @@ const router =  new Router({
           path:'order',
           name:'order',
           component: OrderList
+        },
+        {
+          // 谷歌验证
+          path:'googleverifyintro',
+          name:'googleverifyintro',
+          component: GoogleVerifyIntro
+        },
+        {
+          // 谷歌验证
+          path:'wiki',
+          name:'wiki',
+          component: Wiki
         }
       ]
     }
