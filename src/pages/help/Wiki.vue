@@ -89,7 +89,7 @@ ul li{list-style: none;}
 .search{width: 635px;height: 55px;margin: 0 auto;}
 /* 常见问题 */
 .problem{width: 1120px;min-height:400px;margin: 0 auto;overflow: hidden;}
-.problem h5{font-size: 20px;color: #4d5f77;margin-top: 57px;background: url("~@/assets/img/problem.png") 7% no-repeat;text-indent: 110px;}
+.problem h5{font-size: 20px;color: #8d9fb8;margin-top: 57px;background: url("~@/assets/img/problem.png") 7% no-repeat;text-indent: 110px;}
 .message ul{float:left;font-size: 16px;color: #a2b2c8;line-height: 50px;margin-top: 40px;}
 .message ul:first-child{width: 340px;margin-left: 108px;}
 .message ul:nth-child(2){width: 439px;}

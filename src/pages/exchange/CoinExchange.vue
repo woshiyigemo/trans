@@ -887,7 +887,7 @@ export default {
 .market-table{
     background-color: #191f27;
     font-size: 14px;
-    color: #617997;
+    color: #8d9fb8;
     position: relative;
 }
 .vuebar-element {
@@ -1001,7 +1001,7 @@ export default {
 }
 .market-list-header{
     font-size: 12px;
-    color:#384456;
+    color:#8d9fb8;
     line-height: 1.5;
     height: 28px;
 }
