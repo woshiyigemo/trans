@@ -108,143 +108,146 @@ function handleStatusCode(response) {
 const api = {
     //  用户登录
     userLogin(data) {
-    return instance.post('/user/login', data)
-},
-// 用户退出
-userLogOut(data) {
-    return instance.post('/assets/loginout', data)
-},
-// 用户注册
-userRegist(data) {
-    return instance.post('/user/register', data)
-},
-//  获取图片验证码
-getImgCode(type ) {
-    return apiConfig.baseURL + '/public/getimgcode?timestamp=' + (new Date().getTime()).toString() + '&type=' + type
-},
-// 验证图片验证码 进入下一步
-checkImgCode(data){
-    return instance.post('/user/checkfindpasswordimgcode', data)
-},
-//发送找回密码验证码到邮箱
-sendFindPwdCode(data){
-    return instance.post('/user/sendfindpasswordcode', data)
-},
-// 提交找回密码验证码进入下一步
-checkFindPwdCode(data){
-    return instance.post('/user/checkfindpasswordcode', data)
-},
-// 修改登录密码
-setSignPwd(data){
-    return instance.post('/user/setfindpasswordagain', data)
-},
-// 新增委托
-addDelegate(data){
-    return instance.post('/entrust/order', data)
-},
-// 撤销委托
-cancelDelegate(data){
-    return instance.post('/entrust/cancel', data)
-},
-// 当前委托
-curDelegate(data){
-    return instance.post('/entrust/current', data)
-},
-// 历史委托
-hisDelegate(data){
-    return instance.post('/entrust/history', data)
-},
-// 根据交易ID获取交易明细
-orderDetail(data){
-    return instance.post('/entrust/userdetail', data)
-},
-// 委托明细
-delegateDetail(data){
-    return instance.post('/entrust/detail', data)
-},
-// 公告
-getNotice(data){
-    return instance.post('/index/getnotice', data)
-},
-// 资产列表（持有）
-getAssetslist(data){
-    return instance.post('/assets/assetslist', data)
-},
-// 用户账户/余额
-userAccount(data){
-    return instance.post('/user/account', data)
-},
-// 上传地址
-uploadUrl(){
-    return apiConfig.baseURL + '/public/upload'
-},
-// 获取国家
-getCountry(data){
-    return instance.post('/public/getcountry', data)
-},
-// 身份验证
-userAuth(data){
-    return instance.post('/assets/authentication', data)
-},
-// 设置交易密码
-setPinCode(data){
-    return instance.post('/assets/settransactionpassword', data)
-},
-//获取充币地址
-getRechargeAddress(data){
-    return instance.post('/assets/rechargeaddress', data)
-},
-//资产中心-财务记录（充币记录）
-assetsRechargeRecord(data){
-    return instance.get('/assets/assetsRecord?page=' + data.page)
-},
-//资产中心-财务记录（提取币记录）
-assetsWithdrawRecord(data){
-    return instance.get('/assets/assetsWithdraw?page=' + data.page)
-},
-// 提币地址列表
-withdrawAddressList(data){
-    return instance.post('/assets/getusertakecoinadresslist', data)
-},
-// 删除提币地址
-deleteWithdrawAddress(data){
-    return instance.post('/assets/deletetakecoinaddress', data)
-},
-// 发送修改交易密码验证码
-getPinCodeVerifyCode(data){
-    return instance.post('/assets/sendupdatetransactionpasswordcode', data)
-},
-// 发送提币验证邮件
-getTakeCoinVerifyCode(data){
-    return instance.post('/assets/sendaddtakecoinaddressemail', data)
-},
-// 添加提币地址
-addWithdrawAddress(data){
-    return instance.post('/assets/addtakecoinaddress', data)
-},
-//获取提币地址
-getWithdrawAddress(data){
-    return instance.post('/assets/gettakecoinaddress', data)
-},
-//提币手续费接口
-calWithdrawFee(data){
-    return instance.post('/assets/getpoundage', data)
-},
-sendWithdrawCode(data){
-    return instance.post('/assets/sendtakecoinemail', data)
-},
-//提币按钮
-withdrawCoin(data){
-    return instance.post('/assets/takecoin', data)
-},
-//获取公告列表
-GetNoticeList(data){
-    return instance.post('/index/getnotice', data)
-},
-//获取公告详情
-GetNoticeDetail(data){
-    return instance.post('/index/getnoticedetail', data)
-}
+        return instance.post('/user/login', data)
+    },
+    // 用户退出
+    userLogOut(data) {
+        return instance.post('/assets/loginout', data)
+    },
+    // 用户注册
+    userRegist(data) {
+        return instance.post('/user/register', data)
+    },
+    //  获取图片验证码
+    getImgCode(type ) {
+        return apiConfig.baseURL + '/public/getimgcode?timestamp=' + (new Date().getTime()).toString() + '&type=' + type
+    },
+    // 验证图片验证码 进入下一步
+    checkImgCode(data){
+        return instance.post('/user/checkfindpasswordimgcode', data)
+    },
+    //发送找回密码验证码到邮箱
+    sendFindPwdCode(data){
+        return instance.post('/user/sendfindpasswordcode', data)
+    },
+    // 提交找回密码验证码进入下一步
+    checkFindPwdCode(data){
+        return instance.post('/user/checkfindpasswordcode', data)
+    },
+    // 修改登录密码
+    setSignPwd(data){
+        return instance.post('/user/setfindpasswordagain', data)
+    },
+    // 新增委托
+    addDelegate(data){
+        return instance.post('/entrust/order', data)
+    },
+    // 撤销委托
+    cancelDelegate(data){
+        return instance.post('/entrust/cancel', data)
+    },
+    // 当前委托
+    curDelegate(data){
+        return instance.post('/entrust/current', data)
+    },
+    // 历史委托
+    hisDelegate(data){
+        return instance.post('/entrust/history', data)
+    },
+    // 根据交易ID获取交易明细
+    orderDetail(data){
+        return instance.post('/entrust/userdetail', data)
+    },
+    // 委托明细
+    delegateDetail(data){
+        return instance.post('/entrust/detail', data)
+    },
+    // 公告
+    getNotice(data){
+        return instance.post('/index/getnotice', data)
+    },
+    // 资产列表（持有）
+    getAssetslist(data){
+        return instance.post('/assets/assetslist', data)
+    },
+    // 用户账户/余额
+    userAccount(data){
+        return instance.post('/user/account', data)
+    },
+    // 上传地址
+    uploadUrl(){
+        return apiConfig.baseURL + '/public/upload'
+    },
+    // 获取国家
+    getCountry(data){
+        return instance.post('/public/getcountry', data)
+    },
+    // 身份验证
+    userAuth(data){
+        return instance.post('/assets/authentication', data)
+    },
+    // 设置交易密码
+    setPinCode(data){
+        return instance.post('/assets/settransactionpassword', data)
+    },
+    //获取充币地址
+    getRechargeAddress(data){
+        return instance.post('/assets/rechargeaddress', data)
+    },
+    //资产中心-财务记录（充币记录）
+    assetsRechargeRecord(data){
+        return instance.get('/assets/assetsRecord?page=' + data.page)
+    },
+    //资产中心-财务记录（提取币记录）
+    assetsWithdrawRecord(data){
+        return instance.get('/assets/assetsWithdraw?page=' + data.page)
+    },
+    // 提币地址列表
+    withdrawAddressList(data){
+        return instance.post('/assets/getusertakecoinadresslist', data)
+    },
+    // 删除提币地址
+    deleteWithdrawAddress(data){
+        return instance.post('/assets/deletetakecoinaddress', data)
+    },
+    // 发送修改交易密码验证码
+    getPinCodeVerifyCode(data){
+        return instance.post('/assets/sendupdatetransactionpasswordcode', data)
+    },
+    // 发送提币验证邮件
+    getTakeCoinVerifyCode(data){
+        return instance.post('/assets/sendaddtakecoinaddressemail', data)
+    },
+    // 添加提币地址
+    addWithdrawAddress(data){
+        return instance.post('/assets/addtakecoinaddress', data)
+    },
+    //获取提币地址
+    getWithdrawAddress(data){
+        return instance.post('/assets/gettakecoinaddress', data)
+    },
+    //提币手续费接口
+    calWithdrawFee(data){
+        return instance.post('/assets/getpoundage', data)
+    },
+    sendWithdrawCode(data){
+        return instance.post('/assets/sendtakecoinemail', data)
+    },
+    //提币按钮
+    withdrawCoin(data){
+        return instance.post('/assets/takecoin', data)
+    },
+    //获取公告列表
+    GetNoticeList(data){
+        return instance.post('/index/getnotice', data)
+    },
+    //获取公告详情
+    GetNoticeDetail(data){
+        return instance.post('/index/getnoticedetail', data)
+    },
+    getWsByCurrency(data){
+        return instance.post('/Port/getPort', data)
+    }
 }
 export {api, handleError, handleStatusCode}
 

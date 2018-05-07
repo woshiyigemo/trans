@@ -8,10 +8,10 @@
                             <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1"  v-if="price.usdt[0]">ETH/USDT  {{price.usdt[0].order_price||0}}</div>
-                            <div class="right-l2"  v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3||0).toFixed(2)}}CNY</div>
-                            <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
-                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high||0}} 低：{{price.usdt[0].low||0}}</div>
+                            <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
+                            <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
+                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'red':'green'">{{curPrice}}%</div>
+                            <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
                     </el-container>
@@ -83,7 +83,7 @@
                                                 价格
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
-                                                <template slot="append">USDT</template>
+                                                <template slot="append">{{currency}}</template>
                                             </el-input>
                                         </el-col>
                                         <el-col :span="12">
@@ -91,7 +91,7 @@
                                                 数量
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
-                                                <template slot="append">ETH</template>
+                                                <template slot="append">{{tradeCurrency}}</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -233,9 +233,9 @@
                     <div class="kline-header">
                          <i class="arrow-right el-icon-arrow-right" @click="toggleShowKline"></i>
                             图表
-                            <el-select v-model="curChart" style="width:140px;">
+                            <el-select v-model="curDuad" style="width:140px;" @change="changeDuad">
                                 <el-option
-                                v-for="item in chartOptions"
+                                v-for="item in currencyOptions"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
@@ -243,7 +243,7 @@
                             </el-select>
                     </div>
                     <div style="height:400px;" v-show="showKline">
-                       <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto src="http://frontend.sy.sxurl.cn/kline/versiontwo?plate_id=usdt_to_eth&1524061966"></iframe> 
+                       <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto :src="iframUrl"></iframe> 
                     </div>
                 </div>
                 <div class="exchange-table">
@@ -471,6 +471,7 @@ export default {
     },
     data(){
         return{
+            // 折叠开关
             showMarket:true,
             showDeal:true,
             showMyCoin:true,
@@ -481,9 +482,20 @@ export default {
             showDeep:true,
             showRealTime:true,
 
-            // socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            // 当前目标货币
+            curDuad:'',
+            currency:'',
+            tradeCurrency:'',
+            tradeCurrencyInfo:{
+                name:'',
+                order_price:0,
+                p:0,
+                high:0,
+                low:0,
+                star:0
+            },
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
-            socket_2:new WebSocket('ws://54.65.108.119:9542'),
+            socketUrl:'',
             barContainerStyle:{
                 width:'6px',
                 backgroundColor:'#202832'
@@ -492,14 +504,8 @@ export default {
                 width:'6px',
                 backgroundColor:'#344253'
             },
+            
             price:{
-                // isPositive:true,
-                // btc:{
-                //     high:0,
-                //     low:0,
-                //     order_price:0,
-                //     p:0
-                // }
                 usdt:[],
                 ut:[]
             },
@@ -569,18 +575,15 @@ export default {
                     notice_content:"2323"
                 }
             ],
-            curChart:'ETH/USDT',
-            chartOptions:[
+            currencyOptions:[
                 {
                     value:'ETH/USDT',
                     label:'ETH/USDT'
-
+                },
+                {
+                    value:'BTC/USDT',
+                    label:'BTC/USDT'
                 }
-                // ,
-                // {
-                //     value:'BTC/USDT',
-                //     label:'BTC/USDT'
-                // }
             ],
             curDelegation:[],
             hisDelegation:[],
@@ -598,18 +601,22 @@ export default {
         allprice(){
             return (this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.amount).toFixed(4)
         },
-        allcurprice(){
-
+        iframUrl(){
+            return 'http://frontend.sy.sxurl.cn/kline/versiontwo?from=' + this.currency +'&to=' + this.tradeCurrency + '&1524016170='
         },
         curPrice(){
-            if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].p){
-                return Math.abs(this.price.usdt[0].p)
+            if(this.tradeCurrencyInfo && this.tradeCurrencyInfo.p){
+                return Math.abs(this.tradeCurrencyInfo.p)
             }else{
                 return 0
             }
         }
     },
     created(){
+        this.getDuad()
+
+
+
         this.getCurDelegate()
         setInterval(this.getCurDelegate(),5000)
         this.getHisDelegate()
@@ -623,19 +630,46 @@ export default {
         this.socket_1.onmessage = function(data){
             var res = JSON.parse(data.data)
             console.log(res)
-            self.normalizeCurPrice(res.price)
+            self.normalizeCurPrice(res)
             self.normalizeRealTime(res.sb)
+            self.realTimeDealList = res.nb
+            console.log
         }
-        this.socket_2.onmessage = function(data){
-            var res = JSON.parse(data.data)
-            console.log(res)
-            self.realTimeDealList = res
-        }
+        // this.socket_2.onmessage = function(data){
+        //     var res = JSON.parse(data.data)
+        //     console.log(res)
+        //     self.realTimeDealList = res
+        // }
     },
     watch:{
         
     },
     methods:{
+        // 重置比表货币
+        getDuad(){
+            // 获取当前货币和交易对
+            this.tradeCurrency = this.$route.query.tradeCurrency ? this.$route.query.tradeCurrency:(this.currencyOptions[0].value).split('/')[0]
+            this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
+            this.curDuad = this.tradeCurrency + '/' + this.currency
+        },
+        // 切换币种
+        changeDuad(e){
+            console.log(e)
+            this.tradeCurrency = this.curDuad.split('/')[0]
+            this.currency = this.curDuad.split('/')[1]
+            this.getWsByCurrency()
+        },
+        // 根据当前货币获取接口
+        getWsByCurrency(){
+            var data = {
+                pan_id:this.currency + '_to_' + this.tradeCurrency
+            }
+            api.getWsByCurrency()
+            .then(res =>{
+
+            }).catch(err => {})
+        },
+
         normalizeRealTime(res){
             var self = this
             self.realTimeDeal.buy = []
@@ -659,9 +693,9 @@ export default {
         },
         normalizeCurPrice(res){
             var self = this
-            this.price = res
-            this.marketListUSDT = res.usdt
-            this.marketListUT = res.ut
+            this.tradeCurrencyInfo = res.one
+            this.marketListUSDT = res.price.usdt
+            this.marketListUT = res.price.ut
             for(var i in this.marketListUSDT){
                 self.marketListUSDT[i].icon = '$'
                 self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
@@ -771,11 +805,11 @@ export default {
                 return
             }
             var data = {
-                currency:'USDT',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
                 order_amount:deal.amount,  //订单数量
                 order_price:Number(deal.price),          //订单价格
                 order_type:orderType,                    //订单类型，0 限价单，1市价单
-                trade_currency:'ETH',               //交易货币，货币符号 CNY,BTC，ETH，UT等
+                currency:this.currency,                 //基础货币，货币符号 CNY,BTC，ETH，UT等
+                trade_currency:this.tradeCurrency,     //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type               //交易类型，0买单，1买单
             }
             api.addDelegate(data)
@@ -794,7 +828,9 @@ export default {
             console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:row.order_type
+                order_type:row.order_type,
+                currency:row.currency,
+                trade_currency:row.trade_currency
             }
             api.cancelDelegate(data)
             .then(res => {
@@ -841,7 +877,7 @@ export default {
         },
         userAccount(){
             var data = {
-                currency:'usdt'
+                currency:this.currency
             }
             api.userAccount(data)
             .then(res => {

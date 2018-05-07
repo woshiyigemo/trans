@@ -29,7 +29,10 @@ import Main from '@/pages/Main'
 import Home from '@/pages/Home'
 import CoinExchange from '@/pages/exchange/CoinExchange'
 
+// 订单
 import OrderList from '@/pages/order/OrderList'
+
+// 公告
 import Notice from '@/pages/notice/Notice'
 import Detail from '@/pages/notice/Detail'
 
@@ -121,7 +124,7 @@ const router =  new Router({
                         },
                         {
                             // 找回/修改登录密码
-                            path: 'findpassword/:type/',
+                            path: 'findpassword',
                             name: 'findpassword',
                             component: FindPwd
                         },
@@ -163,18 +166,11 @@ const router =  new Router({
                     name:'notice',
                     component: Notice,
                     children: [
-                        //{
-                        //    // 公告详情
-                        //    path:'/notice/detail',
-                        //    name:'noticedetail',
-                        //    component: Detail
-                        //}
-
                     ]
                 },
                 {
                     // 公告详情
-                    path:'/notice/detail',
+                    path:'notice/detail',
                     name:'noticedetail',
                     component: Detail
                 }

@@ -270,7 +270,8 @@ export default {
           var data = {
             order_id:row.id,
             currency:row.currency,
-            trade_currency:row.trade_currency
+            trade_currency:row.trade_currency,
+            trade_type:row.trade_type
           }
           api.orderDetail(data)
           .then(res => {
