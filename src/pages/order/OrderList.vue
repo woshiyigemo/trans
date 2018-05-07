@@ -170,7 +170,7 @@
                         label="委托总数">
                     </el-table-column> -->
                     <el-table-column
-                        prop="deal"
+                        prop="total"
                         label="成交额">
                     </el-table-column>
                     <el-table-column
