@@ -29,7 +29,7 @@ export default {
 /* 左侧边栏 */
 .real_left{width: 200px;height: 1233px;background: #191f27;float: left;}
 .real_left .option{
-    width: 200px;height: 59px;font-size: 13px;text-align: center;line-height: 59px;color: #526078;list-style: none;
+    width: 200px;height: 59px;font-size: 13px;text-align: center;line-height: 59px;color: #8d9fb8;list-style: none;
     display: block;
 }
 .real_left .option:first-child{height: 81px;line-height: 81px;font-size: 19px;}

@@ -111,7 +111,7 @@ export default {
   .active{background: #4c54f9!important;color: #f6fbff!important;}
   /* 充币内容 */
   .charge_title{width:890px;height: 53px;border-bottom: 1px solid #202234;}
-  .charge_title li{line-height: 53px;float: left;font-size: 12px;color: #4d5f77;}
+  .charge_title li{line-height: 53px;float: left;font-size: 12px;color: #8d9fb8;}
   .charge_title li:first-child{width:222px;;text-indent: 30px;}
   .charge_title li:nth-child(2){width: 217px;text-align: center;}
   .charge_title li:nth-child(3){width: 275px;text-align: center;}
