@@ -1,7 +1,7 @@
 <template>
     <div id="drag">
         <div class="drag_bg weui-btn_primary" :style="{width:curW + 20 +'px'}"></div>
-        <div class="drag_text" onselectstart="return false;" unselectable="on":class="[isDragOk ? 'whitecolor':'graycolor']">{{text}}</div>
+        <div class="drag_text" onselectstart="return false;" unselectable="on" :class="[isDragOk ? 'whitecolor':'graycolor']">{{text}}</div>
         <div class="handler" :style="{left:curW+'px'}" :class="[isDragOk ? 'handler_ok_bg':'handler_bg']"></div>
     </div>
 </template>
@@ -124,6 +124,7 @@ export default {
     line-height: 40px;
     background: url('~@/assets/img/index12.png') no-repeat center;
     border-radius:999px;font-size:14px;
+    overflow: hidden;
 }
 #drag .drag_bg {
     background:#656dfc;

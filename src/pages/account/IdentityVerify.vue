@@ -244,22 +244,12 @@ export default {
 /* 表单 */
 .from{width:886px;height: 900px;margin: 0 auto;margin-top: 65px;}
 .from h5{font-size: 14px;color: #c2c3ca;border-top: 1px solid #202234;line-height: 54px;}
-label{line-height: 90px!important;text-align: left!important;text-indent: 15px;color: #a2b2c8!important;}
-
-
-.el-input input{width: 474px;height: 48px;background: #151920;color: #354456!important;}
-.el-form-item{border-top: 1px solid #202234;margin:0;}
-.base-info-line{
-    border-top: 1px solid #202234;margin:0;
-    padding: 8px 0;
-}
 /* 信息验证 */
 .port{height: 120px;border-top: 1px solid #202234;}
 .port ul{overflow: hidden;list-style: none;}
 .port li{float: left;line-height: 120px;}
 .port li:first-child{width: 130px;color: #a2b2c8;font-size: 14px;}
 .port li img{margin: 0 auto;display: inline-block;vertical-align: middle;margin: 0 25px;}
-.el-upload{width: 90px;height: 58px!important;border-radius: 0;background: #151920;font-size: 19px;margin:31px 0;line-height: 58px;}
 
 
 .upload{width: 76px;height: 26px;border-radius: 30px;text-align: center;background-color: #3a4a5e;margin: 47px 34px 47px 20px;line-height: 26px!important;font-size: 12px;color: #6d86a5;cursor: pointer;}
@@ -280,8 +270,6 @@ label{line-height: 90px!important;text-align: left!important;text-indent: 15px;c
 .upload-wrapper{
     padding: 0 15px;
 }
-.upload-btn{padding: 2px 12px;;border-radius: 30px;text-align: center;line-height: 26px!important;font-size: 12px;background-color:  #3a4a5e; color: #6d86a5;cursor: pointer;border-color:#3a4a5e;margin: 0 5px;}
-
 /* 错误提示 */
 .findpassword_error{text-align:left;color:#8faacc;font-size:12px;padding:13px 16px;padding-left:25px;box-sizing:border-box;border-radius:2px;width:230px;position:relative;min-height:50px;height:auto;margin-left:30px;background:#3a4a5e;float: left;line-height:20px;}
 .findpassword_error::after{

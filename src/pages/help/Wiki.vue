@@ -87,15 +87,6 @@ ul li{list-style: none;}
 .help_main{width: 1120px;margin: 0 auto;color: #eaf3ff;font-size: 28px;text-align: center;overflow: hidden;}
 .welcome{margin: 126px 0 60px 0;}
 .search{width: 635px;height: 55px;margin: 0 auto;}
-.inline-input{height: 55px;float: left;}
-.search input{width: 485px;height:55px;background: #eaf3ff;}
-.search .el-button{width: 117px;height: 55px;border-radius: 0;background: #4c54f9;border: none;color:#fcfcf2;float: right;}
-.el-autocomplete-suggestion li:hover{background: #151920;}
-.el-autocomplete-suggestion__wrap{width: 485px;min-height: 166px;background: #171c23;color: #415065;padding: 0;border: none;overflow: hidden;margin: 0!important;border:1px solid #191f27;box-sizing: border-box;}
-.el-popper{margin: 0!important;}
-.popper__arrow{display: none!important;}
-.el-scrollbar__view li:first-child{margin-top:40px;}
-
 /* 常见问题 */
 .problem{width: 1120px;min-height:400px;margin: 0 auto;overflow: hidden;}
 .problem h5{font-size: 20px;color: #4d5f77;margin-top: 57px;background: url("~@/assets/img/problem.png") 7% no-repeat;text-indent: 110px;}

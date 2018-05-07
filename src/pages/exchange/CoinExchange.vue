@@ -23,7 +23,7 @@
                         </div>
                         <el-tabs v-show="showMarket" type="border-card" class="market-table">
                             
-                            <el-tab-pane label="USTD">
+                            <el-tab-pane label="USDT">
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -569,7 +569,7 @@ export default {
                     notice_content:"2323"
                 }
             ],
-            curChart:'ETH/USTD',
+            curChart:'ETH/USDT',
             chartOptions:[
                 {
                     value:'ETH/USDT',

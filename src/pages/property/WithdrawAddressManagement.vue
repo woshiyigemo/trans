@@ -216,12 +216,12 @@ export default {
   .address_list_title{width: 890px;height: 89px;line-height: 89px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 15px;}
   .address_list_section{width: 890px;border-bottom: 1px solid #232935;}
   .clear{overflow: hidden;}
-  .clear li{float: left;height: 107px;}
+  .clear li{float: left;height: 80px;line-height: 80px;border-top:1px solid #232935;}
   .clear li:first-child{width: 100px;text-align: center;}
   .clear li:nth-child(2){width: 660px;}
   .clear li:nth-child(3){width: 130px;text-align: center;}
-  .clear li p:first-child{line-height: 40px;color: #5b6777;font-size: 12px;}
-  .clear li p:nth-child(2){line-height: 40px;color: #fafeff;font-size: 14px;}
+  .clear li p:first-child{line-height: 80px;color: #5b6777;font-size: 12px;}
+  .clear li p:nth-child(2){line-height: 80px;color: #fafeff;font-size: 14px;}
 
   .address_list_section_head{width: 890px;border-bottom: 1px solid #232935;}
   .clear-head{overflow: hidden;}

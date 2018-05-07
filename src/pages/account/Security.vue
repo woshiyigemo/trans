@@ -19,7 +19,7 @@
         <ul class="message">
             <li>交易密码:</li>
             <li>{{defaultPinCode}}</li>
-            <li v-if="hasSettedPinCode == 1" class="capitalpwd" @click="changePinCode">修改</li>
+            <li v-if="hasSettedPinCode == 1" class="capitalpwd" @click="changePinCodeSet">修改</li>
             <li v-if="hasSettedPinCode == 0" class="notset"  @click="changePinCode">设置</li>
         </ul>
         </div>
@@ -106,7 +106,7 @@ export default {
         changeSignPwd(){
             this.$router.replace({name:'findpassword',params:{type:1}})
         },
-        changePinCode(){
+        changePinCodeSet (){
             this.$router.replace({name:'findpincode',params:{type:1}})
         },
         changePinCode(){
