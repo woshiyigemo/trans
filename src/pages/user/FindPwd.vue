@@ -154,11 +154,11 @@ export default {
 
                 console.log(res,3333)
                 if (res.error_code==3007) {
-                  alert("验证码不能为空")
+                  console.log("验证码不能为空")
                 }else if (res.error_code == 3006){
-                  alert("验证码错误")
+                  console.log("验证码错误")
                 }else if(res.error_code == 3005){
-                  alert("验证码过期")
+                  console.log("验证码过期")
                 }else{
                   this.curStep = 3
                 }
@@ -175,7 +175,7 @@ export default {
             api.sendFindPwdCode(data).then(res =>{
                 console.log(res,"邮件已发送")
                 if (res.error_code==1000) {
-                    alert('邮件已发送')
+                    this.$message('邮件已发送')
                 }
             })
         },
@@ -226,24 +226,22 @@ export default {
 
 .findpassword_main_div_email,.findpassword_main_div_code{width:1000px;line-height:50px;height:50px;margin-top:70px;margin-left: 50px;}
 .findpassword_main_div_email_left,.findpassword_main_div_code_left{width:95px;float:left;text-align:left;color:#a2b2c8;line-height:50px;height:50px;font-size: 14px;}
-.findpassword_main_div_email_right,.findpassword_main_div_code_right{height:50px;width:510px;border:1px solid #384658;box-sizing:border-box;float:left;color:white;padding:0 5px;background-color:#151922;}
-.findpassword_main_div_email_right input,.findpassword_main_div_code_right input{outline:none;width:100%;height:50px;line-height:50px;border:none;background:none;text-align:left;color:#c2c3ca;font-size:20px}
 .findpassword_main_div_code_right{width:300px !important;float: left;}
 .send{width: 115px;height: 50px;border: 1px solid #4c54f9;color: #4c54f9;text-align: center;line-height: 47px;background: #1a232c;float: left;margin-left:24px;cursor: pointer; }
 .findpasswordsuccess_main_div_code_right{width:510px;}
 .findpassword_main_div_code img{float:left;margin-left:10px;height:50px;width:125px;}
-.findpassword_main_div_code a{float:left;height:50px;width: 60px;float:left;margin-left:15px;color:#4c54f9;font-size:14px}
+.findpassword_main_div_code a{float:left;height:50px;width: 60px;float:left;margin-left:15px;color:#4c54f9;font-size:14px;}
 .findpassword_main_div_btn{width:510px;height:50px;line-height:50px;color:white;display:block;background:#4c54f9;margin-top:50px;margin-left:145px;text-align: center;}
 
 .findpasswordtwo_main_div_img2{background:url('~@/assets/img/findpassword2.png') no-repeat center;margin-left:140px;width:770px;margin-top:76px;height:100px;}
 .findpasswordtwo_main_div_img3{background:url('~@/assets/img/findpassword3.png') no-repeat center;margin-left:140px;width:770px;margin-top:76px;height:100px;}
-.findpasswordtwo_main_ts{width:100%;padding-left:155px;color:#708bb0;text-align: left;margin-top: 40px;font-size:14px}
+.findpasswordtwo_main_ts{width:100%;padding-left:155px;color:#708bb0;text-align: left;margin-top: 40px;font-size:14px;}
 .findpasswordtwo_email{margin-top:50px}
 .findpasswordtwo_code{margin-top:30px}
-.findpasswordtwo_email_right{width:360px;color:#c2c3ca;height:50px;line-height:50px;text-align:left;font-size:16px;float:left}
+.findpasswordtwo_email_right{width:360px;color:#c2c3ca;height:50px;line-height:50px;text-align:left;font-size:16px;float:left;}
 
 .findpasswordthree_desc{width:100%;height:55px;background:url('~@/assets/img/findpassword4.png') no-repeat center;margin-top: 175px;}
-.findpasswordsuccess_btn{margin-left:auto;margin-top: 90px}
+.findpasswordsuccess_btn{margin-left:auto;margin-top: 90px;}
 .findpasswordsuccess_img{background:url('~@/assets/img/findpassword3.png') no-repeat center;}
 .findpassword_error{text-align:left;color:#8faacc;font-size:12px;padding:13px 16px;padding-left:25px;box-sizing:border-box;border-radius:2px;width:230px;position:relative;min-height:50px;height:auto;margin-left:30px;background:#3a4a5e;float: left;line-height:20px;}
 .findpassword_error::after{
