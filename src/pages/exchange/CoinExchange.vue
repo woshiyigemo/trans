@@ -627,14 +627,7 @@ export default {
     },
     mounted () {
         var self = this
-        this.socket_1.onmessage = function(data){
-            var res = JSON.parse(data.data)
-            console.log(res)
-            self.normalizeCurPrice(res)
-            self.normalizeRealTime(res.sb)
-            self.realTimeDealList = res.nb
-            console.log
-        }
+       
         // this.socket_2.onmessage = function(data){
         //     var res = JSON.parse(data.data)
         //     console.log(res)
@@ -651,6 +644,7 @@ export default {
             this.tradeCurrency = this.$route.query.tradeCurrency ? this.$route.query.tradeCurrency:(this.currencyOptions[0].value).split('/')[0]
             this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
             this.curDuad = this.tradeCurrency + '/' + this.currency
+            this.getWsByCurrency()
         },
         // 切换币种
         changeDuad(e){
@@ -662,14 +656,27 @@ export default {
         // 根据当前货币获取接口
         getWsByCurrency(){
             var data = {
-                pan_id:this.currency + '_to_' + this.tradeCurrency
+                pan_id:(this.currency + '_to_' + this.tradeCurrency).toLowerCase()
             }
-            api.getWsByCurrency()
+            api.getWsByCurrency(data)
             .then(res =>{
-
+                if(res.error_code == 1000){
+                    this.socketUrl =  'ws:' + res.port_info.ip + ':' + res.ws_port
+                    this.initWs()
+                }
             }).catch(err => {})
         },
-
+        initWs(){
+            var self = this
+            this.socket_1.close()
+            this.socket_1 = new WebSocket(this.socketUrl)
+            this.socket_1.onmessage = function(data){
+                var res = JSON.parse(data.data)
+                self.normalizeCurPrice(res)
+                self.normalizeRealTime(res.sb)
+                self.realTimeDealList = res.nb
+            }
+        },
         normalizeRealTime(res){
             var self = this
             self.realTimeDeal.buy = []
