@@ -5,7 +5,6 @@
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
             <router-link class="navbar" active-class="navbar-active" v-if="userloggedin" to="/exchange/coinexchange">币币交易</router-link>
             <router-link class="navbar" active-class="navbar-active" to="/wiki">新手帮助</router-link>
-            <router-link class="navbar" active-class="navbar-active" to="/notice">公告中心</router-link>
         </div>
         <div class="login_btn_div"  v-if="!userloggedin">
             <router-link class="login_btn_div_login" to="/user/login">登录</router-link>

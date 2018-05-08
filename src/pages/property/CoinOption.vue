@@ -103,7 +103,7 @@
 									<li>为保障资金安全，当您账户安全策略变更、密码修改、使用新地址提币，我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
-								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
+								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4c7af9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
 							</el-popover>
 							<el-button v-popover:popover type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
 							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
