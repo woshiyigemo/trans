@@ -246,7 +246,13 @@ const api = {
         return instance.post('/index/getnoticedetail', data)
     },
     getWsByCurrency(data){
-        return instance.post('/Port/getPort', data)
+        var  arr = Object.keys(data),str = ''
+        for(var i in arr){
+            str+= ('&'+ arr[i] +'=')
+            str+= data[arr[i]]
+        }
+        str = '?' + str.substr(1)
+        return instance.get('/Port/getPort'+str)
     }
 }
 export {api, handleError, handleStatusCode}
