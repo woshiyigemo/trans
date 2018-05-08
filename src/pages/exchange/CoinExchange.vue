@@ -474,10 +474,10 @@ export default {
             showMarket:true,
             showDeal:true,
             showMyCoin:true,
-            showNotice:true,
+            showNotice:false,
             showKline:true,
-            showCurDelegate:true,
-            showHisDelegate:true,
+            showCurDelegate:false,
+            showHisDelegate:false,
             showDeep:true,
             showRealTime:true,
 
@@ -658,6 +658,7 @@ export default {
             }
         },
         normalizeCurPrice(res){
+            
             var self = this
             this.price = res
             this.marketListUSDT = res.usdt

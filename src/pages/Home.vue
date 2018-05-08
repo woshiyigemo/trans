@@ -46,7 +46,7 @@ export default {
     data(){
         return{
             pubNotice:'开放比特币糖果(cdy)充值提现',
-            newsocket:new WebSocket('ws://54.65.108.119:9541'),
+            newsocket:new WebSocket('ws://54.65.108.119:9548'),
             marketListUSDT:[],
             marketListUT:[]
         }
