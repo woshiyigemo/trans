@@ -253,6 +253,10 @@ const api = {
         }
         str = '?' + str.substr(1)
         return instance.get('/Port/getPort'+str)
+    },
+    //添加阅读量
+    SetNoticeReadingCount(data){
+        return instance.post('/public/setnoticereadingcount', data)
     }
 }
 export {api, handleError, handleStatusCode}

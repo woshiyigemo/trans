@@ -18,12 +18,11 @@
                     <!-- 市场 -->
                     <div class="cur-price">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMarket"></i>
+                            <i :class="showMarket?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowMarket"></i>
                             市场
                         </div>
-                        <el-tabs v-show="showMarket" type="border-card" class="market-table">
-                            
-                            <el-tab-pane label="USDT">
+                        <el-tabs type="border-card" class="market-table">
+                            <el-tab-pane v-show="showMarket"  label="USDT">
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -68,7 +67,7 @@
                     <!-- 交易 -->
                     <div class="exchange">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeal"></i>
+                            <i :class="showDeal?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeal"></i>
                             交易
                         </div>
                         <el-tabs  type="border-card" v-model="exchange.orderType" class="market-table"> 
@@ -183,7 +182,7 @@
                     <!-- 持有 -->
                     <div class="mycoins">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMyCoin"></i>
+                            <i :class="showMyCoin?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowMyCoin"></i>
                             持有
                         </div>
                         <div v-show="showMyCoin" class="market-list-header pad15" >
@@ -213,7 +212,7 @@
 
                     <div class="boardcast">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowNotice"></i>
+                            <i :class="showNotice?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowNotice"></i>
                             公告
                         </div>
                         <div v-show="showNotice" class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
@@ -248,7 +247,7 @@
                 </div>
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowCurDelegate"></i>
+                        <i :class="showCurDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowCurDelegate"></i>
                             当前委托
                     </div>
                     <el-table v-show="showCurDelegate" class="center-table"
@@ -308,7 +307,7 @@
                 </div> 
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowHisDelegate"></i>
+                        <i :class="showHisDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowHisDelegate"></i>
                             历史委托
                     </div>
                     <el-table v-show="showHisDelegate" class="center-table"
@@ -370,7 +369,7 @@
                     <el-col :span="16" style="padding-right:2px;">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeep"></i>
+                                <i :class="showDeep?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeep"></i>
                                     委托量
                             </div>
                             <el-row v-show="showDeep">
@@ -428,7 +427,7 @@
                     <el-col :span="8">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowRealTime"></i>
+                                <i :class="showRealTime?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowRealTime"></i>
                                     实时成交
                             </div>
                             <el-table v-show="showRealTime" class="exchange-table"
@@ -490,8 +489,6 @@ export default {
                 low:0,
                 star:0
             },
-            // socket_1:new WebSocket('ws://54.65.108.119:9542'),
-            // 54.65.108.119 9548
             socket_1:null,
             socketUrl:'',
             barContainerStyle:{
@@ -1119,5 +1116,8 @@ export default {
 #show-iframe{
     width: 100%;
     height: 100%;
+}
+.i_roate{
+    transform:rotate(90deg)
 }
 </style>
