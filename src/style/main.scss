@@ -104,13 +104,15 @@ input[type="number"]{-moz-appearance:textfield;}
         overflow: hidden;
         width: 346px;
         padding: 12px;
-
+        .el-tabs__nav-scroll{
+            height: 42px;
+        }
         .dash{
             overflow: hidden;
             width: 324px;
             background-color: #191f27;
             margin-bottom: 12px;
-            padding: 28px;
+            padding:24px 28px;
             white-space:nowrap;
 
             .left-pic{
@@ -127,9 +129,13 @@ input[type="number"]{-moz-appearance:textfield;}
                 overflow: hidden;
                 line-height: 1.4;
                 height: 20px;
+                color: #c2c3ca;
+            }
+            .right-word>div{
+                line-height: 24px;
             }
             .right-l2{
-                color:#5b5c62;
+                color:#67778c;
                 font-size: 12px;
                 line-height: 1.4;
                 overflow: hidden;
@@ -137,23 +143,37 @@ input[type="number"]{-moz-appearance:textfield;}
             }
             .right-l3{
                 color:#eb5c55;
+                text-indent: 20px;
                 font-weight: bold;
-                font-size: 18px;
+                font-size: 19px;
                 overflow: hidden;
                 line-height: 1.4;
                 height: 24px;
                 &.green{
                     color:#5ead6f;
+                    background: url('~@/assets/img/green_add.png') 0 50% no-repeat;
                 }
                 &.red{
                     color:#eb5c55;
+                    text-indent: 17px!important;
+                    background: url('~@/assets/img/red_reduce.png') 0 50% no-repeat;
+                }
+                span{
+                    font-size: 14px;
+                    margin-left: 5px;
+                    font-weight: bold;
                 }
             }
             .right-l4{
-                color:#5b5c62;
+                color:#67778c;
                 font-size: 12px;
                 overflow: hidden;
                 height: 18px;
+                span{
+                    display: inline-block;
+                    width: 90px;
+                    overflow: hidden;
+                }
             }
 
         }
@@ -176,9 +196,9 @@ input[type="number"]{-moz-appearance:textfield;}
             
             .tips{
                 font-size: 12px;
-                line-height: 1.5;
-                height: 18px;
-                color:#f0f0f0;
+                line-height: 30px;
+                height: 30px;
+                color:#c2c3ca;
                 margin-top: 8px;
                 margin-bottom: 8px;
             }
@@ -193,6 +213,9 @@ input[type="number"]{-moz-appearance:textfield;}
                 margin-bottom: 8px;
             }
             .deal-form{
+                .el-slider__runway{
+                    margin: 24px 0;
+                }
                 .el-input__inner{
                     background-color: transparent;
                     border:none;
@@ -204,12 +227,14 @@ input[type="number"]{-moz-appearance:textfield;}
                     color:#9fa0a6;
                     background-color: #323e4d;
                     border:none;
+                    font-size: 12px;
                     margin-bottom: 8px;
                 }
                 .amount-label{
                     color:#8d9fb8;
                     font-size: 10px;
-                    margin-bottom: 5px;
+                    margin-bottom: 9px;
+                    color: #67778c;
                 }
                 .amount-input{
                     height: 28px!important;
@@ -222,6 +247,7 @@ input[type="number"]{-moz-appearance:textfield;}
                 .amount-tips{
                     font-size: 10px;
                     margin-bottom:10px;
+                    color: #67778c;
                 }
                 
                 .el-slider__bar {
@@ -254,7 +280,9 @@ input[type="number"]{-moz-appearance:textfield;}
                     margin-bottom: 18px;
                 }
                 .el-button--purchase {
-                    width: 130px;
+                    padding: 0;
+                    width: 134px;
+                    height: 33px;
                     border-radius: 0;
                     color: #fff;
                     background-color: #45ae68;
@@ -262,12 +290,15 @@ input[type="number"]{-moz-appearance:textfield;}
                     font-size: 14px;
                 }
                 .el-button--sell {
-                    width: 140px;
+                    padding: 0;
+                    width: 134px;
+                    height: 33px;
                     border-radius: 0;
                     color: #fff;
                     background-color: #eb5c55;
                     border-color: #eb5c55;
                     font-size: 14px;
+                    margin-left: 15px;
                 }
             }
         }
@@ -291,11 +322,12 @@ input[type="number"]{-moz-appearance:textfield;}
         }
         .normal-header{
             display: block;
-            height: 40px;
+            height: 42px;
             line-height: 39px;
-            padding: 0 5px;
+            padding: 0 10px;
             z-index: 10;
             font-size: 14px;
+            border-bottom: 1px solid #202234;
             color: #c2c3ca;
             .icon{
                 width:20px; 
@@ -307,6 +339,7 @@ input[type="number"]{-moz-appearance:textfield;}
                 font-size: 12px;
                 font-weight: 300;
                 margin-right: 8px;
+                
             }  
         }
     }
@@ -362,6 +395,12 @@ input[type="number"]{-moz-appearance:textfield;}
         }
     }
 
+    .exchange{
+        .market-table{
+            .el-tabs__item{font-size: 12px;}
+        }
+    }
+
     .exchange-table{
         background-color: #27303c;
         margin-bottom: 12px;
@@ -385,6 +424,22 @@ input[type="number"]{-moz-appearance:textfield;}
                 font-weight: 300;
                 margin-right: 8px;
             } 
+        }
+        .center-table{
+            .el-table__header-wrapper{
+                .el-table__header{
+                    .has-gutter{
+                        .cell{
+                            color: #67778c;
+                        }
+                    }
+                }
+            }
+            .el-table__row{
+                .cell{
+                    color: #9a9fa2;
+                }
+            }
         }
    
     }
@@ -458,6 +513,8 @@ input[type="number"]{-moz-appearance:textfield;}
         transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         border: none;
         color: #3b495b;
+        font-size: 12px;
+        font-weight: 600;
     }
     .el-tabs__item.is-active {
         color: #8d9fb8;
@@ -989,6 +1046,9 @@ input[type="number"]{-moz-appearance:textfield;}
             }
         }
     }
+}
+.real_left .option-active{
+    background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;display: block;
 }
 
 //历史委托

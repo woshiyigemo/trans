@@ -4,14 +4,14 @@
             <el-aside class="leftside" style="width:370px;">
                 <div class="inner-wrapper">
                     <el-container class="dash">
-                        <el-aside class="left-pic"  style="width:88px;">
+                        <el-aside class="left-pic"  style="width:88px;margin:11px 0;">
                             <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1"  v-if="price.usdt[0]">ETH/USDT  {{price.usdt[0].order_price||0}}</div>
+                            <div class="right-l1"  v-if="price.usdt[0]">ETH/USDT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{price.usdt[0].order_price||0}}</div>
                             <div class="right-l2"  v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3||0).toFixed(2)}}CNY</div>
-                            <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
-                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high||0}} 低：{{price.usdt[0].low||0}}</div>
+                            <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}<span>%</span></div>
+                            <div class="right-l4"  v-if="price.usdt[0]" ><span>高：{{price.usdt[0].high||0}}</span> <span>低：{{price.usdt[0].low||0}}</span></div>
                         </el-main>
                         
                     </el-container>
@@ -21,9 +21,9 @@
                             <i class="arrow-right el-icon-arrow-right" @click="toggleShowMarket"></i>
                             市场
                         </div>
-                        <el-tabs v-show="showMarket" type="border-card" class="market-table">
+                        <el-tabs type="border-card" class="market-table">
                             
-                            <el-tab-pane label="USDT">
+                            <el-tab-pane v-show="showMarket" label="USDT">
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -892,7 +892,7 @@ export default {
     position: relative;
 }
 .vuebar-element {
-  height: 150px;
+  height: 177px;
   width: 100%;
   background: #191f27;
   transform: rotate3d(0,0,0,0);
@@ -903,7 +903,7 @@ export default {
     background: #191f27;
     // overflow: hidden;
     white-space:nowrap; 
-    color:#c2c3ca;
+    
     line-height: 1.5;
     
     .rel1{
@@ -914,14 +914,14 @@ export default {
         overflow: hidden;
     }
     .rel2{
-        width: 70px;
+        width: 80px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
         overflow: hidden;
     }
     .rel3{
-        width: 100px;
+        width:85px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
@@ -940,17 +940,25 @@ export default {
         display: inline-block;
         color:#a4454b;
         text-align: center;
+        font-weight: bold;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
         text-align: center;
+        font-weight: bold;
     }
 }
-
+.market-list{
+    height: 33px;line-height: 33px;
+}
+.market-list:hover{
+    background: #232d39;
+}
 .mycoin-list{
     width: 100%;
+    margin-bottom: 10px;
     background: #191f27;
     color:#c2c3ca;
     line-height: 1.5;
@@ -966,48 +974,55 @@ export default {
         white-space:nowrap; 
     }
     .rel2{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel3{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel4{
         width: 80px;
         display: inline-block;
         text-align: center;
         overflow: hidden;
         white-space:nowrap; 
     }
+    .rel3{
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel4{
+        width: 88px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
     .get-coin{
+        width: 42px;
+        height: 21px;
         background-color:#344253;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
+        text-align: center;
+        padding: 0;
     }
     .add-coin{
+        width: 42px;
+        height: 21px;
         background-color:#495d75;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
-        margin-left: 5px;
+        margin-left: 0px;
+        text-align: center;
+        padding: 0;
     }
 }
 .market-list-header{
     font-size: 12px;
-    color:#8d9fb8;
-    line-height: 1.5;
-    height: 28px;
+    color:#67778c;
+    line-height: 30px;;
+    height: 30px;
 }
 .pad15{
     padding: 0 15px;
+    margin-bottom: 10px;
 }
 .market-list{
     text-align: center;
@@ -1035,13 +1050,15 @@ export default {
         padding-bottom: 3px;
     }
     .notice-li{
-        line-height: 1.5;
         font-size: 12px;
-        padding-top: 3px;
+        padding-top:3px;
         padding-bottom: 3px;
         overflow: hidden;
         white-space:nowrap; 
         text-overflow: ellipsis;
+    }
+    .notice-li:first-child{
+        margin-top: 18px!important;
     }
 }
 
