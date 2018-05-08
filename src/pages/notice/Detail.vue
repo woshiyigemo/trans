@@ -10,7 +10,7 @@
             <div class="notice_time_left">{{NoticeDetail.notice_time}}</div>
             <div class="notice_time_right">{{NoticeDetail.notice_reading}}</div>
         </div>
-        <div class="notice_con">{{NoticeDetail.notice_content}}</div>
+        <div class="notice_con" v-html="NoticeDetail.notice_content"></div>
     </div>
 </template>
 <script>
@@ -24,7 +24,8 @@ export default {
        };
     },
     created(){
-        this.GetNoticeDetail(this.$route.query.id)
+        this.GetNoticeDetail(this.$route.query.id),
+        this.SetNoticeReadingCount(this.$route.query.id)
     },
     methods: {
 
@@ -34,6 +35,18 @@ export default {
             api.GetNoticeDetail(data).then(res => {
                 if(res.error_code == 1000){
                     this.NoticeDetail = res.data
+                }else{
+                    this.$message(res.error_desc)
+                }
+            }).catch(err => {
+
+            })
+        },
+        //添加阅读量
+        SetNoticeReadingCount(id){
+            var data = {id:id}
+            api.SetNoticeReadingCount(data).then(res => {
+                if(res.error_code == 1000){
                 }else{
                     this.$message(res.error_desc)
                 }
