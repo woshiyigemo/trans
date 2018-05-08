@@ -12,7 +12,7 @@
             </el-tooltip>
         </div>
         <div class="login_div_other">
-            <div class="login_div_other_left"><a href="javascript:void(0);"> </a><span>记住密码</span></div>
+            <!-- <div class="login_div_other_left"><a href="javascript:void(0);"> </a><span>记住密码</span></div> -->
             <input type="hidden" id="login_div_other_val" value="2">
             <a href="javascript:void(0);" @click="forgetPwd" class="login_div_other_right">忘记密码？</a>
         </div>
