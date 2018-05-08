@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
-                                        <div class="market-list" v-for="(item,index) in marketListUSDT" :key="index">
+                                        <div class="market-list" @click="changeDuadByLine(item)" v-for="(item,index) in marketListUSDT" :key="index">
                                             <span class="rel1">{{item.icon}}</span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
@@ -457,13 +457,9 @@
     </div>
 </template>
 <script>
-// import Vue from 'vue'
-// import VueWebsocket from "vue-websocket";
-// Vue.use(VueWebsocket, "ws://54.65.108.119:9541")
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
-// import ReconnectingWebSocket from 'reconnecting-websocket'
 export default {
     name:'CoinExchange',
     props:{
@@ -506,7 +502,6 @@ export default {
                 width:'6px',
                 backgroundColor:'#344253'
             },
-            
             price:{
                 usdt:[],
                 ut:[]
@@ -655,6 +650,9 @@ export default {
             this.currency = this.curDuad.split('/')[1]
             this.getWsByCurrency()
         },
+        changeDuadByLine(item){
+            
+        },
         // 根据当前货币获取接口
         getWsByCurrency(){
             var self = this
@@ -685,6 +683,10 @@ export default {
                 self.normalizeCurPrice(res)
                 self.normalizeRealTime(res.sb)
                 self.realTimeDealList = res.nb
+                // 如果有则赋值到市价交易默认值
+                if(res.sbprice && res.sbprice.order_price){
+                    self.exchange.limitPriceDeal.price = res.sbprice.order_price
+                }
                 console.log('当前重新连接到socket')
             }
         },
@@ -836,6 +838,10 @@ export default {
                 if(res.error_code == 1000){
                     this.userAccount()
                     this.getCurDelegate()
+                    // 如果此次是限价交易，则重新获取一次当前价格
+                    if(orderType == 0){
+                        this.exchange.limitPriceDeal.price = this.tradeCurrencyInfo.order_price
+                    }
                 }
                 this.$message(res.error_desc)
             }).catch(err => {
