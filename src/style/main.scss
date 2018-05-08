@@ -1,6 +1,6 @@
 
 /* 改变主题色变量 */
-$--color-primary: teal;
+$--color-primary: #4c54f9;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
@@ -89,14 +89,14 @@ input[type="number"]{-moz-appearance:textfield;}
   }
 .fs-container{
     text-align: left;
-    background-color: #1b1720;  
+    background-color: #151920;  
     color:#98999f;
 }
 /* 无线宽度中部 */
 .leftside{
     width: 370px;
     padding: 12px;
-    background-color: #1b1720;
+    background-color: #151920;
     overflow: hidden;
         
     .inner-wrapper{
@@ -136,7 +136,7 @@ input[type="number"]{-moz-appearance:textfield;}
                 height: 18;
             }
             .right-l3{
-                color:red;
+                color:#eb5c55;
                 font-weight: bold;
                 font-size: 18px;
                 overflow: hidden;
@@ -146,7 +146,7 @@ input[type="number"]{-moz-appearance:textfield;}
                     color:#5ead6f;
                 }
                 &.red{
-                    color:red;
+                    color:#eb5c55;
                 }
             }
             .right-l4{

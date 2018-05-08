@@ -367,11 +367,11 @@
                     </el-table>
                 </div>  
                 <el-row :gutter="20">
-                    <el-col :span="16">
+                    <el-col :span="16" style="padding-right:2px;">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
                                 <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeep"></i>
-                                    深度图
+                                    委托量
                             </div>
                             <el-row v-show="showDeep">
                                 <el-col :span="12">
@@ -475,10 +475,10 @@ export default {
             showMarket:true,
             showDeal:true,
             showMyCoin:true,
-            showNotice:true,
+            showNotice:false,
             showKline:true,
-            showCurDelegate:true,
-            showHisDelegate:true,
+            showCurDelegate:false,
+            showHisDelegate:false,
             showDeep:true,
             showRealTime:true,
 
@@ -710,6 +710,7 @@ export default {
             }
         },
         normalizeCurPrice(res){
+            
             var self = this
             this.tradeCurrencyInfo = res.one
             this.marketListUSDT = res.price.usdt
