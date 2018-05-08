@@ -230,7 +230,7 @@
             <el-main class="rightside">
                 <div class="kline">
                     <div class="kline-header">
-                         <i class="arrow-right el-icon-arrow-right" @click="toggleShowKline"></i>
+                         <i :class="showKline?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowKline"></i>
                             图表
                             <el-select v-model="curDuad" style="width:140px;" @change="changeDuad">
                                 <el-option
