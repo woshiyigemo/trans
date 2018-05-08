@@ -615,8 +615,9 @@ export default {
         setInterval(this.getCurDelegate(),5000)
         this.getHisDelegate()
         setInterval(this.getHisDelegate(),5000)
-        this.getNotice()
         this.getAssetslist()
+        setInterval(this.getAssetslist(),5000)
+        this.getNotice()
         this.userAccount()
     },
     mounted () {
@@ -818,6 +819,22 @@ export default {
             var deal = this.exchange.orderType == 'limitprice'?this.exchange.limitPriceDeal:this.exchange.marketPriceDeal
 
             var orderType = this.exchange.orderType == 'limitprice'?0:1
+            // 如果市价
+            if(this.exchange.orderType == 'limitprice'){
+                deal = this.exchange.limitPriceDeal
+            }else{
+                deal = JSON.parse(JSON.stringify(this.exchange.marketPriceDeal))
+                // 如果是买，将price字段变为amount 
+                if(trade_type == 1){
+                    deal.amount = deal.price
+                    deal.price = 0
+                }else if(trade_type == 2){
+                    deal.price = 0
+                }
+            }
+
+
+            // 如果是限价，检查总额是否超出
             if(this.exchange.orderType == 0 && this.exchange.limitPriceDeal.amount * this.exchange.limitPriceDeal.price  > this.exchange.balance){
                 this.$message('交易额超过当前账户余额')
                 return
