@@ -201,8 +201,8 @@
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
                                         <span class="rel4">
-                                             <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
-                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
                                         </span>
                                     </div>
                                 </div>
@@ -940,14 +940,14 @@ export default {
         display: inline-block;
         color:#a4454b;
         text-align: center;
-        font-weight: bold;
+        // font-weight: bold;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
         text-align: center;
-        font-weight: bold;
+        // font-weight: bold;
     }
 }
 .market-list{
@@ -995,21 +995,21 @@ export default {
         white-space:nowrap; 
     }
     .get-coin{
-        width: 42px;
+        width: 36px;
         height: 21px;
         background-color:#344253;
         color: #8e9aa9;
         border-radius: 0;
         text-align: center;
+        margin-left: 0px;
         padding: 0;
     }
     .add-coin{
-        width: 42px;
+        width: 36px;
         height: 21px;
         background-color:#495d75;
         color: #8e9aa9;
         border-radius: 0;
-        margin-left: 0px;
         text-align: center;
         padding: 0;
     }
