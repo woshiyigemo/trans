@@ -61,14 +61,14 @@ instance.interceptors.response.use(function (response) {
         },3000)
         var usinfo = VueCookies.get('__uinfo')
         VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
-    }else if(response.data && response.data.error_code && response.data.error_code == 4002){
+    }else if(response.data && response.data.error_code && response.data.error_code == 4004){
         // 未设置提笔地址
         Message({
             message: '请先设置提币地址，3秒后跳转',
             type: 'error'
         })
         setTimeout(function(){
-            router.replace({name:'security'})
+            router.replace({name:'withdrawaddressmanagement'})
         },3000)
         var usinfo = VueCookies.get('__uinfo')
         VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)

@@ -123,6 +123,9 @@
                                         <li>{{item.total}}</li>
                                         <li>{{item.fee}}</li>
                                     </ul>
+                                    <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
+                                        暂无数据
+                                    </div>
                                     <div v-if="props.row.loading" class="details_loading">
                                         <i class="el-icon-loading"></i>
                                     </div>
@@ -214,8 +217,10 @@ export default {
           console.log(a)
       },
       getCurDelegate(){
-          var data = {}
-          api.curDelegate()
+          var data = {
+              page:1
+          }
+          api.curDelegate(data)
           .then(res => {
               console.log(res)
               if(res.error_code == 1000){
@@ -226,7 +231,9 @@ export default {
           })
       },
       getHisDelegate(){
-          var data = {}
+          var data = {
+              page:1
+          }
           api.hisDelegate()
           .then(res => {
               console.log(res,111)
@@ -238,8 +245,10 @@ export default {
           })
       },
       getDealDetail(){
-          var data = {}
-          api.delegateDetail()
+          var data = {
+              page:1
+          }
+          api.delegateDetail(data)
           .then(res => {
               console.log(res)
               if(res.error_code == 1000){
@@ -303,10 +312,10 @@ export default {
         width:100%;
         background:#151922;
         .details_title{overflow: hidden;
-            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
+            li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
         }
         .details_section{overflow: hidden;
-            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
+            li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
         }
         .details_loading{
             text-align: center;

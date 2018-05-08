@@ -93,6 +93,9 @@ export default {
       options: [{
         value: 'ETH',
         label: 'ETH'
+      },{
+        value: 'BTC',
+        label: 'BTC'
       }],
       selectedCoin:'ETH',
       addressList:[]

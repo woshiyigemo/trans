@@ -10,7 +10,7 @@
                         <el-main class="right-word">
                             <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
                             <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
-                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'red':'green'">{{curPrice}}%</div>
+                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'green':'red'">{{curPrice}}%</div>
                             <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
@@ -311,7 +311,9 @@
                         <i :class="showHisDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowHisDelegate"></i>
                             历史委托
                     </div>
-                    <el-table v-show="showHisDelegate" class="center-table"
+                    <el-table v-show="showHisDelegate" 
+                    @expand-change="expandLine" 
+                    class="center-table"
                     :data="hisDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -340,7 +342,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格">
+                            :label="priceLabel">
                         </el-table-column>
                         <el-table-column
                             prop="number"
@@ -348,15 +350,48 @@
                         </el-table-column>
                         <el-table-column
                             prop="total"
-                            label="委托总额">
+                            label="委托量">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
-                            label="已成交">
+                            :label="dealLabel">
                         </el-table-column>
                         <el-table-column
-                            prop="untreated"
-                            label="未成交">
+                            prop="average_price"
+                            label="成交均价">
+                        </el-table-column>
+                        <el-table-column
+                            prop="status_name"
+                            label="状态">
+                        </el-table-column>
+                        <el-table-column
+                            type="expand"
+                            prop=""
+                            label="操作">
+                            <template slot-scope="props">
+                                <div class="details">
+                                    <ul class="details_title">
+                                        <li>时间</li>
+                                        <li>价格</li>
+                                        <li>数量</li>
+                                        <li>成交额</li>
+                                        <li>手续费</li>
+                                    </ul>
+                                    <ul v-if="!props.row.loading" v-for="(item,index) in props.row.detailList" :key="index" class="details_section">
+                                        <li>{{item.time}}</li>
+                                        <li>{{item.price}}</li>
+                                        <li>{{item.number}}</li>
+                                        <li>{{item.total}}</li>
+                                        <li>{{item.fee}}</li>
+                                    </ul>
+                                    <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
+                                        暂无数据
+                                    </div>
+                                    <div v-if="props.row.loading" class="details_loading">
+                                        <i class="el-icon-loading"></i>
+                                    </div>
+                                </div>
+                            </template>
                         </el-table-column>
                         <!-- <el-table-column
                             label="操作">
@@ -605,16 +640,17 @@ export default {
             }else{
                 return 0
             }
+        },
+        priceLabel(){
+            return '价格(' + this.currency + ')'
+        },
+        dealLabel(){
+            return '已成交(' + this.tradeCurrency + ')'
         }
     },
     created(){
         this.getDuad()
-
-
-
-        this.getCurDelegate()
         setInterval(this.getCurDelegate(),5000)
-        this.getHisDelegate()
         setInterval(this.getHisDelegate(),5000)
         this.getAssetslist()
         setInterval(this.getAssetslist(),5000)
@@ -622,13 +658,7 @@ export default {
         this.userAccount()
     },
     mounted () {
-        var self = this
-       
-        // this.socket_2.onmessage = function(data){
-        //     var res = JSON.parse(data.data)
-        //     console.log(res)
-        //     self.realTimeDealList = res
-        // }
+
     },
     watch:{
         
@@ -641,6 +671,8 @@ export default {
             this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
             this.curDuad = this.tradeCurrency + '/' + this.currency
             this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
         },
         // 切换币种
         changeDuad(e){
@@ -648,6 +680,8 @@ export default {
             this.tradeCurrency = this.curDuad.split('/')[0]
             this.currency = this.curDuad.split('/')[1]
             this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
         },
         changeDuadByLine(item){
             
@@ -781,6 +815,8 @@ export default {
         // 获取当前委托
         getCurDelegate(){
             var data = {
+                currency:this.currency,
+                trade_currency:this.tradeCurrency,
                 page:1
             }
             api.curDelegate(data)
@@ -794,6 +830,8 @@ export default {
         // 获取历史委托
         getHisDelegate(){
             var data = {
+                currency:this.currency,
+                trade_currency:this.tradeCurrency,
                 page:1
             }
             api.hisDelegate(data)
@@ -930,6 +968,28 @@ export default {
         },
         jumpNotice(item){
             this.$router.push({path:'/notice/detail',query:{id:item.notice_id}})
+        },
+        expandLine(row, expandedRows){
+            var self = this
+            if(row.detailList && row.detailList.length >= 0){
+                return
+            }
+            this.$set(row,'loading',true)
+            var data = {
+                order_id:row.id,
+                currency:row.currency,
+                trade_currency:row.trade_currency,
+                trade_type:row.direction
+            }
+            api.orderDetail(data)
+            .then(res => {
+                console.log(res)
+                if(res.error_code == 1000){  
+                    this.$set(row,'detailList',res.entrusts)
+                    this.$set(row,'loading',false)
+                    console.log(row,expandedRows)
+                }
+            }).catch(err => {})
         },
         // 切换
         toggleShowMarket(){
@@ -1154,5 +1214,19 @@ export default {
 }
 .i_roate{
     transform:rotate(90deg)
+}
+.details{
+    width:100%;
+    background:#151922;
+    .details_title{overflow: hidden;
+        li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
+    }
+    .details_section{overflow: hidden;
+        li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
+    }
+    .details_loading{
+        text-align: center;
+        padding: 15px 0;
+    }
 }
 </style>
