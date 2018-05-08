@@ -4,8 +4,8 @@ import router from '../router'
 import VueCookies from 'vue-cookies'
 import store from '../store/store'
 import {
-  Message
-} from 'element-ui'
+    Message
+    } from 'element-ui'
 const expire = 1000 * 60 * 120
 const apiConfig = {
     // baseURL: '/cms',
@@ -21,18 +21,18 @@ const apiConfig = {
         // 'content-type':'text/html; charset=UTF-8'
     },
     validateStatus() {
-        return true
-    }
+    return true
+}
 }
 
 const instance = axios.create(apiConfig)
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     return config;
-  }, function (error) {
+}, function (error) {
     // 对请求错误做些什么
     return Promise.reject(error);
-  });
+});
 
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
@@ -55,7 +55,7 @@ instance.interceptors.response.use(function (response) {
         Message({
             message: '请先设置交易密码，3秒后跳转',
             type: 'error'
-        })    
+        })
         setTimeout(function(){
             router.replace({name:'security'})
         },3000)
@@ -66,7 +66,7 @@ instance.interceptors.response.use(function (response) {
         Message({
             message: '请先设置提币地址，3秒后跳转',
             type: 'error'
-        })    
+        })
         setTimeout(function(){
             router.replace({name:'security'})
         },3000)
@@ -82,7 +82,7 @@ instance.interceptors.response.use(function (response) {
             message: response.data.error_desc,
             type: 'error'
         })
-        
+
     }
     response = response.data
     return response;
@@ -210,21 +210,9 @@ const api = {
     deleteWithdrawAddress(data){
         return instance.post('/assets/deletetakecoinaddress', data)
     },
-    // 验证修改交易密码图片code
-    getCheckImgCode(data) {
-        return instance.post('/assets/checkupdatetransactionpasswordimgcode', data)
-    },    
     // 发送修改交易密码验证码
-    sendPinCodeVerifyCode(data){
+    getPinCodeVerifyCode(data){
         return instance.post('/assets/sendupdatetransactionpasswordcode', data)
-    },
-    //验证修改交易密码验证码
-    checkDealCode(data){
-        return instance.post('/assets/checkupdatetransactionpasswordcode', data)
-    },
-    //修改交易密码
-    modifyDealPwd(data){
-        return instance.post('/assets/setupdatetransactionpassword', data)
     },
     // 发送提币验证邮件
     getTakeCoinVerifyCode(data){
@@ -238,7 +226,7 @@ const api = {
     getWithdrawAddress(data){
         return instance.post('/assets/gettakecoinaddress', data)
     },
-     //提币手续费接口
+    //提币手续费接口
     calWithdrawFee(data){
         return instance.post('/assets/getpoundage', data)
     },
@@ -248,6 +236,27 @@ const api = {
     //提币按钮
     withdrawCoin(data){
         return instance.post('/assets/takecoin', data)
+    },
+    //获取公告列表
+    GetNoticeList(data){
+        return instance.post('/index/getnotice', data)
+    },
+    //获取公告详情
+    GetNoticeDetail(data){
+        return instance.post('/index/getnoticedetail', data)
+    },
+    getWsByCurrency(data){
+        var  arr = Object.keys(data),str = ''
+        for(var i in arr){
+            str+= ('&'+ arr[i] +'=')
+            str+= data[arr[i]]
+        }
+        str = '?' + str.substr(1)
+        return instance.get('/Port/getPort'+str)
+    },
+    //添加阅读量
+    SetNoticeReadingCount(data){
+        return instance.post('/public/setnoticereadingcount', data)
     }
 }
 export {api, handleError, handleStatusCode}

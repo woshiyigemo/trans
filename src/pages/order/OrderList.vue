@@ -270,7 +270,8 @@ export default {
           var data = {
             order_id:row.id,
             currency:row.currency,
-            trade_currency:row.trade_currency
+            trade_currency:row.trade_currency,
+            trade_type:row.trade_type
           }
           api.orderDetail(data)
           .then(res => {
@@ -302,7 +303,7 @@ export default {
         width:100%;
         background:#151922;
         .details_title{overflow: hidden;
-            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #5b667c;text-align: center;}
+            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
         }
         .details_section{overflow: hidden;
             li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}

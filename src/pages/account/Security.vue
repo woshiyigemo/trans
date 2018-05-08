@@ -104,10 +104,10 @@ export default {
     },
     methods:{
         changeSignPwd(){
-            this.$router.replace({name:'findpassword',params:{type:1}})
+            this.$router.replace({name:'findpassword'})
         },
         changePinCodeSet (){
-            this.$router.replace({name:'findpincode',params:{type:1}})
+            this.$router.replace({name:'findpincode'})
         },
         changePinCode(){
             this.pinCodeModalVisible = true
