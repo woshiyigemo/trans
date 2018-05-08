@@ -122,7 +122,7 @@ export default {
     float:right;height:56px;padding-top:13px;box-sizing:border-box;margin-right:95px;
 }
 .person-nav{
-    color:#627482;
+    color:#8d9fb8;
     padding: 0 15px;
     height:30px;
     line-height: 30px;
@@ -130,7 +130,7 @@ export default {
     outline: none;
 }
 .person-nav-block{
-    color:#627482;
+    color:#8d9fb8;
     padding: 0 15px;
     height:30px;
     line-height: 30px;
@@ -141,7 +141,7 @@ export default {
     color:#4c54f9;
 }
 .navbar{
-    color:#627482;
+    color:#8d9fb8;
 }
 .nav:hover{color:#4c54f9;text-decoration: none;}
 .navbar-active{

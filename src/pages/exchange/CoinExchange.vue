@@ -117,7 +117,7 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <!-- <el-tab-pane  name="marketprice" label="市价">
+                            <el-tab-pane  name="marketprice" label="市价">
                                 <div class="tips">
                                     可用：{{exchange.balance}} USDT
                                 </div>
@@ -137,7 +137,7 @@
                                             @focus="getFocus"
                                             @keyup.native="getBuyKeyup"
                                             placeholder="买入交易额" >
-                                                <template slot="append">USDT</template>
+                                                <template slot="append">{{currency}}</template>
                                             </el-input>
                                         </el-col>
                                         <el-col :span="12">
@@ -151,7 +151,7 @@
                                             @focus="getFocus"
                                             @keyup.native="getSellKeyup"
                                             v-model.number="exchange.marketPriceDeal.amount">
-                                                <template slot="append">ETH</template>
+                                                <template slot="append">{{tradeCurrency}}</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -174,7 +174,7 @@
                                         :disabled="exchange.marketPriceDeal.sellDisable">卖出</el-button>
                                     </div>
                                 </div>
-                            </el-tab-pane> -->
+                            </el-tab-pane>
                         </el-tabs> 
                     </div>
 
@@ -218,7 +218,7 @@
                         <div v-show="showNotice" class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
                             <div >
                                 <ul class="notice-list">
-                                    <li class="notice-li" v-for="(item,index) in noticeList" :key="index">
+                                    <li class="notice-li" @click="jumpNotice(item)" v-for="(item,index) in noticeList" :key="index">
                                         <span class="notice-squre">·</span>{{item.notice_title}}
                                     </li>
                                 </ul>
@@ -279,11 +279,11 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格(USDT)">
+                            label="价格">
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(BTC)">
+                            label="数量">
                         </el-table-column>
                         <el-table-column
                             prop="total"
@@ -339,11 +339,11 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格(USDT)">
+                            label="价格">
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量(BTC)">
+                            label="数量">
                         </el-table-column>
                         <el-table-column
                             prop="total"
@@ -366,11 +366,11 @@
                     </el-table>
                 </div>  
                 <el-row :gutter="20">
-                    <el-col :span="16">
+                    <el-col :span="16" style="padding-right:2px;">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
                                 <i :class="showDeep?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeep"></i>
-                                    深度图
+                                    委托量
                             </div>
                             <el-row v-show="showDeep">
                                 <el-col :span="12">
@@ -474,10 +474,10 @@ export default {
             showMarket:true,
             showDeal:true,
             showMyCoin:true,
-            showNotice:true,
+            showNotice:false,
             showKline:true,
-            showCurDelegate:true,
-            showHisDelegate:true,
+            showCurDelegate:false,
+            showHisDelegate:false,
             showDeep:true,
             showRealTime:true,
 
@@ -493,7 +493,7 @@ export default {
                 low:0,
                 star:0
             },
-            socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            socket_1:null,
             socketUrl:'',
             barContainerStyle:{
                 width:'6px',
@@ -654,26 +654,35 @@ export default {
         },
         // 根据当前货币获取接口
         getWsByCurrency(){
+            var self = this
             var data = {
-                pan_id:(this.currency + '_to_' + this.tradeCurrency).toLowerCase()
+                currency:this.currency,
+                trade_currency:this.tradeCurrency
             }
             api.getWsByCurrency(data)
             .then(res =>{
                 if(res.error_code == 1000){
-                    this.socketUrl =  'ws:' + res.port_info.ip + ':' + res.ws_port
+                    this.socketUrl =  'ws://' + res.port_info.ip + ':' + res.port_info.pan_port
+                    console.log(99999,this.socketUrl)
                     this.initWs()
                 }
             }).catch(err => {})
         },
         initWs(){
             var self = this
-            this.socket_1.close()
+            if(this.socket_1){
+                this.socket_1.close()
+                this.socket_1 = null
+            }
             this.socket_1 = new WebSocket(this.socketUrl)
             this.socket_1.onmessage = function(data){
+                
                 var res = JSON.parse(data.data)
+                console.log('ws接口：', res)
                 self.normalizeCurPrice(res)
                 self.normalizeRealTime(res.sb)
                 self.realTimeDealList = res.nb
+                console.log('当前重新连接到socket')
             }
         },
         normalizeRealTime(res){
@@ -698,6 +707,7 @@ export default {
             }
         },
         normalizeCurPrice(res){
+            
             var self = this
             this.tradeCurrencyInfo = res.one
             this.marketListUSDT = res.price.usdt
@@ -894,6 +904,9 @@ export default {
 
             })
         },
+        jumpNotice(item){
+            this.$router.push({path:'/notice/detail',query:{id:item.notice_id}})
+        },
         // 切换
         toggleShowMarket(){
             this.showMarket = !this.showMarket
@@ -1083,6 +1096,7 @@ export default {
         overflow: hidden;
         white-space:nowrap; 
         text-overflow: ellipsis;
+        cursor: pointer;
     }
 }
 
