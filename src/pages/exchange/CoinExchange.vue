@@ -8,22 +8,21 @@
                             <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
-                            <div class="right-l1"  v-if="price.usdt[0]">ETH/USDT  {{price.usdt[0].order_price||0}}</div>
-                            <div class="right-l2"  v-if="price.usdt[0]">≈  {{(price.usdt[0].order_price*6.3||0).toFixed(2)}}CNY</div>
-                            <div class="right-l3"  v-if="price.usdt[0]" :class="price.usdt[0].p>0?'red':'green'">{{curPrice}}%</div>
-                            <div class="right-l4"  v-if="price.usdt[0]" >高：{{price.usdt[0].high||0}} 低：{{price.usdt[0].low||0}}</div>
+                            <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
+                            <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
+                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'red':'green'">{{curPrice}}%</div>
+                            <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
                     </el-container>
                     <!-- 市场 -->
                     <div class="cur-price">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMarket"></i>
+                            <i :class="showMarket?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowMarket"></i>
                             市场
                         </div>
-                        <el-tabs v-show="showMarket" type="border-card" class="market-table">
-                            
-                            <el-tab-pane label="USDT">
+                        <el-tabs type="border-card" class="market-table">
+                            <el-tab-pane v-show="showMarket"  label="USDT">
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -68,7 +67,7 @@
                     <!-- 交易 -->
                     <div class="exchange">
                         <div class="tabs-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeal"></i>
+                            <i :class="showDeal?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeal"></i>
                             交易
                         </div>
                         <el-tabs  type="border-card" v-model="exchange.orderType" class="market-table"> 
@@ -83,7 +82,7 @@
                                                 价格
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
-                                                <template slot="append">USDT</template>
+                                                <template slot="append">{{currency}}</template>
                                             </el-input>
                                         </el-col>
                                         <el-col :span="12">
@@ -91,7 +90,7 @@
                                                 数量
                                             </div>
                                             <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
-                                                <template slot="append">ETH</template>
+                                                <template slot="append">{{tradeCurrency}}</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
@@ -183,7 +182,7 @@
                     <!-- 持有 -->
                     <div class="mycoins">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowMyCoin"></i>
+                            <i :class="showMyCoin?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowMyCoin"></i>
                             持有
                         </div>
                         <div v-show="showMyCoin" class="market-list-header pad15" >
@@ -213,7 +212,7 @@
 
                     <div class="boardcast">
                         <div class="normal-header">
-                            <i class="arrow-right el-icon-arrow-right" @click="toggleShowNotice"></i>
+                            <i :class="showNotice?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowNotice"></i>
                             公告
                         </div>
                         <div v-show="showNotice" class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
@@ -233,9 +232,9 @@
                     <div class="kline-header">
                          <i class="arrow-right el-icon-arrow-right" @click="toggleShowKline"></i>
                             图表
-                            <el-select v-model="curChart" style="width:140px;">
+                            <el-select v-model="curDuad" style="width:140px;" @change="changeDuad">
                                 <el-option
-                                v-for="item in chartOptions"
+                                v-for="item in currencyOptions"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
@@ -243,12 +242,12 @@
                             </el-select>
                     </div>
                     <div style="height:400px;" v-show="showKline">
-                       <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto src="http://frontend.sy.sxurl.cn/kline/versiontwo?plate_id=usdt_to_eth&1524061966"></iframe> 
+                       <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto :src="iframUrl"></iframe> 
                     </div>
                 </div>
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowCurDelegate"></i>
+                        <i :class="showCurDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowCurDelegate"></i>
                             当前委托
                     </div>
                     <el-table v-show="showCurDelegate" class="center-table"
@@ -308,7 +307,7 @@
                 </div> 
                 <div class="exchange-table">
                     <div class="exchange-table-header cur-delegation">
-                        <i class="arrow-right el-icon-arrow-right" @click="toggleShowHisDelegate"></i>
+                        <i :class="showHisDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowHisDelegate"></i>
                             历史委托
                     </div>
                     <el-table v-show="showHisDelegate" class="center-table"
@@ -370,7 +369,7 @@
                     <el-col :span="16">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowDeep"></i>
+                                <i :class="showDeep?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeep"></i>
                                     深度图
                             </div>
                             <el-row v-show="showDeep">
@@ -428,7 +427,7 @@
                     <el-col :span="8">
                         <div class="exchange-table">
                             <div class="exchange-table-header cur-delegation">
-                                <i class="arrow-right el-icon-arrow-right" @click="toggleShowRealTime"></i>
+                                <i :class="showRealTime?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowRealTime"></i>
                                     实时成交
                             </div>
                             <el-table v-show="showRealTime" class="exchange-table"
@@ -471,6 +470,7 @@ export default {
     },
     data(){
         return{
+            // 折叠开关
             showMarket:true,
             showDeal:true,
             showMyCoin:true,
@@ -481,9 +481,20 @@ export default {
             showDeep:true,
             showRealTime:true,
 
-            // socket_1:new WebSocket('ws://54.65.108.119:9541'),
+            // 当前目标货币
+            curDuad:'',
+            currency:'',
+            tradeCurrency:'',
+            tradeCurrencyInfo:{
+                name:'',
+                order_price:0,
+                p:0,
+                high:0,
+                low:0,
+                star:0
+            },
             socket_1:new WebSocket('ws://54.65.108.119:9541'),
-            socket_2:new WebSocket('ws://54.65.108.119:9542'),
+            socketUrl:'',
             barContainerStyle:{
                 width:'6px',
                 backgroundColor:'#202832'
@@ -492,14 +503,8 @@ export default {
                 width:'6px',
                 backgroundColor:'#344253'
             },
+            
             price:{
-                // isPositive:true,
-                // btc:{
-                //     high:0,
-                //     low:0,
-                //     order_price:0,
-                //     p:0
-                // }
                 usdt:[],
                 ut:[]
             },
@@ -569,18 +574,15 @@ export default {
                     notice_content:"2323"
                 }
             ],
-            curChart:'ETH/USDT',
-            chartOptions:[
+            currencyOptions:[
                 {
                     value:'ETH/USDT',
                     label:'ETH/USDT'
-
+                },
+                {
+                    value:'BTC/USDT',
+                    label:'BTC/USDT'
                 }
-                // ,
-                // {
-                //     value:'BTC/USDT',
-                //     label:'BTC/USDT'
-                // }
             ],
             curDelegation:[],
             hisDelegation:[],
@@ -598,18 +600,22 @@ export default {
         allprice(){
             return (this.exchange.limitPriceDeal.price * this.exchange.limitPriceDeal.amount).toFixed(4)
         },
-        allcurprice(){
-
+        iframUrl(){
+            return 'http://frontend.sy.sxurl.cn/kline/versiontwo?from=' + this.currency +'&to=' + this.tradeCurrency + '&1524016170='
         },
         curPrice(){
-            if(this.price.usdt && this.price.usdt[0] && this.price.usdt[0].p){
-                return Math.abs(this.price.usdt[0].p)
+            if(this.tradeCurrencyInfo && this.tradeCurrencyInfo.p){
+                return Math.abs(this.tradeCurrencyInfo.p)
             }else{
                 return 0
             }
         }
     },
     created(){
+        this.getDuad()
+
+
+
         this.getCurDelegate()
         setInterval(this.getCurDelegate(),5000)
         this.getHisDelegate()
@@ -620,22 +626,56 @@ export default {
     },
     mounted () {
         var self = this
-        this.socket_1.onmessage = function(data){
-            var res = JSON.parse(data.data)
-            console.log(res)
-            self.normalizeCurPrice(res.price)
-            self.normalizeRealTime(res.sb)
-        }
-        this.socket_2.onmessage = function(data){
-            var res = JSON.parse(data.data)
-            console.log(res)
-            self.realTimeDealList = res
-        }
+       
+        // this.socket_2.onmessage = function(data){
+        //     var res = JSON.parse(data.data)
+        //     console.log(res)
+        //     self.realTimeDealList = res
+        // }
     },
     watch:{
         
     },
     methods:{
+        // 重置比表货币
+        getDuad(){
+            // 获取当前货币和交易对
+            this.tradeCurrency = this.$route.query.tradeCurrency ? this.$route.query.tradeCurrency:(this.currencyOptions[0].value).split('/')[0]
+            this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
+            this.curDuad = this.tradeCurrency + '/' + this.currency
+            this.getWsByCurrency()
+        },
+        // 切换币种
+        changeDuad(e){
+            console.log(e)
+            this.tradeCurrency = this.curDuad.split('/')[0]
+            this.currency = this.curDuad.split('/')[1]
+            this.getWsByCurrency()
+        },
+        // 根据当前货币获取接口
+        getWsByCurrency(){
+            var data = {
+                pan_id:(this.currency + '_to_' + this.tradeCurrency).toLowerCase()
+            }
+            api.getWsByCurrency(data)
+            .then(res =>{
+                if(res.error_code == 1000){
+                    this.socketUrl =  'ws:' + res.port_info.ip + ':' + res.ws_port
+                    this.initWs()
+                }
+            }).catch(err => {})
+        },
+        initWs(){
+            var self = this
+            this.socket_1.close()
+            this.socket_1 = new WebSocket(this.socketUrl)
+            this.socket_1.onmessage = function(data){
+                var res = JSON.parse(data.data)
+                self.normalizeCurPrice(res)
+                self.normalizeRealTime(res.sb)
+                self.realTimeDealList = res.nb
+            }
+        },
         normalizeRealTime(res){
             var self = this
             self.realTimeDeal.buy = []
@@ -659,9 +699,9 @@ export default {
         },
         normalizeCurPrice(res){
             var self = this
-            this.price = res
-            this.marketListUSDT = res.usdt
-            this.marketListUT = res.ut
+            this.tradeCurrencyInfo = res.one
+            this.marketListUSDT = res.price.usdt
+            this.marketListUT = res.price.ut
             for(var i in this.marketListUSDT){
                 self.marketListUSDT[i].icon = '$'
                 self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
@@ -771,11 +811,11 @@ export default {
                 return
             }
             var data = {
-                currency:'USDT',                     //基础货币，货币符号 CNY,BTC，ETH，UT等
                 order_amount:deal.amount,  //订单数量
                 order_price:Number(deal.price),          //订单价格
                 order_type:orderType,                    //订单类型，0 限价单，1市价单
-                trade_currency:'ETH',               //交易货币，货币符号 CNY,BTC，ETH，UT等
+                currency:this.currency,                 //基础货币，货币符号 CNY,BTC，ETH，UT等
+                trade_currency:this.tradeCurrency,     //交易货币，货币符号 CNY,BTC，ETH，UT等
                 trade_type:trade_type               //交易类型，0买单，1买单
             }
             api.addDelegate(data)
@@ -794,7 +834,9 @@ export default {
             console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:row.order_type
+                order_type:row.order_type,
+                currency:row.currency,
+                trade_currency:row.trade_currency
             }
             api.cancelDelegate(data)
             .then(res => {
@@ -841,7 +883,7 @@ export default {
         },
         userAccount(){
             var data = {
-                currency:'usdt'
+                currency:this.currency
             }
             api.userAccount(data)
             .then(res => {
@@ -887,7 +929,7 @@ export default {
 .market-table{
     background-color: #191f27;
     font-size: 14px;
-    color: #617997;
+    color: #8d9fb8;
     position: relative;
 }
 .vuebar-element {
@@ -1001,7 +1043,7 @@ export default {
 }
 .market-list-header{
     font-size: 12px;
-    color:#384456;
+    color:#8d9fb8;
     line-height: 1.5;
     height: 28px;
 }
@@ -1054,5 +1096,8 @@ export default {
 #show-iframe{
     width: 100%;
     height: 100%;
+}
+.i_roate{
+    transform:rotate(90deg)
 }
 </style>
