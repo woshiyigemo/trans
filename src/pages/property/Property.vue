@@ -2,9 +2,10 @@
     <div class="real_name">
         <div class="real_left">
             <div class="option">资产中心</div>
-            <router-link class="option" active-class="option-active" to="/property/coinoption">冲币提币</router-link>
-            <router-link class="option" active-class="option-active" to="/property/financialrecords">财务记录</router-link>
-            <router-link class="option" active-class="option-active" to="/property/withdrawaddressmanagement">提币地址管理</router-link>
+            <router-link class="option option-active" to="/property/coinoption">冲币提币</router-link>
+            <!-- <router-link class="option" active-class="option-active" to="/property/coinoption">冲币提币</router-link> -->
+            <!-- <router-link class="option" active-class="option-active" to="/property/financialrecords">财务记录</router-link>
+            <router-link class="option" active-class="option-active" to="/property/withdrawaddressmanagement">提币地址管理</router-link> -->
         </div>
         <div class="real_right">
             <router-view/>
@@ -35,10 +36,9 @@ export default {
 }
 .real_left .option:first-child{height: 81px;line-height: 81px;font-size: 19px;}
 .real_left .option:nth-child(2){border-top: 1px solid #202234;border-bottom: 1px solid #202234;}
-.real_left .option-active{
+/* .real_left .option-active{
     background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;display: block;
-}
-.select{background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;}
+} */
 
 /* 右侧内容 */ 
 .real_right{width: 987px;height: 1233px;background: #191f27;float: right;}

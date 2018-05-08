@@ -4,7 +4,7 @@
             <el-aside class="leftside" style="width:370px;">
                 <div class="inner-wrapper">
                     <el-container class="dash">
-                        <el-aside class="left-pic"  style="width:88px;">
+                        <el-aside class="left-pic"  style="width:88px;margin:11px 0;">
                             <img class="left-pic"  src="@icon64/eth.png" alt=""/>
                         </el-aside>
                         <el-main class="right-word">
@@ -23,6 +23,7 @@
                         </div>
                         <el-tabs type="border-card" class="market-table">
                             <el-tab-pane v-show="showMarket"  label="USDT">
+
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -200,8 +201,8 @@
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
                                         <span class="rel4">
-                                             <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
-                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
                                         </span>
                                     </div>
                                 </div>
@@ -969,7 +970,7 @@ export default {
     position: relative;
 }
 .vuebar-element {
-  height: 150px;
+  height: 177px;
   width: 100%;
   background: #191f27;
   transform: rotate3d(0,0,0,0);
@@ -980,7 +981,7 @@ export default {
     background: #191f27;
     // overflow: hidden;
     white-space:nowrap; 
-    color:#c2c3ca;
+    
     line-height: 1.5;
     
     .rel1{
@@ -991,14 +992,14 @@ export default {
         overflow: hidden;
     }
     .rel2{
-        width: 70px;
+        width: 80px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
         overflow: hidden;
     }
     .rel3{
-        width: 100px;
+        width:85px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
@@ -1017,17 +1018,25 @@ export default {
         display: inline-block;
         color:#a4454b;
         text-align: center;
+        // font-weight: bold;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
         text-align: center;
+        // font-weight: bold;
     }
 }
-
+.market-list{
+    height: 33px;line-height: 33px;
+}
+.market-list:hover{
+    background: #232d39;
+}
 .mycoin-list{
     width: 100%;
+    margin-bottom: 10px;
     background: #191f27;
     color:#c2c3ca;
     line-height: 1.5;
@@ -1043,48 +1052,55 @@ export default {
         white-space:nowrap; 
     }
     .rel2{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel3{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel4{
         width: 80px;
         display: inline-block;
         text-align: center;
         overflow: hidden;
         white-space:nowrap; 
     }
+    .rel3{
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel4{
+        width: 88px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
     .get-coin{
+        width: 36px;
+        height: 21px;
         background-color:#344253;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
+        text-align: center;
+        margin-left: 0px;
+        padding: 0;
     }
     .add-coin{
+        width: 36px;
+        height: 21px;
         background-color:#495d75;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
-        margin-left: 5px;
+        text-align: center;
+        padding: 0;
     }
 }
 .market-list-header{
     font-size: 12px;
-    color:#8d9fb8;
-    line-height: 1.5;
-    height: 28px;
+    color:#67778c;
+    line-height: 30px;;
+    height: 30px;
 }
 .pad15{
     padding: 0 15px;
+    margin-bottom: 10px;
 }
 .market-list{
     text-align: center;
@@ -1112,14 +1128,16 @@ export default {
         padding-bottom: 3px;
     }
     .notice-li{
-        line-height: 1.5;
         font-size: 12px;
-        padding-top: 3px;
+        padding-top:3px;
         padding-bottom: 3px;
         overflow: hidden;
         white-space:nowrap; 
         text-overflow: ellipsis;
         cursor: pointer;
+    }
+    .notice-li:first-child{
+        margin-top: 18px!important;
     }
 }
 
