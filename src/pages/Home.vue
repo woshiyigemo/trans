@@ -17,7 +17,7 @@
                     <div v-for="(item,index) in marketListUSDT" class="main_cat_con_t" :key="index">
                         <div class="main_cat_con_t_title">{{item.name.toUpperCase()}} / USDT</div>
                         <div class="main_cat_con_t_money">{{Number(item.order_price)}}</div>
-                        <div class="main_cat_con_t_percent" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</div>    
+                        <div class="main_cat_con_t_percent" :class="item.positive?'fall':'rise'">{{Math.abs(item.p)}}%</div>    
                     </div>
                 </div>
                 <div class="main_cat_con" style="display:none">
@@ -25,7 +25,7 @@
                     <div class="main_cat_con_t" v-for="(item,index) in marketListUT" :key="index">
                         <div class="main_cat_con_t_title">{{item.name.toUpperCase()}} / UT</div>
                         <div class="main_cat_con_t_money">{{Number(item.order_price)}}</div>
-                        <div class="main_cat_con_t_percent" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</div>
+                        <div class="main_cat_con_t_percent" :class="item.positive?'fall':'rise'">{{Math.abs(item.p)}}%</div>
                     </div>
                 </div>
                 <div class="main_footer">

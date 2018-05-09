@@ -96,7 +96,6 @@
 										<span style="padding-right:15px;line-height:35px;">  
 											{{withdrawInfo.currency.toUpperCase()}}
 										</span>
-										</span>
 									</span>
 								</div>
 								</div>
@@ -107,7 +106,7 @@
 									<li>为保障资金安全，当您账户安全策略变更、密码修改、使用新地址提币，我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
-								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4cb2f9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
+								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:rgba(76,178,249,0.4);border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
 								<el-button slot="reference" type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
 							</el-popover>
 							

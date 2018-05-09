@@ -38,7 +38,7 @@
                                                 {{item.name.toUpperCase()}}
                                             </span>
                                             <span class="rel3">{{item.order_price}}</span>
-                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</span>
+                                            <span class="rel4" :class="item.positive?'fall':'rise'">{{Math.abs(item.p)}}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -280,15 +280,15 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格">
+                            label="价格(USDT)">
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量">
+                            :label="amountLabel">
                         </el-table-column>
                         <el-table-column
                             prop="total"
-                            label="委托总额">
+                            label="委托总额(USDT)">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
@@ -344,10 +344,10 @@
                             prop="price"
                             :label="priceLabel">
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                             prop="number"
                             label="数量">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
                             prop="total"
                             label="委托量">
@@ -646,6 +646,9 @@ export default {
         },
         dealLabel(){
             return '已成交(' + this.tradeCurrency + ')'
+        },
+        amountLabel(){
+            return '数量('+ this.tradeCurrency +')'
         }
     },
     created(){
