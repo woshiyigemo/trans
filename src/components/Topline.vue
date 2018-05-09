@@ -17,17 +17,12 @@ export default {
             btccny:67871.91,
             ethcny:5011.54,
             usdtcny:6.31,
-            socket1:new WebSocket('ws://54.65.108.119:9541'),
         }
     },
     created(){
     },
     mounted () {
-       var self=this
-       this.socket1.onmessage=function(data){
-            var res = JSON.parse(data.data)
-            console.log(res,7878)
-       }
+
     },
     watch:{
         

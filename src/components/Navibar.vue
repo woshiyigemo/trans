@@ -12,9 +12,10 @@
             <router-link class="login_btn_div_register" to="/user/regist">注册</router-link>
         </div>
         <div class="person-nav-wrapper"  v-if="userloggedin">
-            <router-link class="person-nav" active-class="person-nav-active" to="/order">订单</router-link>
+            <router-link class="person-nav" active-class="person-nav-active" to="/order" @click.native="clickOrder"><img :src="orderImg?require('../assets/img/order.png'):require('../assets/img/selected-order.png')" />订单</router-link>
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
-            <el-dropdown class="person-nav" trigger="click" >
+             <el-dropdown class="person-nav" trigger="click">
+                <img src="~@/assets/img/user.png" />
                 <span>
                     用户：{{username}}
                 </span>
@@ -44,7 +45,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
             
-            <router-link class="person-nav" active-class="person-nav-active" to="/property/coinoption">资产</router-link>
+            <router-link class="person-nav" active-class="person-nav-active" to="/property/coinoption" @click.native="clickAssets"><img :src="assetsImg?require('../assets/img/assets.png'):require('../assets/img/selected_assets.png')" />资产</router-link>
         </div>
     </div>
 </template>
@@ -58,6 +59,10 @@ export default {
     },
     data(){
         return{
+            orderImg:true,
+            assetsImg:true,
+            // original:,
+            // clickorder:,
             user:{
                 loggedin:false
             },
@@ -100,6 +105,14 @@ export default {
             }).catch(err => {
                 this.$store.dispatch('userLogout')
             })  
+        },
+        clickOrder(){
+            this.orderImg = false
+            this.assetsImg = true
+        },
+        clickAssets(){
+            this.assetsImg = false
+            this.orderImg = true
         }
     }
 }
@@ -119,8 +132,9 @@ export default {
 .login_btn_div_login{border:1px solid #4c54f9;color:#4c54f9;line-height:28px;}
 
 .person-nav-wrapper{
-    float:right;height:56px;padding-top:13px;box-sizing:border-box;margin-right:95px;
+    float:right;height:56px;padding-top:13px;box-sizing:border-box;margin-right:95px;overflow: hidden;
 }
+.person-nav-wrapper>a>img{display: inline-block; vertical-align: middle;margin-right: 10px;}
 .person-nav{
     color:#8d9fb8;
     padding: 0 15px;
@@ -129,6 +143,10 @@ export default {
     font-size:12px;display:block;float:left;box-sizing:border-box;
     outline: none;
 }
+.person-nav>img{
+    display: inline-block; vertical-align: middle;margin-right: 10px;
+}
+
 .person-nav-block{
     color:#8d9fb8;
     padding: 0 15px;
@@ -136,6 +154,7 @@ export default {
     line-height: 30px;
     font-size:12px;display:block;box-sizing:border-box;
     outline: none;
+   
 }
 .person-nav-active{
     color:#4c54f9;
