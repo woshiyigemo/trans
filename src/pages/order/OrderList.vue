@@ -198,19 +198,35 @@ export default {
         curDelegate:[],
         hisDelegate:[],
         detailDelegate:[],
-        hisDetails:[]
+        hisDetails:[],
+        curDelegateTimmer:null,
+        hisDelegateTimmer:null,
+        dealDelegateTimmer:null
     }
   },
   components:{
 
   },
   created(){
+      var self = this
       this.getCurDelegate()
-      setInterval(this.getCurDelegate(),5000)
+      this.curDelegateTimmer = setInterval(function(){
+          self.getCurDelegate()
+      },5000)
       this.getHisDelegate()
-      setInterval(this.getHisDelegate(),5000)
+      this.hisDelegateTimmer = setInterval(function(){
+          self.getHisDelegate()
+      },5000)
       this.getDealDetail()
-      setInterval(this.getDealDetail(),5000)
+      this.hisDelegateTimmer = setInterval(function(){
+          self.getDealDetail()
+      },5000)
+  },
+  beforeDestroy(){
+      var self = this
+      if(self.curDelegateTimmer) clearInterval(self.curDelegateTimmer)
+      if(self.hisDelegateTimmer) clearInterval(self.hisDelegateTimmer)
+      if(self.dealDelegateTimmer) clearInterval(self.dealDelegateTimmer)
   },
   methods:{
       handleClick(a){
@@ -291,11 +307,12 @@ export default {
               return
           }
           this.$set(row,'loading',true)
+          console.log(111111111,row)
           var data = {
             order_id:row.id,
             currency:row.currency,
             trade_currency:row.trade_currency,
-            trade_type:row.trade_type
+            trade_type:row.direction
           }
           api.orderDetail(data)
           .then(res => {

@@ -279,8 +279,7 @@
 					currency:row.currency
 				}
 				api.userAccount(data)
-				.then(res =>{
-					console.log(res,123)
+				.then(res => {
 					if(res.error_code == 1000){
 						this.withdrawInfo.avaliable = res.available
 					}
