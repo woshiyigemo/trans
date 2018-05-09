@@ -218,15 +218,15 @@ export default {
           self.getHisDelegate()
       },5000)
       this.getDealDetail()
-      this.hisDelegateTimmer = setInterval(function(){
+      this.dealDelegateTimmer = setInterval(function(){
           self.getDealDetail()
       },5000)
   },
   beforeDestroy(){
-      var self = this
-      if(self.curDelegateTimmer) clearInterval(self.curDelegateTimmer)
-      if(self.hisDelegateTimmer) clearInterval(self.hisDelegateTimmer)
-      if(self.dealDelegateTimmer) clearInterval(self.dealDelegateTimmer)
+        var self = this
+        if(self.curDelegateTimmer)  self.curDelegateTimmer = clearInterval(self.curDelegateTimmer)
+        if(self.hisDelegateTimmer) self.hisDelegateTimmer = clearInterval(self.hisDelegateTimmer)
+        if(self.dealDelegateTimmer) self.dealDelegateTimmer = clearInterval(self.dealDelegateTimmer)
   },
   methods:{
       handleClick(a){

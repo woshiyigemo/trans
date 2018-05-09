@@ -678,9 +678,10 @@ export default {
     },
     beforeDestroy(){
         var self = this
-        if(self.curDelegateTimmer) clearInterval(self.curDelegateTimmer)
-        if(self.hisDelegateTimmer) clearInterval(self.hisDelegateTimmer)
-        if(self.getAssetsTimmer) clearInterval(self.getAssetsTimmer)
+        if(self.curDelegateTimmer)  self.curDelegateTimmer = clearInterval(self.curDelegateTimmer)
+        if(self.hisDelegateTimmer) self.hisDelegateTimmer = clearInterval(self.hisDelegateTimmer)
+        if(self.getAssetsTimmer) self.getAssetsTimmer = clearInterval(self.getAssetsTimmer)
+        console.log("出发beforeDestroy方法",self.curDelegateTimmer,self.hisDelegateTimmer,self.getAssetsTimmer)
     },
     methods:{
         // 重置比表货币
@@ -705,7 +706,6 @@ export default {
         changeDuadByLine(item){
             this.tradeCurrency = (item.currency || item.name).toUpperCase()
             this.curDuad = this.tradeCurrency + '/' + this.currency
-            this.getWsByCurrency()
             this.getWsByCurrency()
             this.getCurDelegate()
             this.getHisDelegate()
