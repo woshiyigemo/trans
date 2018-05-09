@@ -691,7 +691,7 @@ export default {
             this.getHisDelegate()
         },
         changeDuadByLine(item){
-            this.tradeCurrency = item.name
+            this.tradeCurrency = (item.currency || item.name).toUpperCase()
             this.curDuad = this.tradeCurrency + '/' + this.currency
             this.getWsByCurrency()
             this.getWsByCurrency()
