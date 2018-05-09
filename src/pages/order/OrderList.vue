@@ -57,7 +57,7 @@
                     </el-table-column>
                     </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="委托历史" name="history">
+                <el-tab-pane label="历史委托" name="history">
                     <el-table
                     :data="hisDelegate"
                     @expand-change="expandLine"    
@@ -89,20 +89,20 @@
                             label="价格">
                         </el-table-column>
                         <el-table-column
-                            prop="number"
-                            label="数量">
-                        </el-table-column>
-                        <el-table-column
                             prop="total"
-                            label="委托总数">
+                            label="委托量">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
-                            label="成交额">
+                            label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="untreated"
-                            label="未成交">
+                            prop="average_price"
+                            label="成交均价">
+                        </el-table-column>
+                        <el-table-column
+                            prop="status_name"
+                            label="状态">
                         </el-table-column>
                         <el-table-column type="expand"
                             prop=""
@@ -259,16 +259,31 @@ export default {
           })
       },
       cancelDetegate(row){
-            console.log(row)
+            // console.log(row)
+            // var data = {
+            //     order_id:row.id,
+            //     currency:row.order_type
+            // }
+            // api.cancelDelegate(data)
+            // .then(res => {
+            //     this.$message(res.error_desc)
+            //     this.getCurDelegate()
+            // }).catch(err => {})
+
+             console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:row.order_type
+                order_type:row.order_type,
+                currency:row.currency,
+                trade_currency:row.trade_currency
             }
             api.cancelDelegate(data)
             .then(res => {
                 this.$message(res.error_desc)
                 this.getCurDelegate()
-            }).catch(err => {})
+            }).catch(err => {
+                this.$message('网络失败请重试')
+            })
       },
       expandLine(row, expandedRows){
           var self = this

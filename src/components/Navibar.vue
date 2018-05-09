@@ -5,7 +5,7 @@
             <router-link class="navbar" active-class="navbar-active" to="/home">首页</router-link>
             <router-link class="navbar" active-class="navbar-active" v-if="userloggedin" to="/exchange/coinexchange">币币交易</router-link>
             <router-link class="navbar" active-class="navbar-active" to="/wiki">新手帮助</router-link>
-            <router-link class="navbar" active-class="navbar-active" to="/notice">公告中心</router-link>
+            <!-- <router-link class="navbar" active-class="navbar-active" to="/notice">公告中心</router-link> -->
         </div>
         <div class="login_btn_div"  v-if="!userloggedin">
             <router-link class="login_btn_div_login" to="/user/login">登录</router-link>
@@ -115,8 +115,8 @@ export default {
 .nav_show{color:#4c54f9 !important;}
 .login_btn_div{float:right;width:170px;height:56px;padding-top:13px;box-sizing:border-box;margin-right:95px;}
 .login_btn_div a{width:80px;height:30px;border-radius:3px;font-size:12px;display:block;float:left;box-sizing:border-box;}
-.login_btn_div_register{background:#4c54f9;color:white;float:right !important;line-height:28px;}
-.login_btn_div_login{border:1px solid #4c54f9;color:#4c54f9;line-height:25px;}
+.login_btn_div_register{background:#4c54f9;color:white;float:right !important;line-height:30px;}
+.login_btn_div_login{border:1px solid #4c54f9;color:#4c54f9;line-height:28px;}
 
 .person-nav-wrapper{
     float:right;height:56px;padding-top:13px;box-sizing:border-box;margin-right:95px;
