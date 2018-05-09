@@ -196,7 +196,7 @@
                             <div class="vuebar-element" 
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
-                                    <div class="mycoin-list" v-for="(item,index) in mycoins" :key="index">
+                                    <div class="mycoin-list" @click="changeDuadByLine(item)" v-for="(item,index) in mycoins" :key="index">
                                         <span class="rel1">{{item.currency.toUpperCase()}}</span>
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
@@ -652,11 +652,18 @@ export default {
         }
     },
     created(){
+        var self = this
         this.getDuad()
-        setInterval(this.getCurDelegate(),5000)
-        setInterval(this.getHisDelegate(),5000)
+        setInterval(function(){
+            self.getCurDelegate()
+        },5000)
+        setInterval(function(){
+            self.getHisDelegate()
+        },5000)
         this.getAssetslist()
-        setInterval(this.getAssetslist(),5000)
+        setInterval(function(){
+            self.getAssetslist()
+        },5000)
         this.getNotice()
         this.userAccount()
     },
@@ -687,7 +694,12 @@ export default {
             this.getHisDelegate()
         },
         changeDuadByLine(item){
-            
+            this.tradeCurrency = (item.currency || item.name).toUpperCase()
+            this.curDuad = this.tradeCurrency + '/' + this.currency
+            this.getWsByCurrency()
+            this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
         },
         // 根据当前货币获取接口
         getWsByCurrency(){
@@ -941,7 +953,9 @@ export default {
             var data = {}
             api.getAssetslist(data)
             .then(res=>{
-                this.mycoins = res.assets_list
+                if(res.error_code == 1000){
+                    this.mycoins = res.assets_list
+                }
             }).catch(err => {
 
             })
@@ -1094,7 +1108,8 @@ export default {
 .market-list{
     height: 33px;line-height: 33px;
 }
-.market-list:hover{
+.market-list:hover,
+.mycoin-list:hover{
     background: #232d39;
 }
 .mycoin-list{
@@ -1134,6 +1149,7 @@ export default {
         text-align: center;
         overflow: hidden;
         white-space:nowrap; 
+        padding-top: 4px;
     }
     .get-coin{
         width: 36px;
@@ -1155,6 +1171,7 @@ export default {
         padding: 0;
     }
 }
+
 .market-list-header{
     font-size: 12px;
     color:#67778c;
