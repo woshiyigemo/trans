@@ -117,7 +117,7 @@ export default {
             api.userRegist(data)
             .then(function(res){
                 if(res.error_code == 1000){
-                    this.$message({
+                    self.$message({
                         message:'注册成功，即将跳转到登录页',
                         type:'sucess'
                     })
