@@ -254,7 +254,10 @@ const api = {
     //添加阅读量
     SetNoticeReadingCount(data){
         return instance.post('/public/setnoticereadingcount', data)
-    }
+    },
+    getAddress(data){
+        return instance.post('/assets/getAddress', data)
+    },
 }
 export {api, handleError, handleStatusCode}
 

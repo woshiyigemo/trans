@@ -3,10 +3,12 @@
     <div>
         <el-container class="order-container">
             <el-tabs class="order-tab" v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="当前委托" name="current">
+                <el-tab-pane label="当前委托" name="current"  style="width:100%;">
                     <el-table
                     :data="curDelegate"
-                    style="width: 100%">
+                    style="width:100%"
+                    ref="curDelegateTable"
+                    >
                     <el-table-column
                         prop="time"
                         width="180"
@@ -57,11 +59,12 @@
                     </el-table-column>
                     </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="历史委托" name="history">
+                <el-tab-pane label="历史委托" name="history" style="width:100%;">
                     <el-table
                     :data="hisDelegate"
-                    @expand-change="expandLine"    
-                    style="width: 100%">
+                    @expand-change="expandLine"  
+                    ref="hisDelegateTable"  
+                    style="width:100%">
                         <el-table-column
                             prop="time"
                             label="时间"
@@ -139,10 +142,11 @@
                         </el-table-column>
                     </el-table>   
                 </el-tab-pane>
-                <el-tab-pane label="成交明细" name="detail">
+                <el-tab-pane label="成交明细" name="detail"  style="width:100%;">
                     <el-table
                     :data="detailDelegate"
-                    style="width: 100%">
+                    ref="detailDelegateTable" 
+                    style="width:100%">
                     <el-table-column
                         prop="time"
                         label="时间"
@@ -213,6 +217,9 @@ export default {
 
   },
   created(){
+      
+  },
+  mounted(){
       var self = this
       this.getCurDelegate()
       this.curDelegateTimmer = setInterval(function(){
@@ -234,8 +241,16 @@ export default {
         clearInterval(self.dealDelegateTimmer)
   },
   methods:{
+      resizeTable(e){
+          console.log(88888,e)
+      },
       handleClick(a){
-          console.log(a)
+        console.log('hehehe',a)
+        this.$nextTick(() =>{
+            this.$refs.curDelegateTable.doLayout()
+            this.$refs.hisDelegateTable.doLayout()
+            this.$refs.detailDelegateTable.doLayout()
+        })
       },
       getCurDelegate(){
           var data = {
@@ -359,6 +374,7 @@ export default {
             padding: 15px 0;
         }
     }
+    
 }
 </style>
 

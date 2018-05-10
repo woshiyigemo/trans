@@ -675,7 +675,13 @@ input[type="number"]{-moz-appearance:textfield;}
     .el-table::before {
         height: 0;
     }
-
+    .el-table__empty-block{
+        width: 100%!important;
+    }
+    // .el-table__empty-block,
+    // .el-table__body{
+    //     width: 100%!important;
+    // }
 }
 
 
