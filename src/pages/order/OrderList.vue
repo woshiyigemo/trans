@@ -57,7 +57,7 @@
                     </el-table-column>
                     </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="委托历史" name="history">
+                <el-tab-pane label="历史委托" name="history">
                     <el-table
                     :data="hisDelegate"
                     @expand-change="expandLine"    
@@ -87,22 +87,27 @@
                         <el-table-column
                             prop="price"
                             label="价格">
+                            <template slot-scope="scope">
+                                <span>
+                                    {{scope.row.price == 0?"市价":scope.row.price}}
+                                </span>
+                            </template>
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量">
-                        </el-table-column>
-                        <el-table-column
-                            prop="total"
-                            label="委托总数">
+                            label="委托量">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
-                            label="成交额">
+                            label="已成交">
                         </el-table-column>
                         <el-table-column
-                            prop="untreated"
-                            label="未成交">
+                            prop="average_price"
+                            label="成交均价">
+                        </el-table-column>
+                        <el-table-column
+                            prop="status_name"
+                            label="状态">
                         </el-table-column>
                         <el-table-column type="expand"
                             prop=""
@@ -123,6 +128,9 @@
                                         <li>{{item.total}}</li>
                                         <li>{{item.fee}}</li>
                                     </ul>
+                                    <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
+                                        暂无数据
+                                    </div>
                                     <div v-if="props.row.loading" class="details_loading">
                                         <i class="el-icon-loading"></i>
                                     </div>
@@ -195,27 +203,45 @@ export default {
         curDelegate:[],
         hisDelegate:[],
         detailDelegate:[],
-        hisDetails:[]
+        hisDetails:[],
+        curDelegateTimmer:null,
+        hisDelegateTimmer:null,
+        dealDelegateTimmer:null
     }
   },
   components:{
 
   },
   created(){
+      var self = this
       this.getCurDelegate()
-      setInterval(this.getCurDelegate(),5000)
+      this.curDelegateTimmer = setInterval(function(){
+          self.getCurDelegate()
+      },5000)
       this.getHisDelegate()
-      setInterval(this.getHisDelegate(),5000)
+      this.hisDelegateTimmer = setInterval(function(){
+          self.getHisDelegate()
+      },5000)
       this.getDealDetail()
-      setInterval(this.getDealDetail(),5000)
+      this.dealDelegateTimmer = setInterval(function(){
+          self.getDealDetail()
+      },5000)
+  },
+  beforeDestroy(){
+        var self = this
+        clearInterval(self.curDelegateTimmer)
+        clearInterval(self.hisDelegateTimmer)
+        clearInterval(self.dealDelegateTimmer)
   },
   methods:{
       handleClick(a){
           console.log(a)
       },
       getCurDelegate(){
-          var data = {}
-          api.curDelegate()
+          var data = {
+              page:1
+          }
+          api.curDelegate(data)
           .then(res => {
               console.log(res)
               if(res.error_code == 1000){
@@ -226,7 +252,9 @@ export default {
           })
       },
       getHisDelegate(){
-          var data = {}
+          var data = {
+              page:1
+          }
           api.hisDelegate()
           .then(res => {
               console.log(res,111)
@@ -238,8 +266,10 @@ export default {
           })
       },
       getDealDetail(){
-          var data = {}
-          api.delegateDetail()
+          var data = {
+              page:1
+          }
+          api.delegateDetail(data)
           .then(res => {
               console.log(res)
               if(res.error_code == 1000){
@@ -250,16 +280,31 @@ export default {
           })
       },
       cancelDetegate(row){
-            console.log(row)
+            // console.log(row)
+            // var data = {
+            //     order_id:row.id,
+            //     currency:row.order_type
+            // }
+            // api.cancelDelegate(data)
+            // .then(res => {
+            //     this.$message(res.error_desc)
+            //     this.getCurDelegate()
+            // }).catch(err => {})
+
+             console.log(row,1245)
             var data = {
                 order_id:row.id,
-                currency:row.order_type
+                order_type:row.order_type,
+                currency:row.currency,
+                trade_currency:row.trade_currency
             }
             api.cancelDelegate(data)
             .then(res => {
                 this.$message(res.error_desc)
                 this.getCurDelegate()
-            }).catch(err => {})
+            }).catch(err => {
+                this.$message('网络失败请重试')
+            })
       },
       expandLine(row, expandedRows){
           var self = this
@@ -267,11 +312,12 @@ export default {
               return
           }
           this.$set(row,'loading',true)
+          console.log(111111111,row)
           var data = {
             order_id:row.id,
             currency:row.currency,
             trade_currency:row.trade_currency,
-            trade_type:row.trade_type
+            trade_type:row.direction
           }
           api.orderDetail(data)
           .then(res => {
@@ -303,10 +349,10 @@ export default {
         width:100%;
         background:#151922;
         .details_title{overflow: hidden;
-            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
+            li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
         }
         .details_section{overflow: hidden;
-            li{list-style: none;width: 226px;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
+            li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
         }
         .details_loading{
             text-align: center;

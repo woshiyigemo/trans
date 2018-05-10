@@ -4,13 +4,14 @@
             <el-aside class="leftside" style="width:370px;">
                 <div class="inner-wrapper">
                     <el-container class="dash">
-                        <el-aside class="left-pic"  style="width:88px;">
-                            <img class="left-pic"  src="@icon64/eth.png" alt=""/>
+                        <el-aside class="left-pic"  style="width:88px;margin:11px 0;">
+                            <img class="left-pic" :src="img == 'ETH'?imgshow:imghide"  alt=""/>
+
                         </el-aside>
                         <el-main class="right-word">
                             <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
                             <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
-                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'red':'green'">{{curPrice}}%</div>
+                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'green':'red'">{{curPrice}}%</div>
                             <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
@@ -23,6 +24,7 @@
                         </div>
                         <el-tabs type="border-card" class="market-table">
                             <el-tab-pane v-show="showMarket"  label="USDT">
+
                                 <div class="market-list-header" >
                                     <span class="rel1"></span>
                                     <span class="rel2">币种</span>
@@ -31,13 +33,13 @@
                                 </div>
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
-                                        <div class="market-list" v-for="(item,index) in marketListUSDT" :key="index">
+                                        <div class="market-list" @click="changeDuadByLine(item)" v-for="(item,index) in marketListUSDT" :key="index">
                                             <span class="rel1">{{item.icon}}</span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
                                             </span>
                                             <span class="rel3">{{item.order_price}}</span>
-                                            <span class="rel4" :class="item.positive?'rise':'fall'">{{Math.abs(item.p)}}%</span>
+                                            <span class="rel4" :class="item.positive?'fall':'rise'">{{Math.abs(item.p)}}%</span>
                                         </div>
                                     </div>
                                 </div>
@@ -195,13 +197,13 @@
                             <div class="vuebar-element" 
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
-                                    <div class="mycoin-list" v-for="(item,index) in mycoins" :key="index">
+                                    <div class="mycoin-list" @click="changeDuadByLine(item)" v-for="(item,index) in mycoins" :key="index">
                                         <span class="rel1">{{item.currency.toUpperCase()}}</span>
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
                                         <span class="rel4">
-                                             <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
-                                             <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button  class="add-coin" @click="addCoin(item,index)" type="text" size="small">充币</el-button>
+                                            <el-button class="get-coin" @click="getCoin(item,index)" type="text" size="small">提币</el-button>
                                         </span>
                                     </div>
                                 </div>
@@ -280,15 +282,15 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格">
+                            :label="priceLabel">
                         </el-table-column>
                         <el-table-column
                             prop="number"
-                            label="数量">
+                            :label="amountLabel">
                         </el-table-column>
                         <el-table-column
                             prop="total"
-                            label="委托总额">
+                            label="委托总额(USDT)">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
@@ -311,7 +313,9 @@
                         <i :class="showHisDelegate?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowHisDelegate"></i>
                             历史委托
                     </div>
-                    <el-table v-show="showHisDelegate" class="center-table"
+                    <el-table v-show="showHisDelegate" 
+                    @expand-change="expandLine" 
+                    class="center-table"
                     :data="hisDelegation"
                     style="width: 100%">
                         <el-table-column
@@ -340,23 +344,61 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格">
+                            :label="priceLabel">
+                            <template slot-scope="scope">
+                                <span>
+                                    {{scope.row.price == 0?"市价":scope.row.price}}
+                                </span>
+                            </template>
                         </el-table-column>
-                        <el-table-column
+                        <!-- <el-table-column
                             prop="number"
                             label="数量">
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column
-                            prop="total"
-                            label="委托总额">
+                            prop="number"
+                            label="委托量">
                         </el-table-column>
                         <el-table-column
                             prop="deal"
-                            label="已成交">
+                            :label="dealLabel">
                         </el-table-column>
                         <el-table-column
-                            prop="untreated"
-                            label="未成交">
+                            prop="average_price"
+                            label="成交均价">
+                        </el-table-column>
+                        <el-table-column
+                            prop="status_name"
+                            label="状态">
+                        </el-table-column>
+                        <el-table-column
+                            type="expand"
+                            prop=""
+                            label="操作">
+                            <template slot-scope="props">
+                                <div class="details">
+                                    <ul class="details_title">
+                                        <li>时间</li>
+                                        <li>价格</li>
+                                        <li>数量</li>
+                                        <li>成交额</li>
+                                        <li>手续费</li>
+                                    </ul>
+                                    <ul v-if="!props.row.loading" v-for="(item,index) in props.row.detailList" :key="index" class="details_section">
+                                        <li>{{item.time}}</li>
+                                        <li>{{item.price}}</li>
+                                        <li>{{item.number}}</li>
+                                        <li>{{item.total}}</li>
+                                        <li>{{item.fee}}</li>
+                                    </ul>
+                                    <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
+                                        暂无数据
+                                    </div>
+                                    <div v-if="props.row.loading" class="details_loading">
+                                        <i class="el-icon-loading"></i>
+                                    </div>
+                                </div>
+                            </template>
                         </el-table-column>
                         <!-- <el-table-column
                             label="操作">
@@ -481,7 +523,12 @@ export default {
             showHisDelegate:false,
             showDeep:true,
             showRealTime:true,
-
+            imgshow:require('@icon64/eth.png'),
+            imghide:require('@icon64/btc.png'),
+            // 定时器
+            curDelegateTimmer:null,
+            hisDelegateTimmer:null,
+            getAssetsTimmer:null,
             // 当前目标货币
             curDuad:'',
             currency:'',
@@ -504,7 +551,6 @@ export default {
                 width:'6px',
                 backgroundColor:'#344253'
             },
-            
             price:{
                 usdt:[],
                 ut:[]
@@ -610,32 +656,47 @@ export default {
             }else{
                 return 0
             }
+        },
+        priceLabel(){
+            return '价格(' + this.currency + ')'
+        },
+        dealLabel(){
+            return '已成交(' + this.tradeCurrency + ')'
+        },
+        amountLabel(){
+            return '数量('+ this.tradeCurrency +')'
+        },
+        img(){
+            return this.tradeCurrency
         }
     },
     created(){
+        var self = this
         this.getDuad()
-
-
-
-        this.getCurDelegate()
-        setInterval(this.getCurDelegate(),5000)
-        this.getHisDelegate()
-        setInterval(this.getHisDelegate(),5000)
-        this.getNotice()
+        this.curDelegateTimmer = setInterval(function(){
+            self.getCurDelegate()
+        },5000)
+        this.hisDelegateTimmer = setInterval(function(){
+            self.getHisDelegate()
+        },5000)
         this.getAssetslist()
+        this.getAssetsTimmer = setInterval(function(){
+            self.getAssetslist()
+        },5000)
+        this.getNotice()
         this.userAccount()
     },
     mounted () {
-        var self = this
-       
-        // this.socket_2.onmessage = function(data){
-        //     var res = JSON.parse(data.data)
-        //     console.log(res)
-        //     self.realTimeDealList = res
-        // }
+
     },
     watch:{
         
+    },
+    beforeDestroy(){
+        var self = this
+        clearInterval(self.curDelegateTimmer)
+        clearInterval(self.hisDelegateTimmer)
+        clearInterval(self.getAssetsTimmer)
     },
     methods:{
         // 重置比表货币
@@ -645,6 +706,8 @@ export default {
             this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
             this.curDuad = this.tradeCurrency + '/' + this.currency
             this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
         },
         // 切换币种
         changeDuad(e){
@@ -652,6 +715,15 @@ export default {
             this.tradeCurrency = this.curDuad.split('/')[0]
             this.currency = this.curDuad.split('/')[1]
             this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
+        },
+        changeDuadByLine(item){
+            this.tradeCurrency = (item.currency || item.name).toUpperCase()
+            this.curDuad = this.tradeCurrency + '/' + this.currency
+            this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
         },
         // 根据当前货币获取接口
         getWsByCurrency(){
@@ -683,6 +755,10 @@ export default {
                 self.normalizeCurPrice(res)
                 self.normalizeRealTime(res.sb)
                 self.realTimeDealList = res.nb
+                // 如果有则赋值到市价交易默认值
+                if(res.sbprice && res.sbprice.order_price){
+                    self.exchange.limitPriceDeal.price = res.sbprice.order_price
+                }
                 console.log('当前重新连接到socket')
             }
         },
@@ -778,6 +854,8 @@ export default {
         // 获取当前委托
         getCurDelegate(){
             var data = {
+                currency:this.currency,
+                trade_currency:this.tradeCurrency,
                 page:1
             }
             api.curDelegate(data)
@@ -791,6 +869,8 @@ export default {
         // 获取历史委托
         getHisDelegate(){
             var data = {
+                currency:this.currency,
+                trade_currency:this.tradeCurrency,
                 page:1
             }
             api.hisDelegate(data)
@@ -817,6 +897,22 @@ export default {
             var deal = this.exchange.orderType == 'limitprice'?this.exchange.limitPriceDeal:this.exchange.marketPriceDeal
 
             var orderType = this.exchange.orderType == 'limitprice'?0:1
+            // 如果市价
+            if(this.exchange.orderType == 'limitprice'){
+                deal = this.exchange.limitPriceDeal
+            }else{
+                deal = JSON.parse(JSON.stringify(this.exchange.marketPriceDeal))
+                // 如果是买，将price字段变为amount 
+                if(trade_type == 1){
+                    deal.amount = deal.price
+                    deal.price = 0
+                }else if(trade_type == 2){
+                    deal.price = 0
+                }
+            }
+
+
+            // 如果是限价，检查总额是否超出
             if(this.exchange.orderType == 0 && this.exchange.limitPriceDeal.amount * this.exchange.limitPriceDeal.price  > this.exchange.balance){
                 this.$message('交易额超过当前账户余额')
                 return
@@ -834,6 +930,10 @@ export default {
                 if(res.error_code == 1000){
                     this.userAccount()
                     this.getCurDelegate()
+                    // 如果此次是限价交易，则重新获取一次当前价格
+                    if(orderType == 0){
+                        this.exchange.limitPriceDeal.price = this.tradeCurrencyInfo.order_price
+                    }
                 }
                 this.$message(res.error_desc)
             }).catch(err => {
@@ -877,7 +977,9 @@ export default {
             var data = {}
             api.getAssetslist(data)
             .then(res=>{
-                this.mycoins = res.assets_list
+                if(res.error_code == 1000){
+                    this.mycoins = res.assets_list
+                }
             }).catch(err => {
 
             })
@@ -907,6 +1009,28 @@ export default {
         },
         jumpNotice(item){
             this.$router.push({path:'/notice/detail',query:{id:item.notice_id}})
+        },
+        expandLine(row, expandedRows){
+            var self = this
+            if(row.detailList && row.detailList.length >= 0){
+                return
+            }
+            this.$set(row,'loading',true)
+            var data = {
+                order_id:row.id,
+                currency:row.currency,
+                trade_currency:row.trade_currency,
+                trade_type:row.direction
+            }
+            api.orderDetail(data)
+            .then(res => {
+                console.log(res)
+                if(res.error_code == 1000){  
+                    this.$set(row,'detailList',res.entrusts)
+                    this.$set(row,'loading',false)
+                    console.log(row,expandedRows)
+                }
+            }).catch(err => {})
         },
         // 切换
         toggleShowMarket(){
@@ -947,7 +1071,7 @@ export default {
     position: relative;
 }
 .vuebar-element {
-  height: 150px;
+  height: 177px;
   width: 100%;
   background: #191f27;
   transform: rotate3d(0,0,0,0);
@@ -958,7 +1082,7 @@ export default {
     background: #191f27;
     // overflow: hidden;
     white-space:nowrap; 
-    color:#c2c3ca;
+    
     line-height: 1.5;
     
     .rel1{
@@ -969,14 +1093,14 @@ export default {
         overflow: hidden;
     }
     .rel2{
-        width: 70px;
+        width: 80px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
         overflow: hidden;
     }
     .rel3{
-        width: 100px;
+        width:85px;
         display: inline-block;
         text-align: center;
         white-space:nowrap; 
@@ -995,17 +1119,38 @@ export default {
         display: inline-block;
         color:#a4454b;
         text-align: center;
+        // background: url('~@/assets/img/red_reduce.png') 15% 50% no-repeat;
+        // background-size:8px;
+        // font-weight: bold;
+    }
+    .rel4.rise::before{
+        content: '-';
+        font-size: 14px;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
         text-align: center;
+        // background: url('~@/assets/img/green_add.png') 0 50% no-repeat;
+        // background-size:8px 8px; 
+        // font-weight: bold;
+    }
+    .rel4.fall::before{
+        content: '+';
+        font-size: 14px;
     }
 }
-
+.market-list{
+    height: 33px;line-height: 33px;
+}
+.market-list:hover,
+.mycoin-list:hover{
+    background: #232d39;
+}
 .mycoin-list{
     width: 100%;
+    margin-bottom: 10px;
     background: #191f27;
     color:#c2c3ca;
     line-height: 1.5;
@@ -1021,48 +1166,57 @@ export default {
         white-space:nowrap; 
     }
     .rel2{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel3{
-        width: 72px;
-        display: inline-block;
-        text-align: center;
-        overflow: hidden;
-        white-space:nowrap; 
-    }
-    .rel4{
         width: 80px;
         display: inline-block;
         text-align: center;
         overflow: hidden;
         white-space:nowrap; 
     }
+    .rel3{
+        width: 80px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+    }
+    .rel4{
+        width: 88px;
+        display: inline-block;
+        text-align: center;
+        overflow: hidden;
+        white-space:nowrap; 
+        padding-top: 4px;
+    }
     .get-coin{
+        width: 36px;
+        height: 21px;
         background-color:#344253;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
+        text-align: center;
+        margin-left: 0px;
+        padding: 0;
     }
     .add-coin{
+        width: 36px;
+        height: 21px;
         background-color:#495d75;
-        padding: 5px;
         color: #8e9aa9;
         border-radius: 0;
-        margin-left: 5px;
+        text-align: center;
+        padding: 0;
     }
 }
+
 .market-list-header{
     font-size: 12px;
-    color:#8d9fb8;
-    line-height: 1.5;
-    height: 28px;
+    color:#67778c;
+    line-height: 30px;;
+    height: 30px;
 }
 .pad15{
     padding: 0 15px;
+    margin-bottom: 10px;
 }
 .market-list{
     text-align: center;
@@ -1090,14 +1244,16 @@ export default {
         padding-bottom: 3px;
     }
     .notice-li{
-        line-height: 1.5;
         font-size: 12px;
-        padding-top: 3px;
+        padding-top:3px;
         padding-bottom: 3px;
         overflow: hidden;
-        white-space:nowrap;
+        white-space:nowrap; 
         text-overflow: ellipsis;
         cursor: pointer;
+    }
+    .notice-li:first-child{
+        margin-top: 18px!important;
     }
 }
 
@@ -1116,5 +1272,21 @@ export default {
     transform:rotate(90deg)
 }
 .normal-header-more{color:#3f4e62;font-size:12px;float:right;width:auto;height:40px;line-height:40px;margin-right:20px;}
+.details{
+    width:100%;
+    background:#151922;
+    .details_title{overflow: hidden;
+        li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #8d9fb8;text-align: center;}
+    }
+    .details_section{overflow: hidden;
+        li{list-style: none;width: 20%;height: 45px;line-height: 45px;float: left;color: #f6f9ff;text-align: center;}
+    }
+    .details_loading{
+        text-align: center;
+        padding: 15px 0;
+    }
+}
+.imgshow{display: block!important;}
+.imghide{display: none!important;}
 .btn_disabled{opacity:0.3}
 </style>
