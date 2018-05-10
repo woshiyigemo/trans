@@ -43,6 +43,7 @@ import Slider from '@/components/Slider'
 import { Validate, ERR } from '@/static/common'
 import { nationalityOption } from '@/static/dataConfig'
 import { api } from '@/static/api'
+import { functionDeclaration } from 'babel-types';
 
 export default {
     name:'Regist',
@@ -116,9 +117,13 @@ export default {
             api.userRegist(data)
             .then(function(res){
                 if(res.error_code == 1000){
-                    
-                }else if(res.error_code == 2007){
-                    this.$message(res.error_code)
+                    self.$message({
+                        message:'注册成功，即将跳转到登录页',
+                        type:'sucess'
+                    })
+                    setTimeout(function(){
+                        self.$router.push({name:'login'})
+                    },3000) 
                 }
             }).catch(err => {})
         },

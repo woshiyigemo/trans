@@ -38,7 +38,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
     console.log(response.data);
 // 对响应数据做点什么
-    if(response.data && response.data.error_code && response.data.error_code == 1000){
+    if(response.data && response.data.error_code && (response.data.error_code == 1000||response.data.error_code == 2014)){
         // 直接返回
         var usinfo = VueCookies.get('__uinfo')
         VueCookies.set('__uinfo',usinfo,new Date().getTime() + expire)
@@ -47,9 +47,7 @@ instance.interceptors.response.use(function (response) {
             message: '登录超时，请重新登录',
             type: 'error'
         })
-        VueCookies.remove('__uinfo')
-        router.push({name:'login'})
-        console.log(1111,'403错误')
+        store.dispatch('userLogout')
     }else if(response.data && response.data.error_code && response.data.error_code == 4003){
         // 未设置交易密码
         Message({
@@ -82,7 +80,6 @@ instance.interceptors.response.use(function (response) {
             message: response.data.error_desc,
             type: 'error'
         })
-
     }
     response = response.data
     return response;

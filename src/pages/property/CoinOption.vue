@@ -49,7 +49,6 @@
 								<el-button slot="reference" type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
 							</el-popover>
 							<el-popover 
-							@hide="resetInfo"
 							popper-class="xm-pop" 
 							offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
 								<div>
@@ -257,10 +256,13 @@
 			// 点击提币按钮
 			openWithdrawDialog(row){
 				// 重置
+				this.resetInfo()
+
 				this.withdrawInfo.currency = row.currency
 				var data = {
 					coin_name:row.currency.toUpperCase()
 				}
+				
 				api.getWithdrawAddress(data)
 				.then(res => {
 					if(res.error_code == 1000){
@@ -279,8 +281,7 @@
 					currency:row.currency
 				}
 				api.userAccount(data)
-				.then(res =>{
-					console.log(res,123)
+				.then(res => {
 					if(res.error_code == 1000){
 						this.withdrawInfo.avaliable = res.available
 					}

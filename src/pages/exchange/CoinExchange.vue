@@ -281,7 +281,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
-                            label="价格(USDT)">
+                            :label="priceLabel">
                         </el-table-column>
                         <el-table-column
                             prop="number"
@@ -520,6 +520,10 @@ export default {
             showRealTime:true,
             imgshow:require('@icon64/eth.png'),
             imghide:require('@icon64/btc.png'),
+            // 定时器
+            curDelegateTimmer:null,
+            hisDelegateTimmer:null,
+            getAssetsTimmer:null,
             // 当前目标货币
             curDuad:'',
             currency:'',
@@ -664,14 +668,14 @@ export default {
     created(){
         var self = this
         this.getDuad()
-        setInterval(function(){
+        this.curDelegateTimmer = setInterval(function(){
             self.getCurDelegate()
         },5000)
-        setInterval(function(){
+        this.hisDelegateTimmer = setInterval(function(){
             self.getHisDelegate()
         },5000)
         this.getAssetslist()
-        setInterval(function(){
+        this.getAssetsTimmer = setInterval(function(){
             self.getAssetslist()
         },5000)
         this.getNotice()
@@ -682,6 +686,12 @@ export default {
     },
     watch:{
         
+    },
+    beforeDestroy(){
+        var self = this
+        clearInterval(self.curDelegateTimmer)
+        clearInterval(self.hisDelegateTimmer)
+        clearInterval(self.getAssetsTimmer)
     },
     methods:{
         // 重置比表货币
@@ -706,7 +716,6 @@ export default {
         changeDuadByLine(item){
             this.tradeCurrency = (item.currency || item.name).toUpperCase()
             this.curDuad = this.tradeCurrency + '/' + this.currency
-            this.getWsByCurrency()
             this.getWsByCurrency()
             this.getCurDelegate()
             this.getHisDelegate()
