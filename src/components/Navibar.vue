@@ -14,9 +14,10 @@
         <div class="person-nav-wrapper"  v-if="userloggedin">
             <router-link class="person-nav" active-class="person-nav-active" to="/order" @click.native="clickOrder"><img :src="orderImg?require('../assets/img/order.png'):require('../assets/img/selected-order.png')" />订单</router-link>
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
-             <el-dropdown class="person-nav" trigger="click">
-                <img src="~@/assets/img/user.png" />
+             <el-dropdown class="person-nav" trigger="click" >
+                 
                 <span>
+                    <img src="~@/assets/img/user.png" />
                     用户：{{username}}
                 </span>
                 <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
@@ -143,7 +144,7 @@ export default {
     font-size:12px;display:block;float:left;box-sizing:border-box;
     outline: none;
 }
-.person-nav>img{
+.person-nav>span>img{
     display: inline-block; vertical-align: middle;margin-right: 10px;
 }
 

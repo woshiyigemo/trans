@@ -133,6 +133,7 @@ export default {
 
 .login_btn{width:310px;height:50px;line-height:50px;color:white;font-size:18px;margin-top:50px;background:#4c54f9;margin-left: auto;
     margin-right: auto;}
+.login_btn:hover{opacity: 0.9;}
 .login_register_div{width:310px;font-size: 14px;margin-top:30px;color:#8a8a8a;
 margin-left: auto;
     margin-right: auto;

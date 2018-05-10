@@ -87,9 +87,14 @@
                         <el-table-column
                             prop="price"
                             label="价格">
+                            <template slot-scope="scope">
+                                <span>
+                                    {{scope.row.price == 0?"市价":scope.row.price}}
+                                </span>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                            prop="total"
+                            prop="number"
                             label="委托量">
                         </el-table-column>
                         <el-table-column

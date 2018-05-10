@@ -117,6 +117,8 @@ export default {
             .then(function(res){
                 if(res.error_code == 1000){
                     
+                }else if(res.error_code == 2007){
+                    this.$message(res.error_code)
                 }
             }).catch(err => {})
         },
