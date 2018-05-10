@@ -5,7 +5,8 @@
                 <div class="inner-wrapper">
                     <el-container class="dash">
                         <el-aside class="left-pic"  style="width:88px;margin:11px 0;">
-                            <img class="left-pic"  src="@icon64/eth.png" alt=""/>
+                            <img class="left-pic" :src="img == 'ETH'?imgshow:imghide"  alt=""/>
+
                         </el-aside>
                         <el-main class="right-word">
                             <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
@@ -343,13 +344,18 @@
                         <el-table-column
                             prop="price"
                             :label="priceLabel">
+                            <template slot-scope="scope">
+                                <span>
+                                    {{scope.row.price == 0?"市价":scope.row.price}}
+                                </span>
+                            </template>
                         </el-table-column>
                         <!-- <el-table-column
                             prop="number"
                             label="数量">
                         </el-table-column> -->
                         <el-table-column
-                            prop="total"
+                            prop="number"
                             label="委托量">
                         </el-table-column>
                         <el-table-column
@@ -512,6 +518,8 @@ export default {
             showHisDelegate:false,
             showDeep:true,
             showRealTime:true,
+            imgshow:require('@icon64/eth.png'),
+            imghide:require('@icon64/btc.png'),
             // 定时器
             curDelegateTimmer:null,
             hisDelegateTimmer:null,
@@ -652,6 +660,9 @@ export default {
         },
         amountLabel(){
             return '数量('+ this.tradeCurrency +')'
+        },
+        img(){
+            return this.tradeCurrency
         }
     },
     created(){
@@ -1103,14 +1114,26 @@ export default {
         display: inline-block;
         color:#a4454b;
         text-align: center;
+        // background: url('~@/assets/img/red_reduce.png') 15% 50% no-repeat;
+        // background-size:8px;
         // font-weight: bold;
+    }
+    .rel4.rise::before{
+        content: '-';
+        font-size: 14px;
     }
     .rel4.fall{
         width: 80px;
         display: inline-block;
         color:#5ead6f;
         text-align: center;
+        // background: url('~@/assets/img/green_add.png') 0 50% no-repeat;
+        // background-size:8px 8px; 
         // font-weight: bold;
+    }
+    .rel4.fall::before{
+        content: '+';
+        font-size: 14px;
     }
 }
 .market-list{
@@ -1257,4 +1280,6 @@ export default {
         padding: 15px 0;
     }
 }
+.imgshow{display: block!important;}
+.imghide{display: none!important;}
 </style>
