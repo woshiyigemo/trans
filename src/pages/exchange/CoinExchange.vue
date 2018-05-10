@@ -678,10 +678,9 @@ export default {
     },
     beforeDestroy(){
         var self = this
-        if(self.curDelegateTimmer)  self.curDelegateTimmer = clearInterval(self.curDelegateTimmer)
-        if(self.hisDelegateTimmer) self.hisDelegateTimmer = clearInterval(self.hisDelegateTimmer)
-        if(self.getAssetsTimmer) self.getAssetsTimmer = clearInterval(self.getAssetsTimmer)
-        console.log("出发beforeDestroy方法",self.curDelegateTimmer,self.hisDelegateTimmer,self.getAssetsTimmer)
+        clearInterval(self.curDelegateTimmer)
+        clearInterval(self.hisDelegateTimmer)
+        clearInterval(self.getAssetsTimmer)
     },
     methods:{
         // 重置比表货币

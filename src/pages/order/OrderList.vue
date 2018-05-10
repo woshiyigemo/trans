@@ -224,9 +224,9 @@ export default {
   },
   beforeDestroy(){
         var self = this
-        if(self.curDelegateTimmer)  self.curDelegateTimmer = clearInterval(self.curDelegateTimmer)
-        if(self.hisDelegateTimmer) self.hisDelegateTimmer = clearInterval(self.hisDelegateTimmer)
-        if(self.dealDelegateTimmer) self.dealDelegateTimmer = clearInterval(self.dealDelegateTimmer)
+        clearInterval(self.curDelegateTimmer)
+        clearInterval(self.hisDelegateTimmer)
+        clearInterval(self.dealDelegateTimmer)
   },
   methods:{
       handleClick(a){
