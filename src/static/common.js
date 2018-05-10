@@ -10,7 +10,9 @@ const ERR = {
     NOERR:1000,     //没错误
     // 登录
     EMAILERR:1001,  //邮箱格式错误
+    EMAILNULL:2003, //邮箱不能为空
     PWDERR:1002,    //密码必须为6-12位数字字母组合
+    PWDNULL:2004,   //密码不能为空
     PWD2ERR:1003,   //重复密码必须为2-6位数字
     NATIONALITYERR:1004,   //国籍错误
     PWDNOTSAME:1005,    //两次密码不同
@@ -29,9 +31,16 @@ const Validate = {
     // 登录验证
     login:function(email,pwd,sliderStatus){
         var res = {}
-        if(!reg.emailReg.test(email)){
+        console.log(email)
+        if (email.length == 0 || !email.length) {
+            res.errCode = ERR.EMAILNULL
+            res.errMsg = '请输入邮箱地址'
+        }else if(!reg.emailReg.test(email)){
             res.errCode = ERR.EMAILERR
-            res.errMsg = '邮箱格式错误'
+            res.errMsg = '请输入正确的邮箱地址'
+        }else if(pwd.length ==0 || !pwd.length){
+            res.errCode = ERR.PWDNULL
+            res.errMsg = '请输入密码'
         }else if(!reg.pwdReg.test(pwd)){
             res.errCode = ERR.PWDERR
             res.errMsg = '密码必须为6-12位数字字母组合'
@@ -42,14 +51,21 @@ const Validate = {
             res.errCode = ERR.NOERR
             res.errMsg = '校验合法'
         }
+        console.log(res)
         return res
     },
     // 注册验证
     regist:function(email,pwd,pwd2,nationality,sliderStatus){
         var res = {}
-        if(!reg.emailReg.test(email)){
+        if (email.length == 0 || !email.length) {
+            res.errCode = ERR.EMAILNULL
+            res.errMsg = '请输入邮箱地址'
+        }else if(!reg.emailReg.test(email)){
             res.errCode = ERR.EMAILERR,
-            res.errMsg = '邮箱格式错误'
+            res.errMsg = '请输入正确的邮箱地址'
+        }else if (pwd.length == 0 || !pwd.length) {
+            res.errCode = ERR.PWDNULL
+            res.errMsg = '请输入密码'
         }else if(!reg.pwdReg.test(pwd) ){
             res.errCode = ERR.PWDERR,
             res.errMsg = '密码必须为6-12位数字字母组合'

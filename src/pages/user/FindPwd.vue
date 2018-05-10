@@ -9,7 +9,7 @@
                         <!-- <a href="">首页 > </a>找回密码 -->
                         <el-breadcrumb separator-class="el-icon-arrow-right">
                             <el-breadcrumb-item class="sy" :to="{ path: '/' }">首页</el-breadcrumb-item>
-                            <el-breadcrumb-item class="findp">找回密码</el-breadcrumb-item>
+                            <el-breadcrumb-item class="findp">找回登录密码</el-breadcrumb-item>
                         </el-breadcrumb>
                     </div>
                 </div>

@@ -207,6 +207,10 @@ const api = {
     deleteWithdrawAddress(data){
         return instance.post('/assets/deletetakecoinaddress', data)
     },
+    // 获取交易密码图片验证码
+    getCheckImgCode(data){
+        
+    },
     // 发送修改交易密码验证码
     getPinCodeVerifyCode(data){
         return instance.post('/assets/sendupdatetransactionpasswordcode', data)
