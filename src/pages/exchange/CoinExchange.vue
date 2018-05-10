@@ -1288,5 +1288,6 @@ export default {
 }
 .imgshow{display: block!important;}
 .imghide{display: none!important;}
+.amount-input{font-size:12px !important}
 .btn_disabled{opacity:0.3}
 </style>
