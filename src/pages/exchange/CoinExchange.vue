@@ -216,6 +216,7 @@
                         <div class="normal-header">
                             <i :class="showNotice?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowNotice"></i>
                             公告
+                            <router-link class="normal-header-more" to="/notice">更多</router-link>
                         </div>
                         <div v-show="showNotice" class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}">
                             <div >
@@ -1266,6 +1267,7 @@ export default {
 .i_roate{
     transform:rotate(90deg)
 }
+.normal-header-more{color:#3f4e62;font-size:12px;float:right;width:auto;height:40px;line-height:40px;margin-right:20px;}
 .details{
     width:100%;
     background:#151922;

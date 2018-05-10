@@ -108,8 +108,6 @@
 								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:rgba(76,178,249,0.4);border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
 								<el-button slot="reference" type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
 							</el-popover>
-							
-							
 						</template>
 					</el-table-column>
 				</el-table>
