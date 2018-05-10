@@ -131,7 +131,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" 
+                                            <el-input :class="exchange.marketPriceDeal.buyDisable?'amount-input btn_disabled':'amount-input'" type="number"
                                             name="buy"  v-model.number="exchange.marketPriceDeal.price" 
                                             :disabled="exchange.marketPriceDeal.buyDisable"
                                             @focus="getFocus"
@@ -144,7 +144,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number"
+                                            <el-input :class="exchange.marketPriceDeal.sellDisable?'amount-input btn_disabled':'amount-input'"  class="amount-input" type="number"
                                             name="sell"  
                                             placeholder="卖出数量" 
                                             :disabled="exchange.marketPriceDeal.sellDisable"
@@ -164,11 +164,11 @@
                                     @change="computeMarketAmount"
                                     ></el-slider>
                                     <div class="btn-wrapper">
-                                        <el-button type="purchase" 
+                                        <el-button :class="exchange.marketPriceDeal.buyDisable?'btn_disabled':''" type="purchase"
                                         value="purchase" 
                                         @click="addDelegate($event)"
                                         :disabled="exchange.marketPriceDeal.buyDisable">买入</el-button>
-                                        <el-button type="sell" 
+                                        <el-button :class="exchange.marketPriceDeal.sellDisable?'btn_disabled':''" type="sell"
                                         value="sell"  
                                         @click="addDelegate($event)"
                                         :disabled="exchange.marketPriceDeal.sellDisable">卖出</el-button>
@@ -762,13 +762,13 @@ export default {
                 }
                 return
             }else if(this.exchange.focusChoose == 'buy'){
-                // 市价买         
+                // 市价买
                 this.exchange.marketPriceDeal.price = (this.exchange.marketPriceDeal.percent * this.exchange.balance).toFixed(2)
                 if(this.exchange.marketPriceDeal.price > 0){
                     this.exchange.marketPriceDeal.sellDisable = true
                 }else{
                     this.exchange.marketPriceDeal.sellDisable = false
-                } 
+                }
             }
             console.log('市价交易：',this.exchange.marketPriceDeal.amount == 0,this.exchange.marketPriceDeal.price == 0)
         },
@@ -1076,7 +1076,7 @@ export default {
     width: 100%;
     background: #191f27;
     overflow: hidden;
-    white-space:nowrap; 
+    white-space:nowrap;
     text-overflow: ellipsis;
     color:#c2c3ca;
     list-style-type: none;
@@ -1095,7 +1095,7 @@ export default {
         padding-top: 3px;
         padding-bottom: 3px;
         overflow: hidden;
-        white-space:nowrap; 
+        white-space:nowrap;
         text-overflow: ellipsis;
         cursor: pointer;
     }
@@ -1116,4 +1116,5 @@ export default {
     transform:rotate(90deg)
 }
 .normal-header-more{color:#3f4e62;font-size:12px;float:right;width:auto;height:40px;line-height:40px;margin-right:20px;}
+.btn_disabled{opacity:0.3}
 </style>
