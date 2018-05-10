@@ -28,7 +28,7 @@
 							<el-popover popper-class="xm-popover" 
 							offset=0
 							placement="bottom-end"
-							ref="popover" width="800" trigger="click">
+							width="800" trigger="click">
 								<div>
 									<p class="popover-titter">充币地址</p>
 								</div>
@@ -46,8 +46,11 @@
 									<li>您的充值地址不会经常改变，可以重复充值；如有更改，我们会尽量通过网站公告或邮箱通知您。</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
+								<el-button slot="reference" type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
 							</el-popover>
-							<el-popover popper-class="xm-pop" ref="pop" offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
+							<el-popover 
+							popper-class="xm-pop" 
+							offset=0 width="800" trigger="click" placement="bottom-end" content="提币" style="margin-top:-10px;">
 								<div>
 									<p class="pop-titter">提币地址</p>
 								</div>
@@ -92,7 +95,6 @@
 										<span style="padding-right:15px;line-height:35px;">  
 											{{withdrawInfo.currency.toUpperCase()}}
 										</span>
-										</span>
 									</span>
 								</div>
 								</div>
@@ -103,10 +105,9 @@
 									<li>为保障资金安全，当您账户安全策略变更、密码修改、使用新地址提币，我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系</li>
 									<li>请务必确认电脑及浏览器安全，防止信息被篡改或泄露。</li>
 								</ul>
-								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:#4c7af9;border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
+								<button style="cursor: pointer;position: absolute;top: 295px;left: 570px; height: 50px;width: 200px;background:rgba(76,178,249,0.4);border:1px solid #aeb2ff;border-radius: 2px;color: #fcfcf2;font-size:16px;" @click="openVerifyDialog">提币</button>
+								<el-button slot="reference" type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
 							</el-popover>
-							<el-button v-popover:popover type="text" size="small" class='recharge' @click="openRechargeDialog (scope.row)">充币</el-button>
-							<el-button v-popover:pop type="text" size="small" class='tibi' ref='index++' @click='openWithdrawDialog(scope.row)'>提币</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -157,7 +158,7 @@
 					showVarifyModal:false,
 					selectedAddress:'',
 					withdrawAddress:[],
-					avaliable:'',
+					avaliable:0,
 					fee:0,
 					amount:0,
 					realAmount:0,
@@ -243,17 +244,26 @@
 					}
 				}).catch(err => {console.log(7777777)})
 			},
+			resetInfo(){
+				this.withdrawInfo.selectedAddress  = ''
+				this.withdrawInfo.avaliable  = 0
+				this.withdrawInfo.fee  = 0
+				this.withdrawInfo.amount  = 0
+				this.withdrawInfo.realAmount  = 0
+			},
 			// 点击提币按钮
 			openWithdrawDialog(row){
+				// 重置
+				this.resetInfo()
+
 				this.withdrawInfo.currency = row.currency
-				console.log(row,this.withdrawInfo,111222333)
 				var data = {
-					coin_name:row.currency
+					coin_name:row.currency.toUpperCase()
 				}
+				
 				api.getWithdrawAddress(data)
 				.then(res => {
 					if(res.error_code == 1000){
-						console.log(res,2323)
 						if(res.error_code == 1000){
 							console.log(res.data,999)
 							this.withdrawInfo.withdrawAddress = res.data
@@ -269,8 +279,7 @@
 					currency:row.currency
 				}
 				api.userAccount(data)
-				.then(res =>{
-					console.log(res,123)
+				.then(res => {
 					if(res.error_code == 1000){
 						this.withdrawInfo.avaliable = res.available
 					}

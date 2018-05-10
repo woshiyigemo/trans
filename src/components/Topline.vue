@@ -1,6 +1,6 @@
 <template>
     <div class="index_top">
-        <!-- BTC/CNY : <span>{{btccny}}</span>  -->
+        BTC/CNY : <span>{{btccny}}</span> 
         ETH/CNY : <span>{{ethcny}}</span>
         USDT/CNY : {{usdtcny}}
     </div>
@@ -16,14 +16,13 @@ export default {
         return{
             btccny:67871.91,
             ethcny:5011.54,
-            usdtcny:6.31
+            usdtcny:6.31,
         }
     },
     created(){
-        
     },
     mounted () {
-       
+
     },
     watch:{
         
