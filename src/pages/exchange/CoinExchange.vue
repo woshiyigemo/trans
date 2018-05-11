@@ -483,11 +483,11 @@
                                 </el-table-column>
                                 <el-table-column
                                     prop="order_price"
-                                    label="价格">
+                                    :label="priceLabel">
                                 </el-table-column>
                                 <el-table-column
                                     prop="processed_amount"
-                                    label="数量">
+                                    :label="amountLabel">
                                 </el-table-column>
                                 
                             </el-table>
@@ -730,7 +730,8 @@ export default {
             }
             api.getWsByCurrency(data)
             .then(res =>{
-                if(res.error_code == 1000){
+                console.log(res,787887)
+                if(res.error_code == 1000){    
                     this.socketUrl =  'ws://' + res.port_info.ip + ':' + res.port_info.pan_port
                     console.log(99999,this.socketUrl)
                     this.initWs()

@@ -2,7 +2,7 @@
 const reg = {
     emailReg:/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
     // pwdReg:/^[a-zA-Z0-9]{6,12}$/
-    pwdReg:/^\d{1,6}$/
+    pwdReg:/^[a-zA-Z0-9]{6,12}$/
 }
 
 // 错误处理

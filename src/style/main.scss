@@ -474,9 +474,22 @@ input[type="number"]{-moz-appearance:textfield;}
             height: 48px;
             line-height: 48px;
             border:1px solid #384658;
-            background: #151920
-            ;color: #354456!important;
+            background: #151920;
+            color: #c2c3ca!important;
             border-radius: 2px;
+        }
+
+        .el-input__inner::-webkit-input-placeholder{
+            color:#465971;
+        }
+        .el-input__inner::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#465971;
+        }
+        .el-input__inner:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#465971;
+        }
+        .el-input__inner:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#465971;
         }
         
     }

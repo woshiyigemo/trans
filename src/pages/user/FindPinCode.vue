@@ -125,7 +125,7 @@ export default {
                 code:this.verifyCode,
             }
             //找回密码第一步邮箱和验证码验证 2009 邮箱未注册
-            api.getCheckImgCode(data).then(res =>{
+            api.checkImgCode(data).then(res =>{
                 console.log(res,111222)
                 if (res.error_code == 2008 || res.error_code == 2003 || res.error_code == 2009) {
                     this.isEmailErr = true;
@@ -169,7 +169,7 @@ export default {
             var data={
                 email:this.email
             }
-            api.sendPinCodeVerifyCode(data).then(res =>{
+            api.getPinCodeVerifyCode(data).then(res =>{
                 console.log(res,"邮件已发送")
                 if (res.error_code==1000) {
                     this.$message('邮件已发送')
