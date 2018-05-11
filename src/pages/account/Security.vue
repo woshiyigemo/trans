@@ -18,7 +18,7 @@
         </ul>
         <ul class="message">
             <li>交易密码:</li>
-            <li>{{defaultPinCode}}</li>
+            <li v-html="defaultPinCode"></li>
             <li v-if="hasSettedPinCode == 1" class="capitalpwd" @click="changePinCodeSet">修改</li>
             <li v-if="hasSettedPinCode == 0" class="notset"  @click="changePinCode">设置</li>
         </ul>
@@ -45,12 +45,12 @@
         center>
             <div class="login_div_password">
                 <el-tooltip class="item" effect="red" manual :value="isPwdErr" :content="err.errMsg||''" placement="right">
-                    <el-input class="pwd_input" @focus="clearPwdToolTip" type="password" v-model="signPwd.pwd" placeholder="交易密码"></el-input>
+                    <el-input class="pwd_input" @focus="clearPwdToolTip" type="password" v-model="signPwd.pwd" placeholder="6位数字"></el-input>
                 </el-tooltip>
             </div>
             <div class="login_div_password">
                 <el-tooltip class="item" effect="red" manual :value="isPwdSameErr" :content="err.errMsg||''" placement="right">
-                    <el-input class="pwd_input" v-model="signPwd.pwdt" @focus="clearPwdToolTip" type="password" placeholder="确认密码"></el-input>
+                    <el-input class="pwd_input" v-model="signPwd.pwdt" @focus="clearPwdToolTip" type="password" placeholder="6位数字"></el-input>
                 </el-tooltip>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -93,7 +93,7 @@ export default {
             return this.$store.getters.hasSettedPinCode
         },
         defaultPinCode(){
-            this.$store.getters.hasSettedPinCode == 1?'********':''
+            return this.$store.getters.hasSettedPincode == 1?'********':''
         }
     },
     created(){
@@ -154,6 +154,7 @@ export default {
                 console.log('hahaha',res)
                 if(res.error_code == 1000){
                     // this.$message(res.error_desc)
+                    this.$store.dispatch('completeSettedPincode')
                     this.$message({
                         message: res.error_desc,
                         type: 'success'
