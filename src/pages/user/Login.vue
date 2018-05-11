@@ -49,10 +49,10 @@ export default {
     login(){
         var self = this
         self.err = Validate.login(self.email,self.pwd,self.sliderStatus)
-        if(self.err.errCode == 1001){
+        if(self.err.errCode == 1001 || self.err.errCode == 2003){
             self.isEmailErr = true
             return
-        }else if(self.err.errCode == 1002){
+        }else if(self.err.errCode == 1002 || self.err.errCode == 2004){
             self.isPwdErr = true
             return
         }else if(self.err.errCode == 1010){
@@ -64,7 +64,7 @@ export default {
             password:self.pwd
         }
 
-        api.userLogin(data).then(res => {
+        api.userLogin(data).then(res => {            
             if(res.error_code == 1000||res.error_code == 2014){
                 console.log(this.$store)
                 var userInfo = {
@@ -134,6 +134,7 @@ export default {
 .login_btn{width:310px;height:50px;line-height:50px;color:white;font-size:18px;margin-top:50px;background:#4c54f9;margin-left: auto;
     margin-right: auto;}
 .login_btn:hover{opacity: 0.9;}
+.login_btn:active{background: #444be0;}
 .login_register_div{width:310px;font-size: 14px;margin-top:30px;color:#8a8a8a;
 margin-left: auto;
     margin-right: auto;

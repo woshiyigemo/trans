@@ -11,7 +11,7 @@
                 <h5>1.个人基本资料认证</h5>
                 <el-form-item label="姓名：" class="base-info-line modification">
 
-                        <el-input placeholder="请输入姓名" v-model="idInfo.name" clearable style="float:left;"></el-input>
+                        <el-input :placeholder="fullName" v-model="idInfo.name" clearable style="float:left;"></el-input>
                         <div class="findpassword_error" style="padding-left: 0;z-index:2000;position:absolute;top:0px;left:508px;" v-show="regname">
                             <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
                             <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
@@ -171,6 +171,9 @@ export default {
         },
         labelName(){
             return this.userNationality == 1?'身份证号：':'护照号：'
+        },
+        fullName(){
+            return this.userNationality == 1?'请输入与身份证相符的姓名':'请输入与护照相符的姓名'
         },
         authState(){
             return this.$store.getters.authState

@@ -120,7 +120,7 @@ const api = {
         return apiConfig.baseURL + '/public/getimgcode?timestamp=' + (new Date().getTime()).toString() + '&type=' + type
     },
     // 验证图片验证码 进入下一步
-    checkImgCode(data){
+    checkLoginImgCode(data){
         return instance.post('/user/checkfindpasswordimgcode', data)
     },
     //发送找回密码验证码到邮箱
@@ -207,9 +207,21 @@ const api = {
     deleteWithdrawAddress(data){
         return instance.post('/assets/deletetakecoinaddress', data)
     },
+    // 验证交易密码图片验证码
+    checkImgCode(data){
+        return instance.post('/assets/checkupdatetransactionpasswordimgcode',data)
+    },
     // 发送修改交易密码验证码
     getPinCodeVerifyCode(data){
         return instance.post('/assets/sendupdatetransactionpasswordcode', data)
+    },
+    // 验证修改交易密码验证码
+    checkDealCode(data){
+        return instance.post('/assets/checkupdatetransactionpasswordcode',data)  
+    },
+    // 修改交易密码
+    modifyDealPwd(data){
+        return instance.post('/assets/setupdatetransactionpassword',data)
     },
     // 发送提币验证邮件
     getTakeCoinVerifyCode(data){

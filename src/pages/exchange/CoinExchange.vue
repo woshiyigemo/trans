@@ -86,7 +86,7 @@
                                             <div class="amount-label">
                                                 价格
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.price" @keyup.native="num(exchange.limitPriceDeal.price)">
                                                 <template slot="append">{{currency}}</template>
                                             </el-input>
                                         </el-col>
@@ -94,7 +94,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount">
+                                            <el-input class="amount-input" type="number" v-model.number="exchange.limitPriceDeal.amount" @keyup.native="amount(exchange.limitPriceDeal.amount)">
                                                 <template slot="append">{{tradeCurrency}}</template>
                                             </el-input>
                                         </el-col>
@@ -432,7 +432,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="amount"
-                                            label="数量"
+                                            :label="amountLabel"
                                             >
                                         </el-table-column>
                                         <el-table-column
@@ -441,7 +441,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="order_price"
-                                            label="价格">
+                                            :label="priceLabel">
                                         </el-table-column>
                                     </el-table>
                                 </el-col>
@@ -451,7 +451,7 @@
                                     style="width: 100%">
                                         <el-table-column
                                             prop="order_price"
-                                            label="价格"
+                                            :label="priceLabel"
                                             >
                                         </el-table-column>
                                         <el-table-column
@@ -460,7 +460,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="amount"
-                                            label="数量"
+                                            :label="amountLabel"
                                             >
                                         </el-table-column>
                                         <el-table-column
@@ -488,7 +488,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     prop="order_price"
-                                    label="价格">
+                                    :label="priceLabel">
                                 </el-table-column>
                                 <el-table-column
                                     prop="direction"
@@ -502,7 +502,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     prop="processed_amount"
-                                    label="数量">
+                                    :label="amountLabel">
                                 </el-table-column>
                                 
                             </el-table>
@@ -754,7 +754,8 @@ export default {
             }
             api.getWsByCurrency(data)
             .then(res =>{
-                if(res.error_code == 1000){
+                console.log(res,787887)
+                if(res.error_code == 1000){    
                     this.socketUrl =  'ws://' + res.port_info.ip + ':' + res.port_info.pan_port
                     console.log(99999,this.socketUrl)
                     this.initWs()
@@ -832,6 +833,11 @@ export default {
             this.exchange.focusChoose = e.target.name
         },
         getBuyKeyup(e){
+            if (!/^\d*\.?\d{0,4}$/.test(Number(e.target.value))) {
+                const num=Number(e.target.value).toFixed(5)
+                const numTwo=num.substring(0,num.lastIndexOf('.')+5)
+                this.exchange.marketPriceDeal.price = numTwo
+            }
             if(Number(e.target.value) > 0){
                 this.exchange.marketPriceDeal.buyDisable = false
                 this.exchange.marketPriceDeal.sellDisable = true
@@ -840,6 +846,11 @@ export default {
             }
         },
         getSellKeyup(e){
+            if (!/^\d*\.?\d{0,4}$/.test(Number(e.target.value))) {
+                const num=Number(e.target.value).toFixed(5)
+                const numTwo=num.substring(0,num.lastIndexOf('.')+5)
+                this.exchange.marketPriceDeal.amount = numTwo
+            }
             if(Number(e.target.value) > 0){
                 this.exchange.marketPriceDeal.buyDisable = true
                 this.exchange.marketPriceDeal.sellDisable = false
@@ -1076,6 +1087,26 @@ export default {
         },
         toggleShowNotice(){
             this.showNotice = !this.showNotice
+        },
+        //限价价格只能输入两位小数
+        num(e){
+            console.log(e);
+            if(!e) return
+            if(!/^\d*\.?\d{0,2}$/.test(e)){
+                const num=Number(e).toFixed(3)
+                const numTwo=num.substring(0,num.lastIndexOf('.')+3)
+                 this.exchange.limitPriceDeal.price = numTwo
+            }
+           
+        },
+        //限价数量只能输入四位小数
+        amount(e){
+            if(!e) return
+            if (!/^\d*\.?\d{0,4}$/.test(e)) {
+                const num=Number(e).toFixed(5)
+                const numTwo=num.substring(0,num.lastIndexOf('.')+5)
+                this.exchange.limitPriceDeal.amount = numTwo
+            }
         }
     }
 }

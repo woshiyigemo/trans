@@ -89,10 +89,10 @@ export default {
             this.isPwdSameErr = false
 
             self.err = Validate.regist(self.email,self.password,self.password_t,self.nationality,self.sliderStatus)
-            if(self.err.errCode == 1001){
+            if(self.err.errCode == 1001 || self.err.errCode == 2003){
                 self.isEmailErr = true
                 return
-            }else if(self.err.errCode == 1002){
+            }else if(self.err.errCode == 1002 || self.err.errCode == 2004){
                 self.isPwdErr = true
                 return
             }else if(self.err.errCode == 1003){
@@ -196,6 +196,8 @@ export default {
 
 .login_btn{margin-left: auto;
     margin-right: auto;width:310px;height:50px;line-height:50px;color:white;font-size:18px;margin-top:50px;background:#4c54f9;}
+.login_btn:hover{opacity: 0.9;}
+.login_btn:active{background: #444be0;}
 .login_register_div{margin-left: auto;
     margin-right: auto;width:310px;font-size: 14px;margin-top:30px;color:#8a8a8a;overflow: hidden;}
 .login_register_div a{color:#696ffa;}
