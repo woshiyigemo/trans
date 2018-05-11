@@ -40,6 +40,9 @@ const store = new Vuex.Store({
       },
       completeAuth(state){
         state.userInfo.authState = 3
+      },
+      completeSettedPincode(state){
+        state.userInfo.hasSettedPincode = 1
       }
     },
     getters:{
@@ -71,6 +74,9 @@ const store = new Vuex.Store({
         },
         completeAuth({commit}){
           commit('completeAuth')
+        },
+        completeSettedPincode({commit}){
+          commit('completeSettedPincode')
         }
     }
   })
