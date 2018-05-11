@@ -36,7 +36,7 @@
                         <a @click="another" style="cursor: pointer;">换一张</a>
                         <div class="findpassword_error findpassword_error_3" v-show="isVerifyCodeErr">你输入的验证码错误</div>
                     </div>
-                    <a class="findpassword_main_div_btn" @click="toStep2">下一步</a>
+                    <a class="findpassword_main_div_btn" @click="toStep2"><div>下一步</div></a>
                 </div>
                 <div class="step2"  v-if="curStep == 2">
                     <div class="findpasswordtwo_main_div_img2"></div>
@@ -52,14 +52,14 @@
                         </div>
                         <button class="send" @click="sjx_send">发送验证码</button>
                     </div>
-                    <a class="findpassword_main_div_btn" @click="toStep3">下一步</a>
+                    <a class="findpassword_main_div_btn" @click="toStep3"><div>下一步</div></a>
                 </div>
                 <div class="step3"  v-if="curStep == 3">
                     <div class="findpasswordtwo_main_div_img3"></div>
                     <div class="findpasswordtwo_main_ts">您正在找回的账户是：<span>{{email}}</span></div>
                     <div class="findpassword_main_div_email findpasswordtwo_email">
                       <span class="mi">新交易密码</span>
-                      <input class="sjx_ipt" type="text" v-model="pwd">
+                      <input class="sjx_ipt" type="password" v-model="pwd">
                       <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
                         <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
                         <p class="findpassword_error_2">支持数字,大小写字母和标点符号</p>
@@ -69,13 +69,13 @@
 
                      <div class="findpassword_main_div_email findpasswordtwo_email ">
                        <span class="mi">确认新密码</span>
-                       <input class="sjx_ipt" type="text" v-model="pwd_t">
+                       <input class="sjx_ipt" type="password" v-model="pwd_t">
                        <div class="findpassword_error" style="padding-left: 0;" v-show="isVerifyCodeErr">
                          <p class="findpassword_error_1">两次输入的密码不一致</p>
                        </div>
                      </div>
                     <!--<a class="findpassword_main_div_btn" @click="sjx_ok">确定</a>-->
-                    <el-button style="line-height: 0;border-radius: 0;" class="findpassword_main_div_btn" type="text" @click="sjx_ok">确定</el-button>
+                    <a class="findpassword_main_div_btn" @click="sjx_ok"><div>下一步</div></a>
                 </div>
               </div>
             </div>
@@ -190,13 +190,6 @@ export default {
                 }else{
                   this.isEmailErr = false
                   this.isVerifyCodeErr =false
-                  this.$alert('<i class="el-icon-circle-check"></i><sapn>恭喜您，密码找回成功~</sapn>', {
-                    dangerouslyUseHTMLString: true,
-                    showClose:false,
-                    showConfirmButton:false,
-                    closeOnClickModal:true,
-                    center:true
-                  })
                 }
             })
         }
@@ -231,6 +224,9 @@ export default {
 .findpasswordtwo_email{margin-top:50px}
 .findpasswordtwo_code{margin-top:30px}
 .findpasswordtwo_email_right{width:360px;color:#c2c3ca;height:50px;line-height:50px;text-align:left;font-size:16px;float:left;}
+.findpassword_main_div_btn{width:510px;height:50px;line-height:50px;color:white;display:block;background:#4c54f9;margin-top:50px;margin-left:145px;text-align: center;}
+.findpassword_main_div_btn:hover div{background: rgba(255,255,255,0.1);}
+.findpassword_main_div_btn:active div{background: rgba(0,0,0,0.1);}
 
 .findpasswordthree_desc{width:100%;height:55px;background:url('~@/assets/img/findpassword4.png') no-repeat center;margin-top: 175px;}
 .findpasswordsuccess_btn{margin-left:auto;margin-top: 90px;}
@@ -254,5 +250,5 @@ export default {
 .findpassword_error_3{background:#3a4a5e url('~@/assets/img/findpassword7.png') no-repeat  10px 20px;}
 
 .mi{display: block;width: 96px;height: 50px;float: left;line-height: 50px;color: #a2b2c8;}
-.sjx_ipt{width: 505px;height: 48px;border: 1px solid #384658;float: left;background: #151920;color: #a2b2c8;}
+.sjx_ipt{width: 505px;height: 48px;border: 1px solid #384658;float: left;background: #151920;color: #a2b2c8;text-indent: 15px;}
 </style>

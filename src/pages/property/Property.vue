@@ -1,8 +1,8 @@
 <template>
     <div class="real_name">
         <div class="real_left">
-            <div class="option">资产中心</div>
-            <router-link class="option option-active" to="/property/coinoption">冲币提币</router-link>
+            <div class="option" @click="goProperty">资产中心</div>
+            <router-link class="option option-active" to="/property/coinoption">充币提币</router-link>
             <!-- <router-link class="option" active-class="option-active" to="/property/coinoption">冲币提币</router-link> -->
             <!-- <router-link class="option" active-class="option-active" to="/property/financialrecords">财务记录</router-link>
             <router-link class="option" active-class="option-active" to="/property/withdrawaddressmanagement">提币地址管理</router-link> -->
@@ -22,6 +22,11 @@ export default {
         return{
 
         }
+    },
+    methods:{
+        goProperty(){
+            this.$router.push({name:'coinoption'})
+        }
     }
 }
 </script>
@@ -32,7 +37,7 @@ export default {
 .real_left{width: 200px;height: 1233px;background: #191f27;float: left;}
 .real_left .option{
     width: 200px;height: 59px;font-size: 13px;text-align: center;line-height: 59px;color: #8d9fb8;list-style: none;
-    display: block;
+    display: block;cursor: pointer;
 }
 .real_left .option:first-child{height: 81px;line-height: 81px;font-size: 19px;}
 .real_left .option:nth-child(2){border-top: 1px solid #202234;border-bottom: 1px solid #202234;}

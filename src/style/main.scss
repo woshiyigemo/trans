@@ -278,6 +278,22 @@ input[type="number"]{-moz-appearance:textfield;}
                 }
                 .btn-wrapper{
                     margin-bottom: 18px;
+                    height: 33px;
+                    overflow: hidden;
+                    .el-button{
+                        span{
+                            display:inline-block;
+                            width: 134px;
+                            height: 33px;
+                            line-height: 33px;
+                        }
+                    }
+                    .el-button:hover span{
+                        background: rgba($color: #fff, $alpha: 0.1)
+                    }
+                    .el-button:active span{
+                        background: rgba($color: #000, $alpha: 0.1)
+                    }
                 }
                 .el-button--purchase {
                     padding: 0;
@@ -1072,13 +1088,38 @@ input[type="number"]{-moz-appearance:textfield;}
 .real_left .option-active{
     background: #151920;border-right: 5px solid #4c54f9;box-sizing: border-box;display: block;
 }
-// .person-nav-wrapper{
-//         a:first-child{background: url(~@/assets/img/order.png) 0 55% no-repeat;text-indent: 10px;}
-//         a:last-child{background: url(~@/assets/img/assets.png) 0 55% no-repeat;text-indent: 10px;}
-//         .el-dropdown{background: url(~@/assets/img/user.png) 0 55% no-repeat;text-indent: 10px;margin: 0 10px;}
-
-// }
-
+.submit-btn{
+    padding: 0;
+    .el-button{
+        span{
+            display:inline-block;
+            width:310px;height: 50px;
+            line-height: 50px;
+        }
+    }
+    .el-button:hover span{
+        background: rgba($color: #fff, $alpha: 0.1)
+    }
+    .el-button:active span{
+        background: rgba($color: #000, $alpha: 0.1)
+    }
+}
+.cpt{
+    .go_to_trade{
+        padding: 0;
+        span{
+            display:inline-block;
+            width:509px;height: 49px;
+            line-height: 49px;
+        }
+    }
+    .go_to_trade:hover span{
+            background: rgba($color: #fff, $alpha: 0.1)
+        }
+    .go_to_trade:active span{
+        background: rgba($color: #000, $alpha: 0.1)
+    }
+}
 //历史委托
 
 //孙家兴以上

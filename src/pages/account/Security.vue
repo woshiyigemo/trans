@@ -13,7 +13,7 @@
         </ul>
         <ul class="message">
             <li>登录密码:</li>
-            <li>*******</li>
+            <li>********</li>
             <li class="loginpwd" @click="changeSignPwd">修改</li>
         </ul>
         <ul class="message">
