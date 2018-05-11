@@ -84,7 +84,6 @@ const router =  new Router({
                 },
                 {
                     path: 'account',
-                    name: 'account',
                     component: Account,
                     children:[
                         {

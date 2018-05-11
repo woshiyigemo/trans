@@ -34,7 +34,10 @@
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
                                         <div class="market-list" @click="changeDuadByLine(item)" v-for="(item,index) in marketListUSDT" :key="index">
-                                            <span class="rel1">{{item.icon}}</span>
+                                            <span class="rel1">
+                                                <!-- {{item.pic}} -->
+                                                <img  class="tiny-icon" :src="item.pic"/>
+                                            </span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
                                             </span>
@@ -55,7 +58,7 @@
                                     <div> 
                                         
                                         <div class="market-list" v-for="(item,index) in marketListUT"  :key="index">
-                                            <span class="rel1">{{item.icon}}</span>
+                                            <span class="rel1">{{item.pic}}</span>
                                             <span class="rel2">{{item.name.toUpperCase()}}</span>
                                             <span class="rel3">{{item.order_price}}</span>
                                             <span class="rel4" :class="item.positive?'rise':'fall'">{{item.p}}%</span>
@@ -133,7 +136,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number" 
+                                            <el-input :class="exchange.marketPriceDeal.buyDisable?'amount-input btn_disabled':'amount-input'" type="number"
                                             name="buy"  v-model.number="exchange.marketPriceDeal.price" 
                                             :disabled="exchange.marketPriceDeal.buyDisable"
                                             @focus="getFocus"
@@ -146,7 +149,7 @@
                                             <div class="amount-label">
                                                 数量
                                             </div>
-                                            <el-input class="amount-input" type="number"
+                                            <el-input :class="exchange.marketPriceDeal.sellDisable?'amount-input btn_disabled':'amount-input'"  class="amount-input" type="number"
                                             name="sell"  
                                             placeholder="卖出数量" 
                                             :disabled="exchange.marketPriceDeal.sellDisable"
@@ -166,11 +169,11 @@
                                     @change="computeMarketAmount"
                                     ></el-slider>
                                     <div class="btn-wrapper">
-                                        <el-button type="purchase" 
+                                        <el-button :class="exchange.marketPriceDeal.buyDisable?'btn_disabled':''" type="purchase"
                                         value="purchase" 
                                         @click="addDelegate($event)"
                                         :disabled="exchange.marketPriceDeal.buyDisable">买入</el-button>
-                                        <el-button type="sell" 
+                                        <el-button :class="exchange.marketPriceDeal.sellDisable?'btn_disabled':''" type="sell"
                                         value="sell"  
                                         @click="addDelegate($event)"
                                         :disabled="exchange.marketPriceDeal.sellDisable">卖出</el-button>
@@ -335,7 +338,7 @@
                         <el-table-column
                             prop="direction"
                             label="方向">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" >
                                 <span 
                                 :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
                                     {{scope.row.direction == 1?"买入":"卖出"}}
@@ -344,9 +347,10 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
+                            
                             :label="priceLabel">
                             <template slot-scope="scope">
-                                <span>
+                                <span >
                                     {{scope.row.price == 0?"市价":scope.row.price}}
                                 </span>
                             </template>
@@ -419,6 +423,7 @@
                                 <el-col :span="12">
                                     <el-table class="center-table"
                                     :data="realTimeDeal.buy"
+                                    @cell-click="changePrice"
                                     style="width: 100%">
                                         <el-table-column
                                             prop="role"
@@ -486,6 +491,16 @@
                                     :label="priceLabel">
                                 </el-table-column>
                                 <el-table-column
+                                    prop="direction"
+                                    label="方向">
+                                    <template slot-scope="scope">
+                                        <span 
+                                        :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                            {{scope.row.direction == 1?"买入":"卖出"}}
+                                        </span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column
                                     prop="processed_amount"
                                     :label="amountLabel">
                                 </el-table-column>
@@ -499,9 +514,13 @@
     </div>
 </template>
 <script>
+// import Vue from 'vue'
+// import VueWebsocket from "vue-websocket";
+// Vue.use(VueWebsocket, "ws://54.65.108.119:9541")
 import ScrollBar from 'vue2-scrollbar'
 import { api } from '@/static/api'
 import { functionDeclaration } from 'babel-types';
+// import ReconnectingWebSocket from 'reconnecting-websocket'
 export default {
     name:'CoinExchange',
     props:{
@@ -695,6 +714,11 @@ export default {
         clearInterval(self.getAssetsTimmer)
     },
     methods:{
+        changePrice(row, column, cell, event){
+            if(row && row.order_price && this.exchange.orderType == 'limitprice'){
+                this.exchange.limitPriceDeal.price = row.order_price
+            }
+        },
         // 重置比表货币
         getDuad(){
             // 获取当前货币和交易对
@@ -845,13 +869,13 @@ export default {
                 }
                 return
             }else if(this.exchange.focusChoose == 'buy'){
-                // 市价买         
+                // 市价买
                 this.exchange.marketPriceDeal.price = (this.exchange.marketPriceDeal.percent * this.exchange.balance).toFixed(2)
                 if(this.exchange.marketPriceDeal.price > 0){
                     this.exchange.marketPriceDeal.sellDisable = true
                 }else{
                     this.exchange.marketPriceDeal.sellDisable = false
-                } 
+                }
             }
             console.log('市价交易：',this.exchange.marketPriceDeal.amount == 0,this.exchange.marketPriceDeal.price == 0)
         },
@@ -867,7 +891,7 @@ export default {
             }
             api.curDelegate(data)
             .then(res => {
-                console.log("当前委托",res)
+                // console.log("当前委托",res)
                 this.curDelegation = res.entrusts
             }).catch(err => {
 
@@ -942,7 +966,6 @@ export default {
                         this.exchange.limitPriceDeal.price = this.tradeCurrencyInfo.order_price
                     }
                 }
-                this.$message(res.error_desc)
             }).catch(err => {
 
             })
@@ -973,8 +996,6 @@ export default {
                 console.log(res)
                 if(res.error_code == 1000){
                     this.noticeList = res.data
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 
@@ -1118,6 +1139,9 @@ export default {
         text-align: center;
         white-space:nowrap; 
         overflow: hidden;
+        vertical-align: top;
+        padding-top: 9px;
+        padding-left: 15px;
     }
     .rel2{
         width: 80px;
@@ -1257,7 +1281,7 @@ export default {
     width: 100%;
     background: #191f27;
     overflow: hidden;
-    white-space:nowrap; 
+    white-space:nowrap;
     text-overflow: ellipsis;
     color:#c2c3ca;
     list-style-type: none;
@@ -1313,6 +1337,13 @@ export default {
         padding: 15px 0;
     }
 }
+.tiny-icon{
+    width: 16px;
+    height: 16px;
+    display: block;
+}
 .imgshow{display: block!important;}
 .imghide{display: none!important;}
+.amount-input{font-size:12px !important}
+.btn_disabled{opacity:0.3}
 </style>

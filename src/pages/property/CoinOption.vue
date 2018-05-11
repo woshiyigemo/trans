@@ -27,12 +27,13 @@
 						<template slot-scope="scope">
 							<el-popover popper-class="xm-popover" 
 							offset=0
+							@hide="hideRechargeDialog"
 							placement="bottom-end"
 							width="800" trigger="click">
 								<div>
 									<p class="popover-titter">充币地址</p>
 								</div>
-								<button v-if="!rechargeInfo.showAddress"  @click="rechargeCoin">充币地址申请</button>
+								<button v-if="rechargeInfo.showGetAddressBtn"  @click="rechargeCoin">充币地址申请</button>
 								<span v-if="rechargeInfo.showAddress">{{rechargeInfo.rechargeAddress}}</span>
 								<button v-if="rechargeInfo.showAddress" type="button"
 									v-clipboard:copy="rechargeInfo.rechargeAddress"
@@ -151,6 +152,7 @@
 				},
 				rechargeInfo:{
 					showAddress:false,
+					showGetAddressBtn:false,
 					rechargeAddress:'',
 					plate:''
 				},
@@ -215,6 +217,13 @@
 			// 点击充币按钮
 			openRechargeDialog(row){
 				this.rechargeInfo.plate = row.currency
+				this.getAddressPre()
+			},
+			// 隐藏
+			hideRechargeDialog(){
+				this.showAddress = false
+				this.showGetAddressBtn = false
+				this.rechargeInfo.rechargeAddress = ''
 			},
 			// 发送邮箱验证码
 			getTakeCoinVerifyCode(){
@@ -229,9 +238,26 @@
 					}
 				}).catch(err => { })
 			},
+			// 是否已经获取地址
+			getAddressPre(){
+				var data = {
+					plate:this.rechargeInfo.plate
+				}
+				api.getAddress(data)
+				.then(res => {
+					if(res.error_code == 1000){
+						if(res.address_status.status==0){
+							this.rechargeInfo.showGetAddressBtn = true
+						}else if(res.address_status.status==1){
+							this.rechargeInfo.showGetAddressBtn = false
+							this.rechargeInfo.showAddress = true
+							this.rechargeInfo.rechargeAddress = res.address_status.address
+						}
+					}
+				}).catch(err => {})
+			},
 			// 获取充币地址
 			rechargeCoin(){
-				console.log(1111111111)
 				var data = {
 					plate:this.rechargeInfo.plate
 				}
