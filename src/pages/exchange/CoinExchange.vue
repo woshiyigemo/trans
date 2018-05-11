@@ -34,7 +34,10 @@
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
                                         <div class="market-list" @click="changeDuadByLine(item)" v-for="(item,index) in marketListUSDT" :key="index">
-                                            <span class="rel1">{{item.icon}}</span>
+                                            <span class="rel1">
+                                                <!-- {{item.pic}} -->
+                                                <img  class="tiny-icon" :src="item.pic"/>
+                                            </span>
                                             <span class="rel2">
                                                 {{item.name.toUpperCase()}}
                                             </span>
@@ -55,7 +58,7 @@
                                     <div> 
                                         
                                         <div class="market-list" v-for="(item,index) in marketListUT"  :key="index">
-                                            <span class="rel1">{{item.icon}}</span>
+                                            <span class="rel1">{{item.pic}}</span>
                                             <span class="rel2">{{item.name.toUpperCase()}}</span>
                                             <span class="rel3">{{item.order_price}}</span>
                                             <span class="rel4" :class="item.positive?'rise':'fall'">{{item.p}}%</span>
@@ -335,7 +338,7 @@
                         <el-table-column
                             prop="direction"
                             label="方向">
-                            <template slot-scope="scope">
+                            <template slot-scope="scope" >
                                 <span 
                                 :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
                                     {{scope.row.direction == 1?"买入":"卖出"}}
@@ -344,9 +347,10 @@
                         </el-table-column>
                         <el-table-column
                             prop="price"
+                            
                             :label="priceLabel">
                             <template slot-scope="scope">
-                                <span>
+                                <span >
                                     {{scope.row.price == 0?"市价":scope.row.price}}
                                 </span>
                             </template>
@@ -419,6 +423,7 @@
                                 <el-col :span="12">
                                     <el-table class="center-table"
                                     :data="realTimeDeal.buy"
+                                    @cell-click="changePrice"
                                     style="width: 100%">
                                         <el-table-column
                                             prop="role"
@@ -484,6 +489,16 @@
                                 <el-table-column
                                     prop="order_price"
                                     label="价格">
+                                </el-table-column>
+                                <el-table-column
+                                    prop="direction"
+                                    label="方向">
+                                    <template slot-scope="scope">
+                                        <span 
+                                        :class="scope.row.direction == 1?'buy-direction':'sell-direction'">
+                                            {{scope.row.direction == 1?"买入":"卖出"}}
+                                        </span>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                     prop="processed_amount"
@@ -699,6 +714,11 @@ export default {
         clearInterval(self.getAssetsTimmer)
     },
     methods:{
+        changePrice(row, column, cell, event){
+            if(row && row.order_price && this.exchange.orderType == 'limitprice'){
+                this.exchange.limitPriceDeal.price = row.order_price
+            }
+        },
         // 重置比表货币
         getDuad(){
             // 获取当前货币和交易对
@@ -860,7 +880,7 @@ export default {
             }
             api.curDelegate(data)
             .then(res => {
-                console.log("当前委托",res)
+                // console.log("当前委托",res)
                 this.curDelegation = res.entrusts
             }).catch(err => {
 
@@ -935,7 +955,6 @@ export default {
                         this.exchange.limitPriceDeal.price = this.tradeCurrencyInfo.order_price
                     }
                 }
-                this.$message(res.error_desc)
             }).catch(err => {
 
             })
@@ -966,8 +985,6 @@ export default {
                 console.log(res)
                 if(res.error_code == 1000){
                     this.noticeList = res.data
-                }else{
-                    this.$message(res.error_desc)
                 }
             }).catch(err => {
 
@@ -1091,6 +1108,9 @@ export default {
         text-align: center;
         white-space:nowrap; 
         overflow: hidden;
+        vertical-align: top;
+        padding-top: 9px;
+        padding-left: 15px;
     }
     .rel2{
         width: 80px;
@@ -1285,6 +1305,11 @@ export default {
         text-align: center;
         padding: 15px 0;
     }
+}
+.tiny-icon{
+    width: 16px;
+    height: 16px;
+    display: block;
 }
 .imgshow{display: block!important;}
 .imghide{display: none!important;}
