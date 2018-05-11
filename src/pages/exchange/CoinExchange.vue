@@ -247,7 +247,7 @@
                                 </el-option>
                             </el-select>
                     </div>
-                    <div style="height:400px;" v-show="showKline">
+                    <div style="height:480px;" v-show="showKline">
                        <iframe id="show-iframe"  frameborder=0 name="showHere" scrolling=auto :src="iframUrl"></iframe> 
                     </div>
                 </div>
