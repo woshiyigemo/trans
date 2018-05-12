@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="vuebar-element" v-bar="{preventParentScroll:true,scrollThrottle:50}"> <!-- el1 -->
                                     <div>
-                                        <div class="market-list" @click="changeDuadByLine(item)" v-for="(item,index) in marketListUSDT" :key="index">
+                                        <div class="market-list" :class="{'active':curIndex == index}" @click="changeDuadByLine(item,index)" v-for="(item,index) in marketListUSDT" :key="index">
                                             <span class="rel1">
                                                 <!-- {{item.pic}} -->
                                                 <img  class="tiny-icon" :src="item.pic"/>
@@ -200,7 +200,7 @@
                             <div class="vuebar-element" 
                             v-bar="{preventParentScroll:true,scrollThrottle:50}">
                                 <div >
-                                    <div class="mycoin-list" @click="changeDuadByLine(item)" v-for="(item,index) in mycoins" :key="index">
+                                    <div class="mycoin-list" @click="changeDuadByLineAsset(item,index)" v-for="(item,index) in mycoins" :key="index">
                                         <span class="rel1">{{item.currency.toUpperCase()}}</span>
                                         <span class="rel2">{{item.available}}</span>
                                         <span class="rel3">{{item.frozen}}</span>
@@ -258,6 +258,7 @@
                     </div>
                     <el-table v-show="showCurDelegate" class="center-table"
                     :data="curDelegation"
+                    ref="curDelegateTable"
                     style="width: 100%">
                         <el-table-column
                             prop="time"
@@ -317,6 +318,7 @@
                             历史委托
                     </div>
                     <el-table v-show="showHisDelegate" 
+                    ref="hisDelegateTable"
                     @expand-change="expandLine" 
                     class="center-table"
                     :data="hisDelegation"
@@ -422,6 +424,7 @@
                             <el-row v-show="showDeep">
                                 <el-col :span="12">
                                     <el-table class="center-table"
+                                    ref="realTimeBuy"
                                     :data="realTimeDeal.buy"
                                     @cell-click="changePrice"
                                     style="width: 100%">
@@ -449,6 +452,7 @@
                                     <el-table class="center-table"
                                     :data="realTimeDeal.sell"
                                     @cell-click="changePrice"
+                                    ref="realTimeSell"
                                     style="width: 100%">
                                         <el-table-column
                                             prop="order_price"
@@ -481,6 +485,7 @@
                             </div>
                             <el-table v-show="showRealTime" class="exchange-table center-table"
                             :data="realTimeDealList"
+                            ref="realTimeDeal"
                             style="width: 100%">
                                 <el-table-column
                                     prop="order_time"
@@ -545,6 +550,9 @@ export default {
             curDelegateTimmer:null,
             hisDelegateTimmer:null,
             getAssetsTimmer:null,
+            // 当前市场列表选择的项下标
+            curIndex : -1,
+            curIndexAsset:-1,
             // 当前目标货币
             curDuad:'',
             currency:'',
@@ -653,7 +661,8 @@ export default {
                 buy:[],
                 sell:[]
             },
-            realTimeDealList:[]
+            realTimeDealList:[],
+            historydatamd5:''
         }
     },
     components:{
@@ -739,7 +748,16 @@ export default {
             this.getCurDelegate()
             this.getHisDelegate()
         },
-        changeDuadByLine(item){
+        changeDuadByLine(item,index){
+            this.curIndex = index
+            this.tradeCurrency = (item.currency || item.name).toUpperCase()
+            this.curDuad = this.tradeCurrency + '/' + this.currency
+            this.getWsByCurrency()
+            this.getCurDelegate()
+            this.getHisDelegate()
+        },
+        changeDuadByLineAsset(item){
+            this.curIndexAsset = index
             this.tradeCurrency = (item.currency || item.name).toUpperCase()
             this.curDuad = this.tradeCurrency + '/' + this.currency
             this.getWsByCurrency()
@@ -908,7 +926,10 @@ export default {
             api.hisDelegate(data)
             .then(res => {
                 console.log("历史委托",res)
-                this.hisDelegation = res.entrusts
+                if(this.historydatamd5 != res.md5_entrusts){
+                    this.hisDelegation = res.entrusts
+                    this.historydatamd5 = res.md5_entrusts
+                }
             }).catch(err => {
 
             })
@@ -966,6 +987,10 @@ export default {
                     if(orderType == 0){
                         this.exchange.limitPriceDeal.price = this.tradeCurrencyInfo.order_price
                     }
+                    this.$message({
+                        message:res.error_desc,
+                        type:'success'
+                    })
                 }
             }).catch(err => {
 
@@ -984,9 +1009,7 @@ export default {
             .then(res => {
                 this.$message(res.error_desc)
                 this.getCurDelegate()
-            }).catch(err => {
-                this.$message('网络失败请重试')
-            })
+            }).catch(err => {})
         },
         getNotice(){
             var data = {
@@ -1076,15 +1099,28 @@ export default {
         },
         toggleShowCurDelegate(){
             this.showCurDelegate = !this.showCurDelegate
+            this.$nextTick(() =>{
+                this.$refs.curDelegateTable.doLayout()
+            })
         },
         toggleShowHisDelegate(){
             this.showHisDelegate = !this.showHisDelegate
+            this.$nextTick(() =>{
+                this.$refs.hisDelegateTable.doLayout()
+            })
         },
         toggleShowDeep(){
             this.showDeep = !this.showDeep
+            this.$nextTick(() =>{
+                this.$refs.realTimeBuy.doLayout()
+                this.$refs.realTimeSell.doLayout()
+            })
         },
         toggleShowRealTime(){
             this.showRealTime = !this.showRealTime
+            this.$nextTick(() =>{
+                this.$refs.realTimeDeal.doLayout()
+            })
         },
         toggleShowNotice(){
             this.showNotice = !this.showNotice
@@ -1198,6 +1234,9 @@ export default {
 }
 .market-list:hover,
 .mycoin-list:hover{
+    background: #232d39;
+}
+.market-list.active{
     background: #232d39;
 }
 .mycoin-list{
