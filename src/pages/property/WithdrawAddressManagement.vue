@@ -66,7 +66,15 @@
         </div>
         <div class="login_div_password">
             <el-input class="pwd_input" type="password" v-model="verifyInfo.mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
-            <button class="pwd_btn" @click="getTakeCoinVerifyCode">发送验证码</button>
+            <button class="pwd_btn" :disabled="counting" @click="getTakeCoinVerifyCode">
+              <countdown v-if="counting" 
+              :time="60000"
+              :leading-zero="false"
+              @countdownend="countDownEnd">
+                <template slot-scope="props">{{ props.seconds || 60 }}秒</template>
+              </countdown>
+              <span v-else>发送验证码</span>
+            </button>
         </div>
         <div class="login_div_password">
             <el-input class="pwd_input" type="password" v-model="verifyInfo.pinCode" placeholder="交易密码填写"></el-input>
@@ -79,10 +87,12 @@
 </template>
 <script>
 import { api } from '@/static/api'
+import countdown from '@xkeshi/vue-countdown'
 export default {
   name:'WithDrawAddressManagement',
   data(){
     return{
+      counting:false,
       addingAddress:false,
       userEmail:'',
       verifyInfo:{
@@ -101,15 +111,23 @@ export default {
       addressList:[]
     }
   },
+  components:{
+    countdown
+  },
   created(){
     this.getAddressList()
   },
   methods:{
+    countDownEnd(){
+      this.counting = false
+    },
     goProperty(){
         this.$router.push({name:'coinoption'})
     },
     // 发送验证邮件
     getTakeCoinVerifyCode(){
+      if(this.counting) return
+				this.counting = true
       api.getTakeCoinVerifyCode()
       .then(res => {
         if(res.error_code == 1000){
@@ -118,9 +136,7 @@ export default {
             type: 'success'
           })
         }
-      }).catch(err => {
-
-      })
+      }).catch(err => {})
     },
     // 弹出验证窗口
     preAddAddress(){
