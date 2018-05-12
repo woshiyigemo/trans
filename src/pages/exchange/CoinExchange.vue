@@ -660,7 +660,8 @@ export default {
                 buy:[],
                 sell:[]
             },
-            realTimeDealList:[]
+            realTimeDealList:[],
+            historydatamd5:''
         }
     },
     components:{
@@ -924,7 +925,10 @@ export default {
             api.hisDelegate(data)
             .then(res => {
                 console.log("历史委托",res)
-                this.hisDelegation = res.entrusts
+                if(this.historydatamd5 != res.md5_entrusts){
+                    this.hisDelegation = res.entrusts
+                    this.historydatamd5 = res.md5_entrusts
+                }
             }).catch(err => {
 
             })
