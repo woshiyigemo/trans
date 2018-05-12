@@ -237,8 +237,8 @@
 			},
 			// 隐藏
 			hideRechargeDialog(){
-				this.showAddress = false
-				this.showGetAddressBtn = false
+				this.rechargeInfo.showAddress = false
+				this.rechargeInfo.showGetAddressBtn = false
 				this.rechargeInfo.rechargeAddress = ''
 			},
 			// 发送邮箱验证码
