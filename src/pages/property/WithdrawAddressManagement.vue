@@ -2,7 +2,7 @@
     <div class="sjx_main addressmanagement">
       <div class="sjx_section">
         <div class="sjx_sec1">
-          <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>提币地址管理</span></div>
+          <div class="section_title"><a href="javascript:void(0);" style="outline:none;color:#525d6f;" @click="goProperty">资产中心</a><i class="el-icon-arrow-right"></i><span>提币地址管理</span></div>
           <div class="address">
             <div class="address_left">
               <p>币种</p>
@@ -105,6 +105,9 @@ export default {
     this.getAddressList()
   },
   methods:{
+    goProperty(){
+        this.$router.push({name:'coinoption'})
+    },
     // 发送验证邮件
     getTakeCoinVerifyCode(){
       api.getTakeCoinVerifyCode()
@@ -202,7 +205,7 @@ export default {
   .sjx_main{width: 987px;height: 940px;float: right;overflow: hidden;}
   .sjx_section{width: 987px;height:246px;}
   .sjx_sec1{width: 890px;margin: 0 auto;height:246px;}
-  .section_title{line-height: 87px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 15px;}
+  .section_title{line-height: 87px;border-bottom: 1px solid #232935;color: #525d6f;font-size: 12px;}
   .section_title span{color: #c8cdd3;}
   .address{margin-top: 17px;height: 130px;}
   .address_left,.address_right{float: left;}

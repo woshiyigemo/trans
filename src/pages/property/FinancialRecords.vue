@@ -3,7 +3,7 @@
     <div class="financial-record" style="width: 1200px;height: 940px;">
       <div class="sjx_main">
        <div class="sjx_section">
-         <div class="section_title">资产中心<i class="el-icon-arrow-right"></i><span>财务记录</span></div>
+         <div class="section_title"><a href="javascript:void(0);" style="outline:none;color:#525d6f;" @click="goProperty">资产中心</a><i class="el-icon-arrow-right"></i><span>财务记录</span></div>
          <div class="sjx_btn">
            <div class="btn_section">
              <p v-for="(item,index) in arr" :key="index" @click="toggle(index)" :class="{active:index == active}">{{item}}</p>
@@ -66,6 +66,9 @@ export default {
       }
     },
     methods:{
+      goProperty(){
+        this.$router.push({name:'coinoption'})
+      },
       toggle(index){
         this.active = index
       },
@@ -94,6 +97,7 @@ export default {
       this.getRechargeRecordList()
       this.getWithdrawRecordList()
     }
+    
   }
 </script>
 

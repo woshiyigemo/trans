@@ -29,7 +29,7 @@
 							offset=0
 							@hide="hideRechargeDialog"
 							placement="bottom-end"
-							width="800" trigger="click">
+							width="765" trigger="click">
 								<div>
 									<p class="popover-titter">充币地址</p>
 								</div>

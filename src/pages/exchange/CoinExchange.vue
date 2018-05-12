@@ -440,7 +440,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="allamount"
-                                            label="累计">
+                                            :label="amountLabel">
                                         </el-table-column>
                                         <el-table-column
                                             prop="order_price"
@@ -451,6 +451,7 @@
                                 <el-col :span="12">
                                     <el-table class="center-table"
                                     :data="realTimeDeal.sell"
+                                    @cell-click="changePrice"
                                     ref="realTimeSell"
                                     style="width: 100%">
                                         <el-table-column
@@ -460,7 +461,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="allamount"
-                                            label="累计">
+                                            :label="amountLabel">
                                         </el-table-column>
                                         <el-table-column
                                             prop="amount"
@@ -482,7 +483,7 @@
                                 <i :class="showRealTime?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowRealTime"></i>
                                     实时成交
                             </div>
-                            <el-table v-show="showRealTime" class="exchange-table"
+                            <el-table v-show="showRealTime" class="exchange-table center-table"
                             :data="realTimeDealList"
                             ref="realTimeDeal"
                             style="width: 100%">
@@ -851,9 +852,9 @@ export default {
             this.exchange.focusChoose = e.target.name
         },
         getBuyKeyup(e){
-            if (!/^\d*\.?\d{0,4}$/.test(Number(e.target.value))) {
-                const num=Number(e.target.value).toFixed(5)
-                const numTwo=num.substring(0,num.lastIndexOf('.')+5)
+            if (!/^\d*\.?\d{0,8}$/.test(Number(e.target.value))) {
+                const num=Number(e.target.value).toFixed(9)
+                const numTwo=num.substring(0,num.lastIndexOf('.')+9)
                 this.exchange.marketPriceDeal.price = numTwo
             }
             if(Number(e.target.value) > 0){

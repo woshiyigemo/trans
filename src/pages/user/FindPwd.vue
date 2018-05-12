@@ -63,7 +63,7 @@
                     <div class="findpasswordtwo_main_ts">您正在找回的账户是：<span>{{email}}</span></div>
                     <div class="findpassword_main_div_email findpasswordtwo_email">
                       <span class="mi">新密码</span>
-                      <input class="sjx_ipt" type="text" v-model="pwd" @focus="get_focus">
+                      <input class="sjx_ipt" type="password" v-model="pwd" @focus="get_focus">
                       <transition name="fade">
                         <div class="findpassword_error" style="padding-left: 0;" v-show="isEmailErr">
                             <p class="findpassword_error_3" style="background-position:10px 6px;text-indent: 30px;">长度为6~14个字符</p>
@@ -75,7 +75,7 @@
 
                      <div class="findpassword_main_div_email findpasswordtwo_email">
                        <span class="mi">确认新密码</span>
-                       <input class="sjx_ipt" type="text" v-model="pwd_t" @focus="get_focus">
+                       <input class="sjx_ipt" type="password" v-model="pwd_t" @focus="get_focus">
                        <transition name="fade">
                             <div class="findpassword_error" style="padding-left: 0;" v-show="isVerifyCodeErr">
                                 <p class="findpassword_error_1">两次输入的密码不一致</p>
