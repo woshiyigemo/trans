@@ -12,6 +12,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@xkeshi/vue-countdown": "^0.6.0",
     "ajv": "^6.4.0",
     "element-ui": "^2.3.2",
     "gemini-scrollbar": "^1.5.3",
@@ -22,6 +23,7 @@
     "vue-cookies": "^1.5.6",
     "vue-native-websocket": "^2.0.7",
     "vue-router": "^3.0.1",
+    "vue2-countdown": "^1.0.8",
     "vuebar": "0.0.18",
     "vuex": "^3.0.1"
   },
