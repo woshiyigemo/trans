@@ -11,7 +11,7 @@
                         <el-main class="right-word">
                             <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
                             <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
-                            <div class="right-l3" :class="tradeCurrencyInfo.p>0?'green':'red'">{{curPrice}}%</div>
+                            <div class="right-l3" :class="tradeCurrencyInfo.p>=0?'green':'red'">{{curPrice}}%</div>
                             <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
@@ -676,7 +676,8 @@ export default {
             return 'http://frontend.sy.sxurl.cn/kline/versiontwo?from=' + this.currency +'&to=' + this.tradeCurrency + '&1524016170='
         },
         curPrice(){
-            if(this.tradeCurrencyInfo && this.tradeCurrencyInfo.p){
+            if(this.tradeCurrencyInfo){
+                console.log(7878787878,this.tradeCurrencyInfo)
                 return Math.abs(this.tradeCurrencyInfo.p)
             }else{
                 return 0
@@ -696,6 +697,18 @@ export default {
         }
     },
     created(){
+        console.log(888888,this.$route.query.tradeCurrency != ('BTC'||'ETH'),this.$route.query.base != 'USDT')
+        if( this.$route.query.tradeCurrency != ('BTC'||'ETH')||
+            this.$route.query.base != 'USDT')
+        {
+            this.$router.replace({path:'/exchange/coinexchange'})
+        }
+        // if(this.$route.query.base && (this.$route.query.base != 'USDT')){
+
+        // }
+        // this.$router.replace({path:'/exchange/coinexchange'})
+    },
+    mounted () {
         var self = this
         this.getDuad()
         this.curDelegateTimmer = setInterval(function(){
@@ -710,9 +723,6 @@ export default {
         },5000)
         this.getNotice()
         this.userAccount()
-    },
-    mounted () {
-
     },
     watch:{
         
@@ -735,6 +745,7 @@ export default {
             this.tradeCurrency = this.$route.query.tradeCurrency ? this.$route.query.tradeCurrency:(this.currencyOptions[0].value).split('/')[0]
             this.currency = this.$route.query.base ? this.$route.query.base:(this.currencyOptions[0].value).split('/')[1]
             this.curDuad = this.tradeCurrency + '/' + this.currency
+
             this.getWsByCurrency()
             this.getCurDelegate()
             this.getHisDelegate()
@@ -744,17 +755,19 @@ export default {
             console.log(e)
             this.tradeCurrency = this.curDuad.split('/')[0]
             this.currency = this.curDuad.split('/')[1]
+            this.$router.replace({path:'/exchange/coinexchange',query:{tradeCurrency:this.tradeCurrency,base:this.currency}})
             this.getWsByCurrency()
-            this.getCurDelegate()
-            this.getHisDelegate()
+            // this.getCurDelegate()
+            // this.getHisDelegate()
         },
+
         changeDuadByLine(item,index){
             this.curIndex = index
             this.tradeCurrency = (item.currency || item.name).toUpperCase()
             this.curDuad = this.tradeCurrency + '/' + this.currency
             this.getWsByCurrency()
             this.getCurDelegate()
-            this.getHisDelegate()
+            this.getHisDelegate()     
         },
         changeDuadByLineAsset(item){
             this.curIndexAsset = index
@@ -766,11 +779,13 @@ export default {
         },
         // 根据当前货币获取接口
         getWsByCurrency(){
+            console.log('切换货币接口获取1111111111111')
             var self = this
             var data = {
                 currency:this.currency,
                 trade_currency:this.tradeCurrency
             }
+            console.log('切换货币1111111111111',data.currency,data.trade_currency)
             api.getWsByCurrency(data)
             .then(res =>{
                 console.log(res,787887)
@@ -799,7 +814,6 @@ export default {
                 if(res.sbprice && res.sbprice.order_price){
                     self.exchange.limitPriceDeal.price = res.sbprice.order_price
                 }
-                console.log('当前重新连接到socket')
             }
         },
         normalizeRealTime(res){
@@ -832,6 +846,11 @@ export default {
             for(var i in this.marketListUSDT){
                 self.marketListUSDT[i].icon = '$'
                 self.marketListUSDT[i].positive = self.marketListUSDT[i].p >=0?true:false
+                // this.marketListUSDT.forEach((o,i)=>{
+                if(self.marketListUSDT[i].name.toUpperCase() == this.tradeCurrency){
+                    this.curIndex = i
+                }
+                // })
             }
             for(var i in this.marketListUT){
                 self.marketListUT[i].icon = '$'
