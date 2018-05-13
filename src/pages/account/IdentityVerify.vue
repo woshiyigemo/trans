@@ -317,5 +317,8 @@ export default {
         display: block;
     }
 }
+.cpt_ok{ span{
+    color: #fff;
+}}
 </style>
 

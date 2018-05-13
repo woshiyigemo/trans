@@ -129,7 +129,7 @@
                                         <li>{{item.price}}</li>
                                         <li>{{item.number}}</li>
                                         <li>{{item.total}}</li>
-                                        <li>{{item.fee}}</li>
+                                        <li>{{item.fee}} {{item.trade_type == 1?item.trade_currency.toUpperCase():"USDT"}}</li>
                                     </ul>
                                     <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
                                         暂无数据
@@ -286,7 +286,7 @@ export default {
           }
           api.delegateDetail(data)
           .then(res => {
-              console.log(res)
+              console.log(res,123456)
               if(res.error_code == 1000){
                   this.detailDelegate = res.entrusts
               }

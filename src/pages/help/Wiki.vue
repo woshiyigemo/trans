@@ -2,7 +2,7 @@
     <div>
         <div class="banner">
             <div class="help_main">
-                <p class="welcome">欢迎使用SHANGYA帮助</p>
+                <p class="welcome">欢迎使用UNIONE帮助</p>
                 <div class="search">
                     <el-autocomplete class="inline-input" v-model="state1" :fetch-suggestions="querySearch" :trigger-on-focus="false" placeholder="输入您想搜索的内容~" @select="handleSelect" ></el-autocomplete>
                     <el-button>搜索</el-button>
@@ -15,7 +15,7 @@
             <h5>常见问题</h5>
             <div class="message">
                 <ul>
-                    <li>SHANGYA怎么注册</li>
+                    <li>UNIONE怎么注册</li>
                     <li>证件认证</li>
                     <li>如何邮箱注册</li>
                     <li>如何实名认证</li>
