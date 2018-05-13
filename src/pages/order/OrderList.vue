@@ -226,9 +226,9 @@ export default {
           self.getCurDelegate()
       },5000)
       this.getHisDelegate()
-      this.hisDelegateTimmer = setInterval(function(){
-          self.getHisDelegate()
-      },5000)
+    //   this.hisDelegateTimmer = setInterval(function(){
+    //       self.getHisDelegate()
+    //   },5000)
       this.getDealDetail()
       this.dealDelegateTimmer = setInterval(function(){
           self.getDealDetail()

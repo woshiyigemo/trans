@@ -385,9 +385,9 @@
                                 <div class="details">
                                     <ul class="details_title">
                                         <li>时间</li>
-                                        <li>价格</li>
-                                        <li>数量</li>
-                                        <li>成交额</li>
+                                        <li>{{priceLabel}}</li>
+                                        <li>{{amountLabel}}</li>
+                                        <li>{{turnoverLabel}}</li>
                                         <li>手续费</li>
                                     </ul>
                                     <ul v-if="!props.row.loading" v-for="(item,index) in props.row.detailList" :key="index" class="details_section">
@@ -395,7 +395,7 @@
                                         <li>{{item.price}}</li>
                                         <li>{{item.number}}</li>
                                         <li>{{item.total}}</li>
-                                        <li>{{item.fee}}</li>
+                                        <li>{{item.fee}} {{item.trade_type == 1?img:"USDT"}}</li>
                                     </ul>
                                     <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
                                         暂无数据
@@ -440,7 +440,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="allamount"
-                                            :label="amountLabel">
+                                            :label="allAmountLabel">
                                         </el-table-column>
                                         <el-table-column
                                             prop="order_price"
@@ -461,7 +461,7 @@
                                         </el-table-column>
                                         <el-table-column
                                             prop="allamount"
-                                            :label="amountLabel">
+                                            :label="allAmountLabel">
                                         </el-table-column>
                                         <el-table-column
                                             prop="amount"
@@ -690,6 +690,12 @@ export default {
         },
         amountLabel(){
             return '数量('+ this.tradeCurrency +')'
+        },
+        allAmountLabel(){
+            return '累计('+ this.tradeCurrency +')'
+        },
+        turnoverLabel(){
+            return '成交额('+ this.currency +')'
         },
         img(){
             return this.tradeCurrency
@@ -1076,7 +1082,7 @@ export default {
             }
             api.orderDetail(data)
             .then(res => {
-                console.log(res)
+                console.log(res,12342234)
                 if(res.error_code == 1000){  
                     this.$set(row,'detailList',res.entrusts)
                     this.$set(row,'loading',false)

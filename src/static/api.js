@@ -45,14 +45,16 @@ instance.interceptors.response.use(function (response) {
     }else if(response.data && response.data.error_code && response.data.error_code == 2015){
         Message({
             message: '登录超时，请重新登录',
-            type: 'error'
+            type: 'error',
+            duration: 1000
         })
         store.dispatch('userLogout')
     }else if(response.data && response.data.error_code && response.data.error_code == 4003){
         // 未设置交易密码
         Message({
             message: '请先设置交易密码，3秒后跳转',
-            type: 'error'
+            type: 'error',
+            duration: 1000
         })
         setTimeout(function(){
             router.replace({name:'security'})
@@ -63,7 +65,8 @@ instance.interceptors.response.use(function (response) {
         // 未设置提笔地址
         Message({
             message: '请先设置提币地址，3秒后跳转',
-            type: 'error'
+            type: 'error',
+            duration: 1000
         })
         setTimeout(function(){
             router.replace({name:'withdrawaddressmanagement'})
@@ -73,12 +76,14 @@ instance.interceptors.response.use(function (response) {
     }else if(response.status < 200 || response.status >= 300){
         Message({
             message: '网络错误，刷新网页重试',
-            type: 'error'
+            type: 'error',
+            duration: 1000
         })
     }else{
         Message({
             message: response.data.error_desc,
-            type: 'error'
+            type: 'error',
+            duration: 1000
         })
     }
     response = response.data

@@ -17,7 +17,7 @@
                     <div class="findpassword_main_div_img1"></div>
                     <div class="findpassword_main_div_email">
                         <div class="findpassword_main_div_email_left">电子邮箱</div>
-                        <el-input class="findpassword_main_div_email_right" @focus="get_focus" v-model="email" placeholder="请输入内容"></el-input>
+                        <el-input class="findpassword_main_div_email_right" @focus="get_focus" v-model="email" placeholder="请输入邮箱地址"></el-input>
                         <!-- <div class="findpassword_main_div_email_right">
 
                         </div> -->
