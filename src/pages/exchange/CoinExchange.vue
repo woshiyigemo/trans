@@ -703,8 +703,9 @@ export default {
         }
     },
     created(){
-        console.log(888888,this.$route.query.tradeCurrency != ('BTC'||'ETH'),this.$route.query.base != 'USDT')
-        if( this.$route.query.tradeCurrency != ('BTC'||'ETH')||
+        console.log(888888,this.$route.query.tradeCurrency,this.$route.query.tradeCurrency != ('BTC'||'ETH'),this.$route.query.base != 'USDT')
+        if((this.$route.query.tradeCurrency != 'BTC'&&
+            this.$route.query.tradeCurrency != 'ETH')||
             this.$route.query.base != 'USDT')
         {
             this.$router.replace({path:'/exchange/coinexchange'})
