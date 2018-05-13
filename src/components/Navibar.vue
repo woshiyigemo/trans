@@ -12,12 +12,10 @@
             <router-link class="login_btn_div_register" to="/user/regist">注册</router-link>
         </div>
         <div class="person-nav-wrapper"  v-if="userloggedin">
-            <router-link class="person-nav" active-class="person-nav-active" to="/order" @click.native="clickOrder"><img :src="orderImg?require('../assets/img/order.png'):require('../assets/img/selected-order.png')" />订单</router-link>
+            <router-link class="order-nav" active-class="order-nav-active" to="/order" @click.native="clickOrder"> 订单</router-link>
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
              <el-dropdown class="person-nav" trigger="click" >
-                 
                 <span>
-                    <img src="~@/assets/img/user.png" />
                     用户：{{username}}
                 </span>
                 <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
@@ -46,7 +44,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
             
-            <router-link class="person-nav" active-class="person-nav-active" to="/property/coinoption" @click.native="clickAssets"><img :src="assetsImg?require('../assets/img/assets.png'):require('../assets/img/selected_assets.png')" />资产</router-link>
+            <router-link class="assets-nav" active-class="assets-nav-active" to="/property/coinoption" @click.nat0x635dE6dCC4A3288234cd4a73Fd05ad64B52B13c8ive="clickAssets">资产</router-link>
         </div>
     </div>
 </template>
@@ -69,7 +67,9 @@ export default {
             },
             btccny:67871.91,
             ethcny:5511.54,
-            usdtcny:6.35
+            usdtcny:6.35,
+            activepath:'/account/security'+'/account/identityverify',
+            issetpersonactive:false,
         }
     },
     computed:{
@@ -138,11 +138,12 @@ export default {
 .person-nav-wrapper>a>img{display: inline-block; vertical-align: middle;margin-right: 10px;}
 .person-nav{
     color:#8d9fb8;
-    padding: 0 15px;
+    padding: 0 20px;
     height:30px;
     line-height: 30px;
     font-size:12px;display:block;float:left;box-sizing:border-box;
     outline: none;
+    background:url('~@/assets/img/user.png') no-repeat left;
 }
 .person-nav>span>img{
     display: inline-block; vertical-align: middle;margin-right: 10px;
@@ -157,8 +158,41 @@ export default {
     outline: none;
    
 }
+.order-nav{
+    color:#8d9fb8;
+    padding: 0 18px;
+    height:30px;
+    line-height: 30px;
+    font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
+    background:url('../assets/img/order.png') no-repeat left;
+}
+.order-nav-active{
+    color:#4c54f9;
+    background:url('../assets/img/selected-order.png') no-repeat left;
+}
+.assets-nav{
+    color:#8d9fb8;
+    padding: 0 20px;
+    height:30px;
+    line-height: 30px;
+    font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
+    background:url('../assets/img/assets.png') no-repeat left;
+}
+.assets-nav-active{
+    color:#4c54f9;
+    background:url('../assets/img/selected_assets.png') no-repeat left;
+}
+
 .person-nav-active{
     color:#4c54f9;
+    padding: 0 20px;
+    height:30px;
+    line-height: 30px;
+    font-size:12px;display:block;float:left;box-sizing:border-box;
+    outline: none;
+    background:url('~@/assets/img/selcted_user.png') no-repeat left;
 }
 .navbar{
     color:#8d9fb8;
