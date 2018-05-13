@@ -1005,6 +1005,7 @@ export default {
             }
             api.addDelegate(data)
             .then(res => {
+                console.log(data,1212)
                 if(res.error_code == 1000){
                     this.userAccount()
                     this.getCurDelegate()
@@ -1014,7 +1015,8 @@ export default {
                     }
                     this.$message({
                         message:res.error_desc,
-                        type:'success'
+                        type:'success',
+                        duration: 1000
                     })
                 }
             }).catch(err => {

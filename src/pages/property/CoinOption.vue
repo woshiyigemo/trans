@@ -71,7 +71,7 @@
 									<span>限额:{{withdrawInfo.realAmount}}</span>
 								</p>
 								<span class="combo">  
-								<input class="combo combo-text" type="number" v-model.number="withdrawInfo.amount" @keyup="calFee">  
+								<input class="combo combo-text" style="text-indent:15px;" type="number" v-model.number="withdrawInfo.amount" @keyup="calFee">  
 								<span style="margin-right: 10px;">{{withdrawInfo.currency.toUpperCase()}}</span>
 								</span>
 								<div style="overflow:hidden;">
@@ -79,7 +79,7 @@
 								<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">手续费</p>
 								<span class="combo">  
 								<!-- <input class="combo combo-text1" v-model="fee"/>  -->
-								<span class="combo combo-text1">{{withdrawInfo.fee}}</span>
+								<span class="combo combo-text1" style="text-indent:15px;">{{withdrawInfo.fee}}</span>
 								<span  style="padding-right:15px;line-height:35px;">  
 									{{withdrawInfo.currency.toUpperCase()}}
 								</span>
@@ -90,7 +90,7 @@
 									<p style="margin-left: 15px;font-size:12px;color: #9ea2f9;">到账数量</p>
 									<span class="combo" >  
 										<!-- <input class="combo combo-text2" v-model="readAmount" /> -->
-										<span class="combo combo-text2">
+										<span class="combo combo-text2" style="text-indent:15px;">
 											{{withdrawInfo.realAmount}}
 										</span>
 										<span style="padding-right:15px;line-height:35px;">  
@@ -203,13 +203,15 @@
 			onCopy: function (e) {
 				this.$message({
 					message:'复制成功',
-					type:'sucess'
+					type:'sucess',
+					duration: 1000
 				})
 			},
 			onError(){
 				this.$message({
 					message:'复制失败，请重试',
-					type:'error'
+					type:'error',
+					duration: 1000
 				})
 			},
 			// 重置弹出框
