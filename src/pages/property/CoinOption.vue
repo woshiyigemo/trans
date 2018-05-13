@@ -126,7 +126,15 @@
 			</div>
 			<div class="login_div_password">
 				<el-input class="pwd_input" type="password" v-model="verifyInfo.mailCode" placeholder="邮箱验证码" style="width:183px;"></el-input>
-				<button class="pwd_btn" @click="getTakeCoinVerifyCode">发送验证码</button>
+				<button class="pwd_btn" :disabled="counting" @click="getTakeCoinVerifyCode">
+					<countdown v-if="counting" 
+					:time="60000"
+					:leading-zero="false"
+					 @countdownend="countDownEnd">
+						<template slot-scope="props">{{ props.seconds || 60 }}秒</template>
+					</countdown>
+					<span v-else>发送验证码</span>
+				</button>
 			</div>
 			<div class="login_div_password">
 				<el-input class="pwd_input" type="password" v-model="verifyInfo.pinCode" placeholder="交易密码填写"></el-input>
@@ -140,10 +148,12 @@
 
 <script>
 	import { api } from '@/static/api'
+	import countdown from '@xkeshi/vue-countdown'
 	export default {
 		name: 'CoinOption',
 		data() {
 			return {
+				counting:false,
 				balance: 0,
 				verifyInfo:{
 					userEmail:'',
@@ -175,6 +185,9 @@
 				],
 			}
 		},
+		components:{
+			countdown
+		},
 		computed:{
 		},
 		created() {
@@ -184,6 +197,9 @@
 			
 		},
 		methods: {
+      countDownEnd(){
+        this.counting = false
+      },
 			onCopy: function (e) {
 				this.$message({
 					message:'复制成功',
@@ -221,12 +237,14 @@
 			},
 			// 隐藏
 			hideRechargeDialog(){
-				this.showAddress = false
-				this.showGetAddressBtn = false
+				this.rechargeInfo.showAddress = false
+				this.rechargeInfo.showGetAddressBtn = false
 				this.rechargeInfo.rechargeAddress = ''
 			},
 			// 发送邮箱验证码
 			getTakeCoinVerifyCode(){
+				if(this.counting) return
+				this.counting = true
 				var data = {
 					coin_name_en:this.withdrawInfo.currency
 				}

@@ -50,7 +50,16 @@
                         <div class="findpassword_main_div_email_right">
                             <input type="text" v-model="code">
                         </div>
-                        <button class="send" @click="sjx_send">发送验证码</button>
+                        <!-- <button class="send" @click="sjx_send">发送验证码</button> -->
+                        <button class="send" :disabled="counting" @click="sjx_send">
+                            <countdown v-if="counting" 
+                            :time="60000"
+                            :leading-zero="false"
+                            @countdownend="countDownEnd">
+                                <template slot-scope="props">{{ props.seconds || 60 }}秒</template>
+                            </countdown>
+                            <span v-else>发送验证码</span>
+                        </button>
                     </div>
                     <a class="findpassword_main_div_btn" @click="toStep3"><div>下一步</div></a>
                 </div>
@@ -86,6 +95,7 @@
 
 <script>
 import { api } from '@/static/api'
+import countdown from '@xkeshi/vue-countdown'
 
 export default {
     name:'FindPinCode',
@@ -94,6 +104,7 @@ export default {
     },
     data(){
         return{
+            counting:false,
             curStep:1,
             email:'',
             imgCodeUrl:api.getImgCode(1002),
@@ -106,7 +117,7 @@ export default {
         }
     },
     components:{
-
+        countdown
     },
     created(){
     //    this.getImg()
@@ -118,6 +129,9 @@ export default {
 
     },
     methods:{
+        countDownEnd(){
+            this.counting = false
+        },
         toStep2(){
             // this.curStep = 2
             var data={
@@ -166,6 +180,8 @@ export default {
         },
         //发送邮件
         sjx_send(){
+            if(this.counting) return
+				this.counting = true
             var data={
                 email:this.email
             }
