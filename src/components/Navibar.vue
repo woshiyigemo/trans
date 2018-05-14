@@ -16,7 +16,7 @@
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
              <el-dropdown class="person-nav" trigger="click" >
                 <span>
-                    用户：{{username}}
+                    {{username}}
                 </span>
                 <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
                 <el-dropdown-menu slot="dropdown" class="nav-dropdown">
@@ -44,7 +44,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
             
-            <router-link class="assets-nav" active-class="assets-nav-active" to="/property/coinoption" @click.nat0x635dE6dCC4A3288234cd4a73Fd05ad64B52B13c8ive="clickAssets">资产</router-link>
+            <router-link class="assets-nav" active-class="assets-nav-active" to="/property/coinoption" @click.native="clickAssets">资产</router-link>
         </div>
     </div>
 </template>
