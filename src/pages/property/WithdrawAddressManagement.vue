@@ -106,6 +106,9 @@ export default {
       },{
         value: 'BTC',
         label: 'BTC'
+      },{
+        value: 'USDT',
+        label: 'USDT'
       }],
       selectedCoin:'ETH',
       addressList:[]
