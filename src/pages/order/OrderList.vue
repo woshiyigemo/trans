@@ -286,7 +286,8 @@ export default {
           }
           api.delegateDetail(data)
           .then(res => {
-              console.log(res,123456)
+              console.log(res,5255)
+              console.log(data,2522)
               if(res.error_code == 1000){
                   this.detailDelegate = res.entrusts
               }

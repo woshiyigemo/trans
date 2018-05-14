@@ -16,7 +16,7 @@
             <!-- <router-link class="person-nav" active-class="person-nav-active" to="/account/security">用户：{{username}}</router-link> -->
              <el-dropdown class="person-nav" trigger="click" >
                 <span>
-                    用户：{{username}}
+                    {{username}}
                 </span>
                 <!-- <router-link class="person-nav" active-class="person-nav-active">用户：{{username}}</router-link> -->
                 <el-dropdown-menu slot="dropdown" class="nav-dropdown">

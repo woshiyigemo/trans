@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style  rel='stylesheet/scss' scoped>
+<style rel='stylesheet/scss' scoped>
 #app {
   font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

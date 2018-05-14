@@ -551,7 +551,7 @@ export default {
             hisDelegateTimmer:null,
             getAssetsTimmer:null,
             // 当前市场列表选择的项下标
-            curIndex : -1,
+            curIndex : 0,
             curIndexAsset:-1,
             // 当前目标货币
             curDuad:'',

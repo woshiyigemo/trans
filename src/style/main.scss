@@ -452,6 +452,14 @@ input[type="number"]{-moz-appearance:textfield;}
                             color: #67778c;
                         }
                     }
+        
+                            .el-table__expand-icon::after{
+                                content: '详情'
+                            }
+                            .el-table__expand-icon > .el-icon-arrow-right{
+                                display: none!important;
+                            }
+
                 }
             }
             .el-table__row{
