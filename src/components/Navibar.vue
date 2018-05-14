@@ -156,7 +156,8 @@ export default {
     line-height: 30px;
     font-size:12px;display:block;box-sizing:border-box;
     outline: none;
-   
+    overflow: hidden;
+    white-space:nowrap;
 }
 .order-nav{
     color:#8d9fb8;

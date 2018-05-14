@@ -14,7 +14,7 @@
                 <div class="hr"></div>
                 <div class="main_cat_con">
                     <div class="main_cat_con_t main_cat_con_t_first main_cat_con_t_usd"></div>
-                    <div v-for="(item,index) in marketListUSDT" class="main_cat_con_t" :key="index">
+                    <div v-for="(item,index) in marketListUSDT" @click="goCoinExchange(item)" class="main_cat_con_t" :key="index">
                         <div class="main_cat_con_t_title">{{item.name.toUpperCase()}} / USDT</div>
                         <div class="main_cat_con_t_money">{{Number(item.order_price)}}</div>
                         <div class="main_cat_con_t_percent" :class="item.positive?'fall':'rise'">{{Math.abs(item.p)}}%</div>    
@@ -90,6 +90,11 @@ export default {
                     this.pubNotice = res.data.notice_content
                 }
             }).catch(err => {})
+        },
+        goCoinExchange(item){
+            console.log(777777,item)
+            // if(!item) return
+            this.$router.replace({path:'/exchange/coinexchange',query:{tradeCurrency:item.name.toUpperCase(),base:'USDT'}})
         }
     }
 }
