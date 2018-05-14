@@ -4,7 +4,7 @@
             <el-aside class="leftside" style="width:370px;">
                 <div class="inner-wrapper">
                     <el-container class="dash">
-                        <el-aside class="left-pic"  style="width:88px;margin:11px 0;">
+                        <el-aside class="left-pic"  style="width:88px;margin:23px 0;">
                             <img class="left-pic" :src="img == 'ETH'?imgshow:imghide"  alt=""/>
 
                         </el-aside>
@@ -12,6 +12,7 @@
                             <div class="right-l1">{{curDuad}}  {{tradeCurrencyInfo.order_price}}</div>
                             <div class="right-l2">≈  {{(tradeCurrencyInfo.order_price*6.3).toFixed(2)}}CNY</div>
                             <div class="right-l3" :class="tradeCurrencyInfo.p>0?'green':'red'">{{curPrice}}%</div>
+                            <div class="right-15">24H量 3842 {{img}}</div>
                             <div class="right-l4"  >高：{{tradeCurrencyInfo.high}} 低：{{tradeCurrencyInfo.low}}</div>
                         </el-main>
                         
@@ -647,12 +648,12 @@ export default {
             ],
             currencyOptions:[
                 {
-                    value:'ETH/USDT',
-                    label:'ETH/USDT'
-                },
-                {
                     value:'BTC/USDT',
                     label:'BTC/USDT'
+                },
+                {
+                    value:'ETH/USDT',
+                    label:'ETH/USDT'
                 }
             ],
             curDelegation:[],
