@@ -452,6 +452,14 @@ input[type="number"]{-moz-appearance:textfield;}
                             color: #67778c;
                         }
                     }
+        
+                            .el-table__expand-icon::after{
+                                content: '详情'
+                            }
+                            .el-table__expand-icon > .el-icon-arrow-right{
+                                display: none!important;
+                            }
+
                 }
             }
             .el-table__row{
@@ -933,7 +941,7 @@ input[type="number"]{-moz-appearance:textfield;}
     border: none;
     input{       
         width: 725px;
-        font-size: 20px;
+        font-size: 14px;
         line-height: 35px;
         background: #5056E0;
         height: 35px;

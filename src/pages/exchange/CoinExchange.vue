@@ -395,7 +395,7 @@
                                         <li>{{item.price}}</li>
                                         <li>{{item.number}}</li>
                                         <li>{{item.total}}</li>
-                                        <li>{{item.fee}} {{item.trade_type == 1?img:"USDT"}}</li>
+                                        <li>{{item.fee}} {{item.trade_type == 1?item.trade_currency.toUpperCase():"USDT"}}</li>
                                     </ul>
                                     <div v-if="!props.row.loading && props.row.detailList.length ==0" class="details_loading">
                                         暂无数据
@@ -416,7 +416,7 @@
                 </div>  
                 <el-row :gutter="20">
                     <el-col :span="16" style="padding-right:2px;">
-                        <div class="exchange-table">
+                        <div class="exchange-table" style="min-height:691px;">
                             <div class="exchange-table-header cur-delegation">
                                 <i :class="showDeep?'arrow-right el-icon-arrow-right i_roate':'arrow-right el-icon-arrow-right'" @click="toggleShowDeep"></i>
                                     委托量
@@ -493,10 +493,6 @@
                                     >
                                 </el-table-column>
                                 <el-table-column
-                                    prop="order_price"
-                                    :label="priceLabel">
-                                </el-table-column>
-                                <el-table-column
                                     prop="direction"
                                     label="方向">
                                     <template slot-scope="scope">
@@ -505,6 +501,10 @@
                                             {{scope.row.direction == 1?"买入":"卖出"}}
                                         </span>
                                     </template>
+                                </el-table-column>
+                                <el-table-column
+                                    prop="order_price"
+                                    :label="priceLabel">
                                 </el-table-column>
                                 <el-table-column
                                     prop="processed_amount"
@@ -551,7 +551,7 @@ export default {
             hisDelegateTimmer:null,
             getAssetsTimmer:null,
             // 当前市场列表选择的项下标
-            curIndex : -1,
+            curIndex : 0,
             curIndexAsset:-1,
             // 当前目标货币
             curDuad:'',

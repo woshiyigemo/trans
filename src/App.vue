@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="min-width:1460px;">
+  <div id="app" style="min-width:1490px;">
     <router-view/>
   </div>
 </template>
@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style  rel='stylesheet/scss' scoped>
+<style rel='stylesheet/scss' scoped>
 #app {
   font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
