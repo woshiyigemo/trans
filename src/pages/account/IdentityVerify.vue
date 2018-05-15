@@ -179,6 +179,23 @@ export default {
             return this.$store.getters.authState
         }
     },
+    beforeCreate(){
+        
+    },
+    created(){
+        alert(111)
+        var self = this
+        console.log('密码设置状态',this.$store.getters.hasSettedPinCode)
+        if(this.$store.getters.hasSettedPinCode == 0){
+            this.$message({
+                message:"请优先设置交易密吗，现在正在跳转...",
+                type:'error'
+            })
+            setTimeout(function(){
+                self.$router.replace({name:'security'})
+            },1000)
+        }
+    },
     methods:{
         idCardUploadSuccess(response, file, fileList){
             if(response.error_code == 1000){
