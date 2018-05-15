@@ -63,6 +63,8 @@
 import { api } from '@/static/api'
 import { nationalityInfo } from '@/static/dataConfig'
 import { Validate } from '@/static/common'
+import countdown from '@xkeshi/vue-countdown'
+
 export default {
     name:'Security',
     props:{
@@ -96,6 +98,9 @@ export default {
             return this.$store.getters.hasSettedPincode == 1?'********':''
         }
     },
+    components:{
+        countdown
+    },  
     created(){
 
     },

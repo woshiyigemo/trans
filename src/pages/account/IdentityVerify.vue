@@ -182,20 +182,6 @@ export default {
     beforeCreate(){
         
     },
-    created(){
-        alert(111)
-        var self = this
-        console.log('密码设置状态',this.$store.getters.hasSettedPinCode)
-        if(this.$store.getters.hasSettedPinCode == 0){
-            this.$message({
-                message:"请优先设置交易密吗，现在正在跳转...",
-                type:'error'
-            })
-            setTimeout(function(){
-                self.$router.replace({name:'security'})
-            },1000)
-        }
-    },
     methods:{
         idCardUploadSuccess(response, file, fileList){
             if(response.error_code == 1000){
@@ -247,7 +233,20 @@ export default {
         }
     },
     created(){
-        this.initUserInfo()
+        var self = this
+        console.log('密码设置状态',this.$store.getters.hasSettedPincode)
+        if(!this.$store.getters.hasSettedPinCode || this.$store.getters.hasSettedPinCode == 0){
+            this.$message({
+                message:"请优先设置交易密吗，现在正在跳转...",
+                type:'error',
+                duration:1800
+            })
+            setTimeout(function(){
+                self.$router.replace({name:'security'})
+            },2000)
+        }else{
+            this.initUserInfo()
+        }
     },
     mounted(){
         this.enterVerifySuccess = false
